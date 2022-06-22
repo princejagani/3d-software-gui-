@@ -5,7 +5,35 @@ from PIL import Image, ImageTk
 from click import command
 from matplotlib.pyplot import fill
 from regex import L
-import gltf_file
+import simplepbr
+from direct.showbase.ShowBase import ShowBase
+from panda3d.core import WindowProperties
+
+############################################### demo #####################################################
+
+
+# class Tkinter_window(ShowBase):
+#   def __init__(self):
+#     ShowBase.__init__(self, windowType='none')
+#     base.startTk()
+    
+#     frame = base.tkRoot
+#     frame.update()
+    
+#     props = WindowProperties()
+#     props.setParentWindow(frame.winfo_id())
+#     props.setOrigin(0, 0)
+#     props.setSize(500, 500)
+
+#     base.makeDefaultPipe()
+#     base.openDefaultWindow(props=props)
+
+#     scene = base.loader.loadModel("environment")
+#     scene.reparentTo(render)
+    
+# tkinter_window = Tkinter_window()
+# tkinter_window.run()
+
 ############################################ all functions ########################################################
 status1=1
 status2=1
@@ -49,10 +77,41 @@ def menu(val):
                 st[i].pack_forget()    
             status3=1 
 
+state=1
 
-# def gltf():
-#     app=gltf_file.Slugrace3D()    
-#     app.run()
+def gltf():
+    global state
+    img1.pack_forget()
+    img2.pack_forget()
+    img3.pack_forget()
+    img4.pack_forget()
+    img5.pack_forget()
+    class Tkinter_window(ShowBase):
+      def __init__(self):
+       ShowBase.__init__(self, windowType='none')
+    #    simplepbr.init()
+       base.startTk()
+    
+       frame = base.tkRoot
+       frame.update()
+    
+       props = WindowProperties()
+       props.setParentWindow(root.winfo_id())
+       props.setOrigin(400, 300)
+       props.setSize(500, 500)
+
+       base.makeDefaultPipe()
+       base.openDefaultWindow(props=props)
+
+       scene = base.loader.loadModel("environment")
+       scene.reparentTo(render)
+       
+    
+    tkinter_window = Tkinter_window()
+    tkinter_window.run()
+   
+
+    
 ################################# win starts here #######################################################
 root = Tk()
 width=root.winfo_screenwidth()
@@ -66,7 +125,7 @@ topframe=Frame(root, bg="#8080ff", borderwidth=14)
 topframe.pack(side=TOP, fill="x")
 # topframe.grid(sticky=(N,W,E))
 centerframe=Frame(root, bg="#fff", borderwidth=6) 
-centerframe.pack(side=TOP, expand=1, fill=BOTH, pady=10)
+centerframe.pack(side=BOTTOM, expand=1, fill=BOTH, pady=10)
 # centerframe.grid(sticky=(N,E,S,W))
 ################################## images ################################################################
 p1 = Image.open("icons/MicrosoftTeams-image_1.png")
@@ -131,8 +190,22 @@ e1.pack(side=RIGHT)
 p1 = Image.open("icons/search.png")
 images = p1.resize((300,150), Image.ANTIALIAS)
 img11 = ImageTk.PhotoImage(images)
-img1=Button(centerframe, text="caption", image=img11,compound=TOP)
-img1.pack(side=LEFT)
+img1=Button(centerframe, text="caption", image=img11,compound=TOP, command=gltf)
+img1.pack(side=LEFT,padx=8)
+img2=Button(centerframe, text="caption", image=img11,compound=TOP, command=gltf)
+img2.pack(side=LEFT,padx=8)
+img3=Button(centerframe, text="caption", image=img11,compound=TOP, command=gltf)
+img3.pack(side=LEFT,padx=8)
+img4=Button(centerframe, text="caption", image=img11,compound=TOP, command=gltf)
+img4.pack(side=LEFT,padx=8)
+img5=Button(centerframe, text="caption", image=img11,compound=TOP, command=gltf)
+img5.pack(side=LEFT,padx=8)
+img5=Button(centerframe, text="caption", image=img11,compound=TOP, command=gltf)
+img5.pack(side=LEFT,padx=8)
+img5=Button(centerframe, text="caption", image=img11,compound=TOP, command=gltf)
+img5.pack(side=TOP,padx=8)
+img5=Button(centerframe, text="caption", image=img11,compound=TOP, command=gltf)
+img5.pack(side=TOP,padx=8)
 # img1.place(relx = 0.2, rely = 0.0, anchor ="ne")
 # img1=Button(centerframe, text="caption", image=img11,compound=TOP)
 # img1.grid(row=1,column=0)
