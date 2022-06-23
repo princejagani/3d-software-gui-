@@ -2,16 +2,19 @@ from click import command
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import WindowProperties
 from tkinter import *
+root=Tk()
+def demo():
+   tkinter_window = Tkinter_window()
+   tkinter_window.run()
 class Tkinter_window(ShowBase):
   def __init__(self):
     ShowBase.__init__(self, windowType='none')
     base.startTk()
-    base.geometry("1000x800")
-    frame = base.tkRoot
-    frame.update()
+    # frame = base.tkRoot
+    # frame.update()
     
     props = WindowProperties()
-    props.setParentWindow(frame.winfo_id())
+    props.setParentWindow(root.winfo_id())
     props.setOrigin(300, 300)
     props.setSize(500, 500)
 
@@ -21,9 +24,19 @@ class Tkinter_window(ShowBase):
     scene = base.loader.loadModel("environment")
     scene.reparentTo(render)
 
-tkinter_window = Tkinter_window()
-tkinter_window.run()
+leftframe = Frame(root, bg="#8080ff", borderwidth=6)  
+leftframe.pack(side=LEFT, fill="y")  
+# leftframe.grid(sticky=(S,W,N))
+topframe=Frame(root, bg="#8080ff", borderwidth=14)
+topframe.pack(side=TOP, fill="x")
+b1=Button(leftframe,text="hello", command=demo)
+b1.pack(side=TOP)
+# topframe.grid(sticky=(N,W,E))
 
+# tkinter_window = Tkinter_window()
+# tkinter_window.run()
+
+root.mainloop()
 # btn1 = Button(root,text="hello",command=fun)  
 # btn1.pack(side=BOTTOM)   
 

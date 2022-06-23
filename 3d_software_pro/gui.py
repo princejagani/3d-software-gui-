@@ -1,14 +1,12 @@
-from codecs import BufferedIncrementalDecoder
 from hashlib import new
 from tkinter import *
 from PIL import Image, ImageTk
 from click import command
 from matplotlib.pyplot import fill
-from regex import L
 import simplepbr
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import WindowProperties
 from tkVideoPlayer import TkinterVideo
+from panda3d.core import WindowProperties
 
 ############################################### demo #####################################################
 
@@ -81,11 +79,12 @@ def menu(val):
             status3=1 
 
 state=1
-
+t1=''
 # tkinter_window=""
 def gltf(num=0):
     global state
     global tkinter_window
+    global t1
     if(num==0):
         # global tkinter_window
         img1.pack_forget()
@@ -100,8 +99,10 @@ def gltf(num=0):
         centerframe1.pack_forget()
         centerframe2.pack_forget()
         centerframe3.pack_forget()
+        t1.destroy()
         tkinter_window = Tkinter_window()
         tkinter_window.run()
+       
     else:
         tkinter_window.destroy()
 
@@ -124,6 +125,7 @@ def home():
     gltf(1)
  
 def video():
+     
      vi1.pack_forget()
      b1.pack_forget()
      img1.pack_forget()
@@ -148,6 +150,7 @@ def video():
      v7.grid(row=1,column=2,padx=30,pady=30)
      v8.grid(row=1,column=3,padx=30,pady=30)
      v9.grid(row=2,column=0,padx=30,pady=30)
+     gltf(1)
 v=0
 def play():
     global v
@@ -176,19 +179,21 @@ def dis_video():
      centerframe2.pack_forget()
      centerframe3.pack_forget()
      vi1.load(r"video/video1.mp4")
-     vi1.pack(side=TOP,expand=True, fill=BOTH)
-     vi1.play()
      b1.pack(side=BOTTOM, fill=X)
+     vi1.pack(side=BOTTOM,expand=True, fill=BOTH)
+     vi1.play()
+     
 ################################# win starts here #######################################################
 root = Tk()
 class Tkinter_window(ShowBase):
       def __init__(self):
        ShowBase.__init__(self, windowType='none')
     #    simplepbr.init()
-       base.startTk()
-    
-       frame = base.tkRoot
-       frame.update()
+       base.startTk()    
+    #    frame = base.tkRoot
+    #    frame.update()
+    #    frame.geometry("%dx%d"%(width, height))
+       
     
        props = WindowProperties()
        props.setParentWindow(root.winfo_id())
@@ -200,10 +205,32 @@ class Tkinter_window(ShowBase):
 
        scene = base.loader.loadModel("environment")
        scene.reparentTo(render)
+
+############################################################################################################
+class Tkinter_window1(ShowBase):
+      def __init__(self):
+       ShowBase.__init__(self, windowType='none')
+    #    simplepbr.init()
+       base.startTk()    
+    #    frame = base.tkRoot
+    #    frame.update()
+    #    frame.geometry("%dx%d"%(width, height))
+       
     
+       props = WindowProperties()
+       props.setParentWindow(root.winfo_id())
+       props.setOrigin(1,1)
+       props.setSize(1,1)
+
+       base.makeDefaultPipe()
+       base.openDefaultWindow(props=props)
+
+       scene = base.loader.loadModel("environment")
+       scene.reparentTo(render)
+
 width=root.winfo_screenwidth()
 height=root.winfo_screenheight()
-root.geometry("1000x800")
+root.geometry("%dx%d"%(width, height))
 ################################### left and top  side frame #############################################
 leftframe = Frame(root, bg="#8080ff", borderwidth=6)  
 leftframe.pack(side=LEFT, fill="y")  
@@ -342,7 +369,8 @@ v6=Button(videoframe, text="play", image=img11,compound=TOP, command=dis_video,b
 v7=Button(videoframe, text="play", image=img11,compound=TOP, command=dis_video, bg="#4dd2ff", foreground="white")
 v8=Button(videoframe, text="play", image=img11,compound=TOP, command=dis_video, bg="#4dd2ff", foreground="white")
 v9=Button(videoframe, text="play", image=img11,compound=TOP, command=dis_video, bg="#4dd2ff", foreground="white")
-
+t1=Tkinter_window1()
+t1.run()
 
 
 
