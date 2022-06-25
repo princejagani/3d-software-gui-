@@ -1,85 +1,95 @@
-from click import command
-from direct.showbase.ShowBase import ShowBase
-from panda3d.core import WindowProperties
-from tkinter import *
-root=Tk()
-def demo():
-   tkinter_window = Tkinter_window()
-   tkinter_window.run()
-class Tkinter_window(ShowBase):
-  def __init__(self):
-    ShowBase.__init__(self, windowType='none')
-    base.startTk()
-    # frame = base.tkRoot
-    # frame.update()
+# from click import command
+# from direct.showbase.ShowBase import ShowBase
+# from panda3d.core import WindowProperties
+# from tkinter import *
+# root=Tk()
+# def demo():
+#    tkinter_window = Tkinter_window()
+#    tkinter_window.run()
+# class Tkinter_window(ShowBase):
+#   def __init__(self):
+#     ShowBase.__init__(self, windowType='none')
+#     base.startTk()
+#     # frame = base.tkRoot
+#     # frame.update()
     
-    props = WindowProperties()
-    props.setParentWindow(root.winfo_id())
-    props.setOrigin(300, 300)
-    props.setSize(500, 500)
+#     props = WindowProperties()
+#     props.setParentWindow(root.winfo_id())
+#     props.setOrigin(300, 300)
+#     props.setSize(500, 500)
 
-    base.makeDefaultPipe()
-    base.openDefaultWindow(props=props)
+#     base.makeDefaultPipe()
+#     base.openDefaultWindow(props=props)
 
-    scene = base.loader.loadModel("environment")
-    scene.reparentTo(render)
+#     scene = base.loader.loadModel("environment")
+#     scene.reparentTo(render)
 
-leftframe = Frame(root, bg="#8080ff", borderwidth=6)  
-leftframe.pack(side=LEFT, fill="y")  
-# leftframe.grid(sticky=(S,W,N))
-topframe=Frame(root, bg="#8080ff", borderwidth=14)
-topframe.pack(side=TOP, fill="x")
-b1=Button(leftframe,text="hello", command=demo)
-b1.pack(side=TOP)
-# topframe.grid(sticky=(N,W,E))
+# leftframe = Frame(root, bg="#8080ff", borderwidth=6)  
+# leftframe.pack(side=LEFT, fill="y")  
+# # leftframe.grid(sticky=(S,W,N))
+# topframe=Frame(root, bg="#8080ff", borderwidth=14)
+# topframe.pack(side=TOP, fill="x")
+# b1=Button(leftframe,text="hello", command=demo)
+# b1.pack(side=TOP)
+# # topframe.grid(sticky=(N,W,E))
 
-# tkinter_window = Tkinter_window()
-# tkinter_window.run()
+# # tkinter_window = Tkinter_window()
+# # tkinter_window.run()
 
-root.mainloop()
-# btn1 = Button(root,text="hello",command=fun)  
-# btn1.pack(side=BOTTOM)   
+# root.mainloop()
+# from tkinter import *
+# from tkvideo import tkvideo
+# # create instance fo window
+# root = Tk()
+# # set window title
+# root.title('Video Player')
+# # create label
+# video_label = Label(root)
+# video_label.pack()
+# # read video to display on label
+# player = tkvideo("video/video3.mp4", video_label,
+#                  loop = 1, size = (700, 500))
+# player.play()
+# root.mainloop()
+# import pygame
+# from tkinter import *
+# root = Tk()
+# pygame.init()
+# def play():
+#     pygame.mixer.music.load("video/video2.avi") #Loading File Into Mixer
+#     pygame.mixer.music.play() #Playing It In The Whole Device
+# Button(root,text="Play",command=play).pack()
+# root.mainloop()
+# import sys
+# from PyQt5.QtWidgets import QMainWindow,QVBoxLayout,QWidget,QApplication
+# from PyQt5.QtWebKitWidgets import *
+# from PyQt5.QtCore import QUrl
+# app=QApplication(sys.argv)
 
-# class main():
-#     def __init__(self, master):
+# mainWindow=QMainWindow()
+# widget=QWidget()
 
-#         self.runv = True 
+# web=QWebView()
+# web.load(QUrl("http://supercoders.in"))
 
-#         m1 = PanedWindow(relief=RAISED, sashrelief=RAISED)
-#         m1.pack(fill=BOTH, expand=1)
+# verticalLayout=QVBoxLayout()
+# verticalLayout.addWidget(web)
 
-#         frame1 = Frame(m1, bg="#3a3b3d")
+# widget.setLayout(verticalLayout)
+# mainWindow.setCentralWidget(widget)
+# mainWindow.show()
 
-#         menubutton = Menubutton(frame1, text = "File", bg="#3a3b3d", fg="#ffffff", activebackground="#3a3b3d")    
-            
-#         menubutton.menu = Menu(menubutton)   
-#         menubutton["menu"]= menubutton.menu   
-        
-#         var1 = IntVar() 
-#         var2 = IntVar() 
-#         var3 = IntVar() 
-        
-#         menubutton.menu.add_checkbutton(label = "New", 
-#                                         variable = var1)   
-#         open_file_button = menubutton.menu.add_checkbutton(label = "Open", 
-#                                         variable = var2) 
-#         menubutton.menu.add_checkbutton(label = "Save", 
-#                                         variable = var3) 
-            
-#         menubutton.pack(anchor="nw")  
+# sys.exit(app.exec_())
+from tkinter import *
+import webview
 
-#         self.app = Tkinter_window(m1)
-#         m1.add(self.app)
+# Create an instance of tkinter frame or window
+win = Tk()
 
-#         m1.add(frame1, width=400)
-#         self.right = Text(frame1, bg="#3a3b3d", fg="#ffffff", insertbackground='white')
-#         self.right.pack(fill=BOTH, expand=1)
+# Set the size of the window
+win.geometry("700x350")
 
-#         rightb = Button(frame1, text="run")
-#         rightb.pack()
+# Create a GUI window to view the HTML content
+webview.create_window('tutorialspoint', 'https://www.tutorialspoint.com')
+webview.start()
 
-# if __name__ == '__main__':
-#     root =Tk()
-#     root.title("Shaun Engine")
-#     app = main(root)
-#     root.mainloop()

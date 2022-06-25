@@ -3,10 +3,12 @@ from tkinter import *
 from PIL import Image, ImageTk
 from click import command
 from matplotlib.pyplot import fill
+from numpy import size
 import simplepbr
 from direct.showbase.ShowBase import ShowBase
 from tkVideoPlayer import TkinterVideo
 from panda3d.core import WindowProperties
+import tkinter.font as font
 
 ############################################### demo #####################################################
 
@@ -178,7 +180,7 @@ def dis_video():
      centerframe1.pack_forget()
      centerframe2.pack_forget()
      centerframe3.pack_forget()
-     vi1.load(r"video/video1.mp4")
+     vi1.load(r"video/video2.avi")
      b1.pack(side=BOTTOM, fill=X)
      vi1.pack(side=BOTTOM,expand=True, fill=BOTH)
      vi1.play()
@@ -232,10 +234,10 @@ width=root.winfo_screenwidth()
 height=root.winfo_screenheight()
 root.geometry("%dx%d"%(width, height))
 ################################### left and top  side frame #############################################
-leftframe = Frame(root, bg="#8080ff", borderwidth=6)  
+leftframe = Frame(root, bg="#8080ff", borderwidth=10)  
 leftframe.pack(side=LEFT, fill="y")  
 # leftframe.grid(sticky=(S,W,N))
-topframe=Frame(root, bg="#8080ff", borderwidth=14)
+topframe=Frame(root, bg="#8080ff", borderwidth=18)
 topframe.pack(side=TOP, fill="x")
 # topframe.grid(sticky=(N,W,E))
 centerframe1=Frame(root, bg="white", borderwidth=6) 
@@ -246,29 +248,29 @@ centerframe3=Frame(root, bg="white", borderwidth=6)
 centerframe3.pack(side=BOTTOM, expand=0, fill=X, pady=20)
 # centerframe.grid(sticky=(N,E,S,W))
 videoframe=Frame(root,bg="white", borderwidth=6)
-b1=Button(root,text="Pause", command=play)
+b1=Button(root,text="Pause", command=play, height=2,font=2)
 vi1=TkinterVideo(master=root,scaled=True)
 ################################## images ################################################################
 p1 = Image.open("icons/MicrosoftTeams-image_1.png")
-image1 = p1.resize((20,20), Image.ANTIALIAS)
+image1 = p1.resize((30,30), Image.ANTIALIAS)
 photo1 = ImageTk.PhotoImage(image1)
 p2 = Image.open("icons/MicrosoftTeams-image_2.png")
-image2 = p2.resize((20,20), Image.ANTIALIAS)
+image2 = p2.resize((30,30), Image.ANTIALIAS)
 photo2 = ImageTk.PhotoImage(image2)
 p3 = Image.open("icons/MicrosoftTeams-image_3.png")
-image3 = p3.resize((20,20), Image.ANTIALIAS)
+image3 = p3.resize((30,30), Image.ANTIALIAS)
 photo3 = ImageTk.PhotoImage(image3)
 p4 = Image.open("icons/MicrosoftTeams-image_4.png")
-image4 = p4.resize((20,20), Image.ANTIALIAS)
+image4 = p4.resize((30,30), Image.ANTIALIAS)
 photo4 = ImageTk.PhotoImage(image4)
 p5 = Image.open("icons/MicrosoftTeams-image_5.png")
-image5 = p5.resize((20,20), Image.ANTIALIAS)
+image5 = p5.resize((30,30), Image.ANTIALIAS)
 photo5 = ImageTk.PhotoImage(image5)
 p6 = Image.open("icons/search.png")
 image6 = p6.resize((20,20), Image.ANTIALIAS)
 photo6 = ImageTk.PhotoImage(image6)
 p7 = Image.open("icons/user.png")
-image7 = p7.resize((20,20), Image.ANTIALIAS)
+image7 = p7.resize((30,30), Image.ANTIALIAS)
 photo7 = ImageTk.PhotoImage(image7)
 ################################## frame button st name ######################################################
 top1frame=Frame(root, bg="#b3b3ff", borderwidth=14)
@@ -281,30 +283,32 @@ for i in range(0,13):
 fg_icons="skyblue"
 bg_icons="#8080ff"
 abg_icons="white"
-height_icons="30px"
+height_icons="40px"
 width_icons="30px"
-btn1 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo1, height=height_icons,width=width_icons,relief=RIDGE)  
+pad_icons="10px"
+btn1 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo1, height=height_icons,width=width_icons,relief=RIDGE,pady=pad_icons)  
 btn1.pack(side=TOP) 
-btn2 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo2, height=height_icons,width=width_icons,relief=RIDGE,command=home)  
+btn2 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo2, height=height_icons,width=width_icons,relief=RIDGE,command=home,pady=pad_icons)  
 btn2.pack(side=TOP) 
-btn3 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo3, height=height_icons,width=width_icons,relief=RIDGE)  
+btn3 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo3, height=height_icons,width=width_icons,relief=RIDGE,pady=pad_icons)  
 btn3.pack(side=TOP)  
 btn4 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo4
-, height=height_icons,width=width_icons,relief=RIDGE, command=video)  
+, height=height_icons,width=width_icons,relief=RIDGE, pady=pad_icons ,command=video)  
 btn4.pack(side=TOP)
-btn4 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo5 , height=height_icons,width=width_icons,relief=RIDGE)  
+btn4 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo5 , height=height_icons,width=width_icons,relief=RIDGE,pady=pad_icons)  
 btn4.pack(side=TOP)
-btn5 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo7, height=height_icons,width=width_icons,relief=RIDGE)  
+btn5 = Button(leftframe, fg=fg_icons, bg=bg_icons, bd=0, activebackground = abg_icons, image=photo7, height=height_icons,width=width_icons,relief=RIDGE,pady=pad_icons)  
 btn5.pack(side=BOTTOM)  
 ###################################################top frame button #####################################################################################################
 bg_c_p_b="#8080ff"
 abg_cpb="gray"
 fg_cpb=abg_icons
-btn4 = Button(topframe, text="Physics", fg=fg_cpb, bg=bg_c_p_b, bd=0, activebackground = abg_cpb, relief=RIDGE, padx="10px", command=lambda:menu(1)) 
+myFont = font.Font(size=12)
+btn4 = Button(topframe, text="Physics", fg=fg_cpb, bg=bg_c_p_b, bd=0, activebackground = abg_cpb, relief=RIDGE, font=myFont, padx="10px", command=lambda:menu(1)) 
 btn4.pack(side=LEFT)  
-btn5 = Button(topframe, text="Chemistry", fg=fg_cpb, bg=bg_c_p_b, bd=0, activebackground = abg_cpb, relief=RIDGE, padx="10px", command=lambda:menu(2))  
+btn5 = Button(topframe, text="Chemistry", fg=fg_cpb, bg=bg_c_p_b, bd=0, activebackground = abg_cpb, relief=RIDGE, font=myFont, padx="10px", command=lambda:menu(2))  
 btn5.pack(side=LEFT)  
-btn6 = Button(topframe, text="Biology", fg=fg_cpb, bg=bg_c_p_b, bd=0, activebackground = abg_cpb, relief=RIDGE, padx="10px", command=lambda:menu(3))
+btn6 = Button(topframe, text="Biology", fg=fg_cpb, bg=bg_c_p_b, bd=0, activebackground = abg_cpb, relief=RIDGE, font=myFont, padx="10px", command=lambda:menu(3))
 btn6.pack(side=LEFT)
 btn7 = Button(topframe, fg=abg_icons, bg=fg_cpb, bd=1, activebackground =abg_cpb, relief=RIDGE, height="18px", width="22px", image=photo6)  
 btn7.pack(side=RIGHT)
