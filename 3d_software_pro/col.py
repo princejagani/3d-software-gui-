@@ -86,14 +86,13 @@
 
 # from tkinter import *
 # from click import command
-# import webview
-
-
+# import webview 
 # # Create an instance of tkinter frame or window
 # win = Tk()
 # def demo():
-#   webview.create_window('3d education', 'http://localhost:8668/player/player.html?load=../applications/app/male%20reproduction.gltf',frameless=True,easy_drag=False)
-#   webview.start()
+#    web=webview
+#    web.create_window('3d education', 'http://localhost:8668/player/player.html?load=../applications/app/male%20reproduction.gltf',frameless=True,easy_drag=False)
+#    web.start()
 # # Set the size of the window
 # win.geometry("700x350")
 
@@ -170,28 +169,151 @@
 
 
 
+# from tkinter import *
+# import sys
+# from PyQt5.QtWidgets import QMainWindow,QVBoxLayout,QWidget,QApplication
+# from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView,QWebEnginePage as QWebPage
+# from PyQt5.QtWebEngineWidgets import QWebEngineSettings as QWebSettings
+# from PyQt5.QtNetwork import *
+# from PyQt5.QtCore import QUrl
+# app=QApplication(sys.argv)
+
+# mainWindow=QMainWindow()
+# widget=QWidget()
+
+# web=QWebView()
+# web.load(QUrl("http://localhost/app/"))
+# verticalLayout=QVBoxLayout()
+# verticalLayout.addWidget(web)
+# height=800
+# width=800
+# widget.setLayout(verticalLayout)
+# # widget.setMaximumWidth(width)
+# # widget.setMaximumHeight(height)
+# mainWindow.setCentralWidget(widget)
+# mainWindow.show()
+# sys.exit(app.exec_())
 
 
 
-from tkinter import *
-from tkinter import ttk
-#Create an instance of tkinter frame or window
-win= Tk()
-#Set the geometry of tkinter frame
-win.geometry("750x250")
-win.title("Main Window")
-#Define a function to Open a new window
-def open_win():
-   child_win= Toplevel(win)
-   child_win.title("Child Window")
-   child_win.geometry("750x250")
-   content= entry.get()
-   Label(child_win, text=content, font=('Bell MT', 20, 'bold')).pack()
-   win.withdraw()
-#Create an Entry Widget
-entry=ttk.Entry(win, width= 40)
-entry.pack(ipady=4,pady=20)
-#Let us create a button in the Main window
-button= ttk.Button(win, text="OK",command=open_win)
-button.pack(pady=20)
-win.mainloop()
+
+from PyQt5.QtCore import QDir, Qt, QUrl
+from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel,
+        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import QMainWindow,QWidget, QPushButton, QAction
+from PyQt5.QtGui import QIcon
+import sys
+
+class VideoWindow(QMainWindow):
+
+    def __init__(self, parent=None):
+        super(VideoWindow, self).__init__(parent)
+        self.setWindowTitle("PyQt Video Player Widget Example - pythonprogramminglanguage.com") 
+
+        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+
+        videoWidget = QVideoWidget()
+
+        self.playButton = QPushButton()
+        self.playButton.setEnabled(False)
+        self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.playButton.clicked.connect(self.play)
+
+        self.positionSlider = QSlider(Qt.Horizontal)
+        self.positionSlider.setRange(0, 0)
+        self.positionSlider.sliderMoved.connect(self.setPosition)
+
+        self.errorLabel = QLabel()
+        self.errorLabel.setSizePolicy(QSizePolicy.Preferred,
+                QSizePolicy.Maximum)
+
+        # Create new action
+        openAction = QAction(QIcon('open.png'), '&Open', self)        
+        openAction.setShortcut('Ctrl+O')
+        openAction.setStatusTip('Open movie')
+        openAction.triggered.connect(self.openFile)
+
+        # Create exit action
+        exitAction = QAction(QIcon('exit.png'), '&Exit', self)        
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit application')
+        exitAction.triggered.connect(self.exitCall)
+
+        # Create menu bar and add action
+        menuBar = self.menuBar()
+        fileMenu = menuBar.addMenu('&File')
+        #fileMenu.addAction(newAction)
+        fileMenu.addAction(openAction)
+        fileMenu.addAction(exitAction)
+
+        # Create a widget for window contents
+        wid = QWidget(self)
+        self.setCentralWidget(wid)
+
+        # Create layouts to place inside widget
+        controlLayout = QHBoxLayout()
+        controlLayout.setContentsMargins(0, 0, 0, 0)
+        controlLayout.addWidget(self.playButton)
+        controlLayout.addWidget(self.positionSlider)
+
+        layout = QVBoxLayout()
+        layout.addWidget(videoWidget)
+        layout.addLayout(controlLayout)
+        layout.addWidget(self.errorLabel)
+
+        # Set widget to contain window contents
+        wid.setLayout(layout)
+
+        self.mediaPlayer.setVideoOutput(videoWidget)
+        self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
+        self.mediaPlayer.positionChanged.connect(self.positionChanged)
+        self.mediaPlayer.durationChanged.connect(self.durationChanged)
+        self.mediaPlayer.error.connect(self.handleError)
+
+    def openFile(self):
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open Movie",
+                QDir.homePath())
+
+        if fileName != '':
+            self.mediaPlayer.setMedia(
+                    QMediaContent(QUrl.fromLocalFile(fileName)))
+            self.playButton.setEnabled(True)
+
+    def exitCall(self):
+        sys.exit(app.exec_())
+
+    def play(self):
+        if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            self.mediaPlayer.pause()
+        else:
+            self.mediaPlayer.play()
+
+    def mediaStateChanged(self, state):
+        if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPause))
+        else:
+            self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPlay))
+
+    def positionChanged(self, position):
+        self.positionSlider.setValue(position)
+
+    def durationChanged(self, duration):
+        self.positionSlider.setRange(0, duration)
+
+    def setPosition(self, position):
+        self.mediaPlayer.setPosition(position)
+
+    def handleError(self):
+        self.playButton.setEnabled(False)
+        self.errorLabel.setText("Error: " + self.mediaPlayer.errorString())
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    player = VideoWindow()
+    player.resize(640, 480)
+    player.show()
+    sys.exit(app.exec_())
