@@ -10,15 +10,21 @@
 from pickle import TRUE
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from click import open_file
 from  db_module import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView,QWebEnginePage as QWebPage
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings as QWebSettings
 from PyQt5.QtNetwork import *
-from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-
+import sys
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+import threading
+import os
+from threading import *
+    
 class QLabel_alterada(QLabel):
     clicked=pyqtSignal()
 
@@ -29,91 +35,78 @@ class Ui_Form(object):
     def __init__(self):
         self.state_model=1
         self.icon_model=QtGui.QIcon()
-
         
+
 ############################################ all function ####################################################################
+    def imports(self):
+        f=open()
+
     def home(self):
+        # self.init_ui()
+        self.val=''
         self.home_btn.setChecked(True)
         self.home_btn.setCheckable(True)
-        self.sql=f"SELECT filename FROM model_file WHERE id=1"
+        self.sql=f"SELECT * FROM model_file WHERE topic_name='human body'"
         mycursor.execute(self.sql)
         self.myresult = mycursor.fetchall()
-        self.url="http:/localhost/"+self.myresult[0][0]
-        self.web.load(QUrl(self.url))
-        self.web.setGeometry(QtCore.QRect(10, 0, 1050, 380))
-        self.max_model.setGeometry(QtCore.QRect(1000, 330, 30, 30))
+        # for i in range(0,len(self.myresult)):
+        # for i in range(2):
+        for y in range(0,len(self.myresult)):
+                                # print(self.myresult[y][6])
+                                self.val=self.myresult[y][5]
+                                object = QLabel_alterada(self.bottom_widget)
+                                object.setText("label agbdjmfivfd,vifv\nuhsndvmu idfdivhmdv,id dfm8vi,")
+                                object.setMinimumSize(300,40)
+                                object.clicked.connect(lambda: self.model_render(self.val))  
+                                object.setScaledContents(True)
+                                self.vbox.addWidget(object)
+                                object.setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult[y][6]}"))
+                                object.setMinimumSize(QtCore.QSize(350, 200))
+        nm='human body'                  
+        self.sql1=f"SELECT * FROM video WHERE topic_name='{nm}'"
+        mycursor.execute(self.sql1)
+        self.myresult1 = mycursor.fetchall()
+        print(self.myresult1)
+        object1=[]
+        for i in range(0,len(self.myresult1)):
+                # for y in range(2):
+                object1.append(QLabel_alterada(self.right_widget))
+                
+        for i in range(0,len(object1)):
+                self.vbox1.addWidget(object1[i])              
+                object1[i].setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
+                object1[i].setMinimumSize(350, 200)
+                object1[i].setScaledContents(True)
+                object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult1[i][6]}"))
+                object1[i].clicked.connect(lambda:self.video_render(str(self.myresult1[i][0])))
+                object1[i].show()
+                
+                
+        # for i in range(0,len(object1)):
+        #         object1[i].clicked.connect(lambda: self.video_render(self.myresult1[i][0]))
+        mydb.commit()
+        
+    def play(self):
+        self.t1=threading.Thread(target=self.home)
+        self.t1.start()
+
+    def home1(self):
+        self.web.load(QUrl("file:///C:/xampp/htdocs/v1/index.html"))    
+        self.web.setGeometry(QtCore.QRect(0, 0, 1050, 380))
+        self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
         self.max_model.raise_()
         self.max_model.show()
         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.max_model.setIcon(self.icon_model)
-        self.model=[]
-        # self.b1=QtWidgets.QPushButton(self.bottom_widget)
-        # self.b1.setStyleSheet("""background-image:url(icon/IMG_3928-1.jpg); background-repeat: no-repeat; max-height:100px; max-width:100px; background-position: center; background-attachment: fixed;""")
-        # self.label_4 = QtWidgets.QLabel(self.bottom_widget)
-        # self.label_4 =QLabel_alterada(self.bottom_widget) 
-        # self.label_4.setGeometry(QtCore.QRect(30, 20, 441, 251))
-        # self.label_4.setStyleSheet("background-image: url(icon/IMG_3928-1.jpg); background-position: center; ")
-        # self.label_4.setText("")
-        # self.label_4.setPixmap(QtGui.QPixmap("icon/download1.jpg"))
-        # self.label_4.setScaledContents(True)
         
-        # self.label_4.clicked.connect(self.size_model) 
-        # self.label_4.setObjectName("label_4")
-        # # self.b1.resize(724,430)
-        # self.label_4.show()
-        # for i in range(1,30):
-        #     object = QLabel_alterada(self.bottom_widget)
-        #     object.setPixmap(QtGui.QPixmap("icon/download1.jpg"))
-        #     object.setMinimumSize(QtCore.QSize(0,0))
-        #     object.clicked.connect(self.size_model)  
-        #     self.vbox.addWidget(object)
-#         for i in range(1,50):
-#             object = QLabel_alterada(self.bottom_widget)
-#             object.setText("label")
-#             object.setMinimumSize(300,40)
-#             object.setPixmap(QtGui.QPixmap("icon/download1.jpg"))
-#             object.setScaledContents(True)
-#             object.setStyleSheet("background-color: rgb(36, 36, 36);\n"
-# "\n"
-# "\n"
-# "border-bottom: 3px solid  rgb(72, 72, 72);\n"
-# "/*background-color: rgb(135, 135, 135);")
-#         #     object.clicked.connect(self.size_model) 
-#             self.vbox.addWidget(object)
-
-        for i in range(2):
-                for y in range(50):
-                        object = QLabel_alterada(self.bottom_widget)
-                        object.setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
-                        object.setMinimumSize(300,40)
-                        
-                        object.setScaledContents(True)
-                        self.vbox.addWidget(object,i,y)
-                        if(i==0):
-                                object.setPixmap(QtGui.QPixmap("icon/download1.jpg"))
-                                object.setMinimumSize(QtCore.QSize(350, 200))
-        for i in range(50):
-                for y in range(2):
-                        object1 = QLabel_alterada(self.right_widget)
-                        object1.setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
-                        object1.setMinimumSize(300,40)
-                        
-                        object1.setScaledContents(True)
-                        self.vbox1.addWidget(object1,i,y)
-                        if(y==0):
-                                object1.setPixmap(QtGui.QPixmap("icon/download1.jpg"))
-                                object1.setMinimumSize(QtCore.QSize(350, 200))
-
-        mydb.commit()
-
     def size_model(self):
         if(self.state_model==1):
           self.model_widget.setMinimumSize(900,750)
-          self.max_model.setGeometry(QtCore.QRect(1600, 700, 30, 30))
-          self.web.setGeometry(QtCore.QRect(10, 0, 1650, 750))
+          self.max_model.setGeometry(QtCore.QRect(1630, 0, 30, 30))
+          self.web.setGeometry(QtCore.QRect(0, 0, 1660, 750))
           self.right_widget.hide()
           self.bottom_widget.hide()
-          self.icon_model.addPixmap(QtGui.QPixmap("icon/min.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+          self.icon_model.addPixmap(QtGui.QPixmap("icon/cross.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
           self.max_model.setIcon(self.icon_model)
           self.scroll_right.hide()
           self.scroll.hide()
@@ -122,8 +115,8 @@ class Ui_Form(object):
           self.model_widget.setMinimumSize(900,450)
           self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
           self.max_model.setIcon(self.icon_model)
-          self.web.setGeometry(QtCore.QRect(10, 0, 1050, 380))
-          self.max_model.setGeometry(QtCore.QRect(1000, 330, 30, 30))
+          self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
+          self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
           self.max_model.raise_()
           self.max_model.show()
           self.right_widget.show()
@@ -132,11 +125,42 @@ class Ui_Form(object):
           self.scroll_right.show()
           self.state_model=1
 
+    def model_render(self,num):
+        self.url=f"http:/localhost/{str(num)}"
+        self.web.load(QUrl(self.url))
+        self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
+        self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+        self.max_model.raise_()
+        self.max_model.show()
+        self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.max_model.setIcon(self.icon_model)
+    def video_render(self,num):
+        sql=f"SELECT v_name FROM video WHERE id={num}"
+        mycursor.execute(sql)
+        self.myresult = mycursor.fetchone()
+        print(self.myresult)
+        self.url=f"http:/localhost/{str(self.myresult[0])}"
+        self.web.load(QUrl(self.url))
+        self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
+        self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+        self.max_model.raise_()
+        self.max_model.show()
+        self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.max_model.setIcon(self.icon_model)
+#     def thread(self, num):
+#         t1=Thread(target=lambda: self.video_render(num))
+#         t1.start()
+    
+    
+    
     def setupUi(self, Form):
+        
+        
 ########################################### all declrations #####################################################
         
 ################################## main form ########################################################################
         Form.setObjectName("Form")
+        
         Form.resize(982, 660)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -145,6 +169,7 @@ class Ui_Form(object):
         self.main_1_horizontalLayout = QtWidgets.QHBoxLayout()
         self.main_1_horizontalLayout.setObjectName("main_1_horizontalLayout")
 ###################################### top frame ############################################################################
+        
 
         self.top_frame = QtWidgets.QFrame(Form)
         self.top_frame.setStyleSheet("background-color: rgb(36, 36, 36);\n"
@@ -224,6 +249,7 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.import_btn.sizePolicy().hasHeightForWidth())
         self.import_btn.setSizePolicy(sizePolicy)
         self.import_btn.setMinimumSize(QtCore.QSize(0, 0))
+        self.import_btn.clicked.connect(self.imports)
         self.import_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.import_btn.setStyleSheet("\n"
 "\n"
@@ -520,6 +546,7 @@ class Ui_Form(object):
         self.arts_btn.setIcon(icon10)
         self.arts_btn.setIconSize(QtCore.QSize(35, 35))
         self.arts_btn.setObjectName("arts_btn")
+        self.arts_btn.clicked.connect(self.home1)
         self.verticalLayout_2.addWidget(self.arts_btn)
         spacerItem12 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout_2.addItem(spacerItem12)
@@ -625,11 +652,17 @@ class Ui_Form(object):
         self.model_widget.setObjectName("model_widget")
         self.all_grid_Layout.addWidget(self.model_widget, 0, 0, 1, 1)
         self.model_widget.setMinimumSize(900,450)
+        # self.mbox1=QGridLayout(self.model_widget)
+        # self.l=QLabel();self.mbox1.addWidget(self.l)
+        spacerItem201 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        # self.mbox1.addItem(spacerItem201)
+        
+        
 ######################################## bottom widget ########################################################################
         self.bottom_widget = QtWidgets.QWidget(self.all_widget)
         self.scroll = QScrollArea() 
         self.vbox = QtWidgets.QGridLayout() 
-        self.bottom_widget.setStyleSheet("background-color: rgb(255, 255, 127);")
+        self.bottom_widget.setStyleSheet("background-color: rgb(36, 36, 36);")
         self.bottom_widget.setObjectName("bottom_widget")
         # self.all_grid_Layout.addWidget(self.bottom_widget, 1, 0, 1, 1)
         self.gridLayout_4.addWidget(self.all_widget, 0, 0, 1, 1)
@@ -794,7 +827,7 @@ class Ui_Form(object):
         self.max_model = QtWidgets.QPushButton(self.model_widget)
         self.max_model.hide()
         self.max_model.setStyleSheet("QPushButton{\n"
-"background-color: rgb(122, 122, 127);\n"
+"background-color: rgb();\n"
 "color: rgb(255, 255, 255);\n"
 "border-style:outset;\n"
 "border-width:0px;\n"
@@ -803,11 +836,11 @@ class Ui_Form(object):
 "padding:6px\n"
 "}\n"
 "QPushButton:hover{\n"
-"background-color: rgb(106, 122, 122);\n"
+"background-color: rgb(11, 11, 11);\n"
 "}")
         self.max_model.setText("")
         self.max_model.clicked.connect(self.size_model)
-        self.max_model.setIconSize(QtCore.QSize(50, 50))
+        self.max_model.setIconSize(QtCore.QSize(80, 80))
         self.max_model.setObjectName("max_model")
         self.max_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
@@ -818,7 +851,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Education 3D", "Education 3D"))
         self.label.setText(_translate("Form", "Education 3D"))
         self.lineEdit.setPlaceholderText(_translate("Form", "Search"))
         self.import_btn.setText(_translate("Form", "Import  Models"))
@@ -850,4 +883,3 @@ if __name__ == "__main__":
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())
-
