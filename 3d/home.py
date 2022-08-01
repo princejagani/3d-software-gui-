@@ -24,6 +24,11 @@ from PyQt5.QtMultimediaWidgets import QVideoWidget
 import threading
 import os
 from threading import *
+from flask import render_template
+from click import Context
+import favorite
+
+
     
 class QLabel_alterada(QLabel):
     clicked=pyqtSignal()
@@ -35,6 +40,12 @@ class Ui_Form(object):
     def __init__(self):
         self.state_model=1
         self.icon_model=QtGui.QIcon()
+        self.icon_model1=QtGui.QIcon()
+        self.icon_model2=QtGui.QIcon()
+        self.object1=[]
+        self.object=[]
+        self.fav_count=0
+        
         
 
 ############################################ all function ####################################################################
@@ -42,50 +53,72 @@ class Ui_Form(object):
         f=open()
 
     def home(self):
-        # self.init_ui()
         self.val=''
         self.home_btn.setChecked(True)
         self.home_btn.setCheckable(True)
         self.sql=f"SELECT * FROM model_file WHERE topic_name='human body'"
         mycursor.execute(self.sql)
         self.myresult = mycursor.fetchall()
+        
+        for i in range(0,len(self.myresult)):
+                self.object.append(QLabel_alterada(self.right_widget))
         # for i in range(0,len(self.myresult)):
-        # for i in range(2):
-        for y in range(0,len(self.myresult)):
-                                # print(self.myresult[y][6])
-                                self.val=self.myresult[y][5]
-                                object = QLabel_alterada(self.bottom_widget)
-                                object.setText("label agbdjmfivfd,vifv\nuhsndvmu idfdivhmdv,id dfm8vi,")
-                                object.setMinimumSize(300,40)
-                                object.clicked.connect(lambda: self.model_render(self.val))  
-                                object.setScaledContents(True)
-                                self.vbox.addWidget(object)
-                                object.setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult[y][6]}"))
-                                object.setMinimumSize(QtCore.QSize(350, 200))
+        #         self.object[i] = QLabel_alterada(self.bottom_widget)
+        #         self.object[i].setText("label agbdjmfivfd,vifv\nuhsndvmu idfdivhmdv,id dfm8vi,")
+        #         self.object[i].setMinimumSize(300,40)
+        #         self.fun1(i,self.myresult[i][5])
+        #         self.object[i].setScaledContents(True)
+        #         self.object[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult[i][6]}"))
+        #         self.object[i].setMinimumSize(QtCore.QSize(350, 200))
+        #         self.vbox.addWidget(self.object[i])
+
+        for i in range(2):
+                for y in range(0,len(self.myresult)):
+                        self.object[y] = QLabel_alterada(self.bottom_widget)
+                        self.object[y].setText(f"{self.myresult[y][4]}\n{self.myresult[y][7]}")
+                        self.object[y].setMinimumSize(300,40)
+                        self.object[y].setStyleSheet("color:white;")
+                        self.object[y].setScaledContents(True)
+                        self.vbox.addWidget(self.object[y],i,y)
+                        self.object[y].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                        if(i==0):
+                                self.object[y].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult[y][6]}"))
+                                self.object[y].setMinimumSize(QtCore.QSize(350, 200))
+                                self.fun1(y,self.myresult[y][5],self.myresult[y][4],self.myresult[y][7],self.myresult[y][0],self.myresult[y][8])
         nm='human body'                  
         self.sql1=f"SELECT * FROM video WHERE topic_name='{nm}'"
         mycursor.execute(self.sql1)
         self.myresult1 = mycursor.fetchall()
-        print(self.myresult1)
-        object1=[]
-        for i in range(0,len(self.myresult1)):
-                # for y in range(2):
-                object1.append(QLabel_alterada(self.right_widget))
-                
-        for i in range(0,len(object1)):
-                self.vbox1.addWidget(object1[i])              
-                object1[i].setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
-                object1[i].setMinimumSize(350, 200)
-                object1[i].setScaledContents(True)
-                object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult1[i][6]}"))
-                object1[i].clicked.connect(lambda:self.video_render(str(self.myresult1[i][0])))
-                object1[i].show()
-                
-                
-        # for i in range(0,len(object1)):
-        #         object1[i].clicked.connect(lambda: self.video_render(self.myresult1[i][0]))
-        mydb.commit()
         
+        for i in range(0,len(self.myresult1)):
+                self.object1.append(QLabel_alterada(self.right_widget))    
+        # for i in range(0,len(self.myresult1)):
+        #         self.object1[i]=QLabel_alterada(self.right_widget)            
+        #         self.object1[i].setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
+        #         self.object1[i].setMinimumSize(350, 200)
+        #         self.object1[i].setScaledContents(True)
+        #         self.fun(i,self.myresult1[i][5])
+        #         self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult1[i][6]}"))
+        #         self.object1[i].show()
+        #         self.vbox1.addWidget(self.object1[i])  
+        for i in range(0,len(self.myresult1)):
+                for y in range(2):
+                        self.object1[i] = QLabel_alterada(self.right_widget)
+                        self.object1[i].setText(f"{self.myresult1[i][4]}\n{self.myresult1[i][7]}")
+                        self.object1[i].setMinimumSize(300,40)
+                        self.object1[i].setStyleSheet("color:white;")
+                        self.object1[i].setScaledContents(True)
+                        self.vbox1.addWidget(self.object1[i],i,y)
+                        # self.object1[i].clicked.connect(self.home1)
+                        self.object1[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                        if(y==0):
+                                self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult1[i][6]}"))
+                                self.object1[i].setMinimumSize(QtCore.QSize(350, 200))
+                                self.fun(i,self.myresult1[i][5],self.myresult1[i][4],self.myresult1[i][7],self.myresult1[i][0],self.myresult1[i][8])
+
+
+        mydb.commit()
+
     def play(self):
         self.t1=threading.Thread(target=self.home)
         self.t1.start()
@@ -98,6 +131,7 @@ class Ui_Form(object):
         self.max_model.show()
         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.max_model.setIcon(self.icon_model)
+
         
     def size_model(self):
         if(self.state_model==1):
@@ -109,7 +143,9 @@ class Ui_Form(object):
           self.icon_model.addPixmap(QtGui.QPixmap("icon/cross.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
           self.max_model.setIcon(self.icon_model)
           self.scroll_right.hide()
+          self.cap.hide()
           self.scroll.hide()
+          self.favorite_btn.hide()
           self.state_model=0
         elif(self.state_model==0):
           self.model_widget.setMinimumSize(900,450)
@@ -122,37 +158,127 @@ class Ui_Form(object):
           self.right_widget.show()
           self.bottom_widget.show()
           self.scroll.show()
+          self.cap.show()
+          self.favorite_btn.show()
+          self.cap.show()
           self.scroll_right.show()
           self.state_model=1
 
-    def model_render(self,num):
-        self.url=f"http:/localhost/{str(num)}"
+    def fun(self,num,num1,num2,num3,id,fav):
+        self.object1[num].clicked.connect(lambda:self.video_render(str(num1),num2,num3,id,fav))
+   
+    def fun1(self,num,num1,num2,num3,id,fav):
+        self.object[num].clicked.connect(lambda:self.model_render(str(num1),num2,num3,id,fav))
+
+    def model_render(self,num,num2,num3,id,fav):
+        self.fav_count=0
+        print(f"fav={fav}")
+        if(fav==0):
+              self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+              self.favorite_btn.setIcon(self.icon_model1)  
+        #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
+        elif(fav==1):
+                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.favorite_btn.setIcon(self.icon_model1) 
+                
+        self.favorite_btn.clicked.connect(lambda:favorite.fav_model(id,self.favorite_btn))
+        self.url=f"http:/localhost/main_data/{str(num)}"
         self.web.load(QUrl(self.url))
         self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
         self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
         self.max_model.raise_()
         self.max_model.show()
+        self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
+        self.favorite_btn.raise_()
+        self.favorite_btn.show()
+        # self.cap=QLabel_alterada(self.model_widget)
+        self.cap.setText(f"{num2}  {num3}")
+        self.cap.setStyleSheet("color:white;")
+        self.cap.show()
+        self.cap.setGeometry(QtCore.QRect(10, 390, 200, 40))
         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.max_model.setIcon(self.icon_model)
-    def video_render(self,num):
-        sql=f"SELECT v_name FROM video WHERE id={num}"
-        mycursor.execute(sql)
-        self.myresult = mycursor.fetchone()
-        print(self.myresult)
-        self.url=f"http:/localhost/{str(self.myresult[0])}"
+        # self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        # self.favorite_btn.setIcon(self.icon_model1)
+    def video_render(self,num,num2,num3,id,fav):
+        
+        if(fav==0):
+              self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+              self.favorite_btn.setIcon(self.icon_model1)  
+        #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
+        elif(fav==1):
+                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.favorite_btn.setIcon(self.icon_model1) 
+        self.favorite_btn.clicked.connect(lambda:self.fav(id)) 
+        # self.favorite_btn.pressed(self.change_icon)
+        # Context={"myval":num}
+        f = open('c:/xampp/htdocs/main_data/index1.html','w')
+        html_template =f"""<html>
+
+<head>
+     <link rel="stylesheet" type="text/css" href="demo.css">
+
+</head>
+
+<body>
+    <video controls id="myvideo">
+  <source src="{str(num)}" type="video/webm">
+   <source src="small.ogg" type="video/ogg">
+
+</video>
+
+
+</body>
+
+</html>"""
+        f.write(html_template)
+        f.close()
+        self.fav_count=1
+        self.url=f"http://localhost/main_data/index1.html"
         self.web.load(QUrl(self.url))
         self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
         self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
         self.max_model.raise_()
         self.max_model.show()
+        self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
+        self.favorite_btn.raise_()
+        self.favorite_btn.show()
+        
+        # self.favorite_btn.click(lambda:favorite.fav(self.fav_count,id))               
+        self.cap.setText(f"{num2}  {num3}")
+        self.cap.setStyleSheet("color:white;")
+        self.cap.show()
+        self.cap.setGeometry(QtCore.QRect(10, 390, 200, 40))
         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.max_model.setIcon(self.icon_model)
-#     def thread(self, num):
-#         t1=Thread(target=lambda: self.video_render(num))
-#         t1.start()
+        # return render_template('index.html',Context)
+
+    def change_icon(self):
+        if(self.fav_icon==0):
+                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.fav_icon=1
+        elif(self.fav_icon==1):
+                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.fav_icon=0
     
-    
-    
+    def fav(self,id):
+        sql1=f"SELECT favorite FROM video WHERE id={id}"
+        mycursor.execute(sql1)
+        myresult=mycursor.fetchall()
+        if(myresult[0][0]==0):
+            sql=f"UPDATE  video SET favorite={1} WHERE id={id}"
+            mycursor.execute(sql)
+            mydb.commit()
+            self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.favorite_btn.setIcon(self.icon_model1)
+        elif(myresult[0][0]==1):
+            sql=f"UPDATE  video SET favorite={0} WHERE id={id}"
+            mycursor.execute(sql)
+            mydb.commit()
+            # icon.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            # btn.setIcon(icon)
+            self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.favorite_btn.setIcon(self.icon_model1)
     def setupUi(self, Form):
         
         
@@ -638,7 +764,7 @@ class Ui_Form(object):
         self.scroll_right.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll_right.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll_right.setWidgetResizable(True)
-        self.scroll_right.setStyleSheet("background-color: rgb(255, 255, 127);")
+        self.scroll_right.setStyleSheet("background-color: rgb(36, 36, 36);")
         self.scroll_right.setWidget(self.right_widget)
         self.all_grid_Layout.addWidget(self.scroll_right,  0, 1, 2, 1)
        
@@ -656,7 +782,7 @@ class Ui_Form(object):
         # self.l=QLabel();self.mbox1.addWidget(self.l)
         spacerItem201 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         # self.mbox1.addItem(spacerItem201)
-        
+        self.cap=QLabel_alterada(self.model_widget)
         
 ######################################## bottom widget ########################################################################
         self.bottom_widget = QtWidgets.QWidget(self.all_widget)
@@ -843,7 +969,24 @@ class Ui_Form(object):
         self.max_model.setIconSize(QtCore.QSize(80, 80))
         self.max_model.setObjectName("max_model")
         self.max_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-
+        
+        self.favorite_btn = QtWidgets.QPushButton(self.model_widget)
+        self.favorite_btn.hide()
+        self.favorite_btn.setStyleSheet("QPushButton{\n"
+"background-color: rgb();\n"
+"color: rgb(255, 255, 255);\n"
+"border-style:outset;\n"
+"border-width:0px;\n"
+"border-radius:14px;\n"
+"border-color: rgb(62, 62, 62);\n"
+"padding:6px\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(11, 11, 11);\n"
+"}")
+        self.favorite_btn.setIconSize(QtCore.QSize(80, 80))
+        self.max_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.favorite_btn.setObjectName("favorite_btn")
 
 
         self.retranslateUi(Form)

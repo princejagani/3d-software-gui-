@@ -459,40 +459,63 @@
 #     else:
 #         print ("Sorry, I couldn't find any newly mounted drives.")
 
-# import pyudev
-# import fcntl
-# from pyudev.monitor import Monitor, MonitorObserver
-# from pyudev._os import pipe, poll
-# context = pyudev.Context()
-# monitor = Monitor.from_netlink()
-# # For USB devices
-# monitor.filter_by(susbsytem='usb')
-# # OR specifically for most USB serial devices
-# monitor.filter_by(susbystem='tty')
-# for action, device in monitor:
-#     vendor_id = device.get('ID_VENDOR_ID')
-#     # I know the devices I am looking for have a vendor ID of '22fa'
-#     if vendor_id in ['22fa']:
-#         print('Detected {} for device with vendor ID {}'.format(action, vendor_id))
+import pyudev
+from fcntl import *
+from pyudev.monitor import Monitor, MonitorObserver
+from pyudev._os import pipe, poll
+context = pyudev.Context()
+monitor = Monitor.from_netlink()
+# For USB devices
+monitor.filter_by(susbsytem='usb')
+# OR specifically for most USB serial devices
+monitor.filter_by(susbystem='tty')
+for action, device in monitor:
+    vendor_id = device.get('ID_VENDOR_ID')
+    # I know the devices I am looking for have a vendor ID of '22fa'
+    if vendor_id in ['22fa']:
+        print('Detected {} for device with vendor ID {}'.format(action, vendor_id))
+
+#!/usr/bin/env python3
+
+#!/usr/bin/env python3
+
+# import subprocess
+# import time
+# from pathlib import Path
+
+# BLOCK_DEVICE = Path("/dev/sda1")
+# MOUNT_POINT = Path("/mnt/TARGET_MOUNTPOINT")
+# MOUNT_COMMAND = ["sudo", "mount", BLOCK_DEVICE, MOUNT_POINT]
 
 
-import usb.core
-import usb.backend.libusb1
+# def should_mount():
+#     """
+#     Returns True, if the block_device should be mounted to mount_point
+#     """
+#     return BLOCK_DEVICE.exists() and not MOUNT_POINT.is_mount()
 
-VENDOR_ID = 0x0a07 # OnTrak Control Systems Inc. vendor ID
-PRODUCT_ID = 200 # ADU200 Device product name - change this to match your product
-device = usb.core.find(idVendor=VENDOR_ID, idProduct=PRODUCT_ID)
 
-if device is None:
-    raise ValueError('ADU Device not found. Please ensure it is connected to the tablet.')
-    sys.exit(1)
+# def tasks_to_do():
+#     """
+#     copy files here.
+#     may need sudo if the USB drive is FAT, exFAT, or NTFS
+#     may want to umount once done but that will trigger
+#     the mount and copy next time through the loop
+#     """
 
-# Claim interface 0 - this interface provides IN and OUT endpoints to write to and read from
-usb.util.claim_interface(device, 0)
-bytes_written = write_to_adu(device, 'RPA') # request the value of PORT A in binary 
 
-data = read_from_adu(device, 200) # read from device with a 200 millisecond timeout
+# while True:
+#     if should_mount():
+#         try:
+#             # catch possible CalledProcessError.
+#             # sudo can fail and mount could fail
+#             subprocess.check_call(MOUNT_COMMAND)
+#         except subprocess.CalledProcessError:
+#             print(f"Could not mount {BLOCK_DEVICE} at {MOUNT_POINT}")
+#         else:
+#             tasks_to_do()
 
-if data != None:
-    print("Received string: {}".format(data))
-    print("Received data as int: {}".format(int(data))) # the returned value is a string - we can convert it to a number (int) if we wish
+#     time.sleep(1)
+
+
+
