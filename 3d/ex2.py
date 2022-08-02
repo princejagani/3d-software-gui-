@@ -329,7 +329,8 @@ if(myresult1!=None and myresult2!=None and myresult3!=None):
                 if(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png' in model_thumbnail):
                         
                         f=model_thumbnail.index(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png')
-                        sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
+                        sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc,favorite) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
+                        print(sql_model)
                         # sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}','demo/{v_th}','video')"
                         try:
 
@@ -353,7 +354,7 @@ if(myresult1!=None and myresult2!=None and myresult3!=None):
                 if(f"{nm}"+'.jpg'or'.jpeg'or'.png' in video_thumbnail):
                         f=video_thumbnail.index(f"{nm}"+'.jpg'or'.jpeg'or'.png')
                         # sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','model')"
-                        sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}/{video_name[i]}','demo/{v_th}/{video_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
+                        sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc,favorite) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}/{video_name[i]}','demo/{v_th}/{video_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
                         try:
 
                                 # mycursor.execute(sql_model)
@@ -423,8 +424,8 @@ else:
                 for  i in range(0,len(model_name)):
                         if(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png' in model_thumbnail):
                                 
-                                f=model_thumbnail.index(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png')
-                                sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
+                                f=model_thumbnail.index(f"{model_name[i]}"+'.jpg' or '.jpeg' or '.png')
+                                sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc,favorite) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
                                 # sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}','demo/{v_th}','video')"
                                 try:
 
@@ -448,7 +449,7 @@ else:
                         if(f"{nm}"+'.jpg'or'.jpeg'or'.png' in video_thumbnail):
                                 f=video_thumbnail.index(f"{nm}"+'.jpg'or'.jpeg'or'.png')
                                 # sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','model')"
-                                sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}/{video_name[i]}','demo/{v_th}/{video_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
+                                sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc,favorite) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}/{video_name[i]}','demo/{v_th}/{video_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
                                 try:
 
                                         # mycursor.execute(sql_model)

@@ -44,7 +44,10 @@ class Ui_Form(object):
         self.icon_model2=QtGui.QIcon()
         self.object1=[]
         self.object=[]
+        self.favorite_btn=[]
         self.fav_count=0
+        self.id=0
+        self.id1=0
         
         
 
@@ -91,7 +94,9 @@ class Ui_Form(object):
         self.myresult1 = mycursor.fetchall()
         
         for i in range(0,len(self.myresult1)):
-                self.object1.append(QLabel_alterada(self.right_widget))    
+                self.favorite_btn.append(QtWidgets.QPushButton(self.model_widget))
+                self.object1.append(QLabel_alterada(self.right_widget))
+                    
         # for i in range(0,len(self.myresult1)):
         #         self.object1[i]=QLabel_alterada(self.right_widget)            
         #         self.object1[i].setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
@@ -103,6 +108,7 @@ class Ui_Form(object):
         #         self.vbox1.addWidget(self.object1[i])  
         for i in range(0,len(self.myresult1)):
                 for y in range(2):
+                        
                         self.object1[i] = QLabel_alterada(self.right_widget)
                         self.object1[i].setText(f"{self.myresult1[i][4]}\n{self.myresult1[i][7]}")
                         self.object1[i].setMinimumSize(300,40)
@@ -114,7 +120,9 @@ class Ui_Form(object):
                         if(y==0):
                                 self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult1[i][6]}"))
                                 self.object1[i].setMinimumSize(QtCore.QSize(350, 200))
-                                self.fun(i,self.myresult1[i][5],self.myresult1[i][4],self.myresult1[i][7],self.myresult1[i][0],self.myresult1[i][8])
+                                self.fun(i,self.myresult1[i][5],self.myresult1[i][4],self.myresult1[i][7],self.myresult1[i][0],self.myresult1[i][8],self.favorite_btn[i])
+
+                              
 
 
         mydb.commit()
@@ -164,8 +172,8 @@ class Ui_Form(object):
           self.scroll_right.show()
           self.state_model=1
 
-    def fun(self,num,num1,num2,num3,id,fav):
-        self.object1[num].clicked.connect(lambda:self.video_render(str(num1),num2,num3,id,fav))
+    def fun(self,num,num1,num2,num3,id,fav,fav_btn):
+        self.object1[num].clicked.connect(lambda:self.video_render(str(num1),num2,num3,id,fav,fav_btn))
    
     def fun1(self,num,num1,num2,num3,id,fav):
         self.object[num].clicked.connect(lambda:self.model_render(str(num1),num2,num3,id,fav))
@@ -180,7 +188,7 @@ class Ui_Form(object):
         elif(fav==1):
                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
                 self.favorite_btn.setIcon(self.icon_model1) 
-                
+              
         self.favorite_btn.clicked.connect(lambda:favorite.fav_model(id,self.favorite_btn))
         self.url=f"http:/localhost/main_data/{str(num)}"
         self.web.load(QUrl(self.url))
@@ -200,16 +208,18 @@ class Ui_Form(object):
         self.max_model.setIcon(self.icon_model)
         # self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         # self.favorite_btn.setIcon(self.icon_model1)
-    def video_render(self,num,num2,num3,id,fav):
-        
+    def video_render(self,num,num2,num3,id,fav,fav_btn):
+        self.id=id
+        fav_btn.clicked.connect(lambda:self.fav(self.id,fav_btn))
         if(fav==0):
               self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-              self.favorite_btn.setIcon(self.icon_model1)  
+              fav_btn.setIcon(self.icon_model1) 
+        #       self.favorite_btn.clicked.connect(lambda:self.fav(id))  
         #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
         elif(fav==1):
                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-                self.favorite_btn.setIcon(self.icon_model1) 
-        self.favorite_btn.clicked.connect(lambda:self.fav(id)) 
+                fav_btn.setIcon(self.icon_model1) 
+                
         # self.favorite_btn.pressed(self.change_icon)
         # Context={"myval":num}
         f = open('c:/xampp/htdocs/main_data/index1.html','w')
@@ -240,9 +250,20 @@ class Ui_Form(object):
         self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
         self.max_model.raise_()
         self.max_model.show()
-        self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
-        self.favorite_btn.raise_()
-        self.favorite_btn.show()
+        fav_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
+        fav_btn.raise_()
+        fav_btn.show()
+        # fav_btn.hide()
+        fav_btn.setStyleSheet("QPushButton{\n"
+"background-color: rgb();\n"
+"color: rgb(255, 255, 255);\n"
+"border-style:outset;\n"
+"border-width:0px;\n"
+"border-radius:14px;\n"
+"border-color: rgb(62, 62, 62);\n"
+"padding:6px\n"
+"}\n""}")
+        fav_btn.setIconSize(QtCore.QSize(80, 80))
         
         # self.favorite_btn.click(lambda:favorite.fav(self.fav_count,id))               
         self.cap.setText(f"{num2}  {num3}")
@@ -251,6 +272,7 @@ class Ui_Form(object):
         self.cap.setGeometry(QtCore.QRect(10, 390, 200, 40))
         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.max_model.setIcon(self.icon_model)
+        
         # return render_template('index.html',Context)
 
     def change_icon(self):
@@ -261,24 +283,30 @@ class Ui_Form(object):
                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
                 self.fav_icon=0
     
-    def fav(self,id):
+    def fav(self,id,fav_btn):  
+        # favorite.fav(id,self.favorite_btn)
+        print(id)
         sql1=f"SELECT favorite FROM video WHERE id={id}"
         mycursor.execute(sql1)
-        myresult=mycursor.fetchall()
-        if(myresult[0][0]==0):
-            sql=f"UPDATE  video SET favorite={1} WHERE id={id}"
+        myresult=mycursor.fetchone()
+        mydb.commit()
+        print(myresult)
+        if(myresult[0]==0):
+            sql=f"UPDATE  video SET favorite={True} WHERE id={id}"
             mycursor.execute(sql)
             mydb.commit()
             self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.favorite_btn.setIcon(self.icon_model1)
-        elif(myresult[0][0]==1):
-            sql=f"UPDATE  video SET favorite={0} WHERE id={id}"
+            fav_btn.setIcon(self.icon_model1)
+            
+        elif(myresult[0]==1):
+            sql=f"UPDATE  video SET favorite={False} WHERE id={id}"
             mycursor.execute(sql)
             mydb.commit()
             # icon.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             # btn.setIcon(icon)
             self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.favorite_btn.setIcon(self.icon_model1)
+            fav_btn.setIcon(self.icon_model1)
+            
     def setupUi(self, Form):
         
         
@@ -970,23 +998,23 @@ class Ui_Form(object):
         self.max_model.setObjectName("max_model")
         self.max_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         
-        self.favorite_btn = QtWidgets.QPushButton(self.model_widget)
-        self.favorite_btn.hide()
-        self.favorite_btn.setStyleSheet("QPushButton{\n"
-"background-color: rgb();\n"
-"color: rgb(255, 255, 255);\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"border-radius:14px;\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(11, 11, 11);\n"
-"}")
-        self.favorite_btn.setIconSize(QtCore.QSize(80, 80))
-        self.max_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.favorite_btn.setObjectName("favorite_btn")
+#         self.favorite_btn = QtWidgets.QPushButton(self.model_widget)
+#         self.favorite_btn.hide()
+#         self.favorite_btn.setStyleSheet("QPushButton{\n"
+# "background-color: rgb();\n"
+# "color: rgb(255, 255, 255);\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "border-radius:14px;\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(11, 11, 11);\n"
+# "}")
+#         self.favorite_btn.setIconSize(QtCore.QSize(80, 80))
+#         self.max_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.favorite_btn.setObjectName("favorite_btn")
 
 
         self.retranslateUi(Form)
