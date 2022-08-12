@@ -11,7 +11,7 @@ from pickle import TRUE
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from click import open_file
-from  db_module import *
+# from  db_module import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView,QWebEnginePage as QWebPage
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings as QWebSettings
 from PyQt5.QtNetwork import *
@@ -44,7 +44,10 @@ class Ui_Form(object):
         self.icon_model2=QtGui.QIcon()
         self.object1=[]
         self.object=[]
+        # self.favorite_btn=0
         self.fav_count=0
+        self.id=0
+        self.id1=0
         
         
 
@@ -52,233 +55,261 @@ class Ui_Form(object):
     def imports(self):
         f=open()
 
-    def home(self):
-        self.val=''
-        self.home_btn.setChecked(True)
-        self.home_btn.setCheckable(True)
-        self.sql=f"SELECT * FROM model_file WHERE topic_name='human body'"
-        mycursor.execute(self.sql)
-        self.myresult = mycursor.fetchall()
+#     def home(self):
+#         self.val=''
+#         self.home_btn.setChecked(True)
+#         self.home_btn.setCheckable(True)
+#         self.sql=f"SELECT * FROM model_file WHERE topic_name='human body'"
+#         mycursor.execute(self.sql)
+#         self.myresult = mycursor.fetchall()
         
-        for i in range(0,len(self.myresult)):
-                self.object.append(QLabel_alterada(self.right_widget))
-        # for i in range(0,len(self.myresult)):
-        #         self.object[i] = QLabel_alterada(self.bottom_widget)
-        #         self.object[i].setText("label agbdjmfivfd,vifv\nuhsndvmu idfdivhmdv,id dfm8vi,")
-        #         self.object[i].setMinimumSize(300,40)
-        #         self.fun1(i,self.myresult[i][5])
-        #         self.object[i].setScaledContents(True)
-        #         self.object[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult[i][6]}"))
-        #         self.object[i].setMinimumSize(QtCore.QSize(350, 200))
-        #         self.vbox.addWidget(self.object[i])
+#         for i in range(0,len(self.myresult)):
+#                 self.object.append(QLabel_alterada(self.right_widget))
+#         # for i in range(0,len(self.myresult)):
+#         #         self.object[i] = QLabel_alterada(self.bottom_widget)
+#         #         self.object[i].setText("label agbdjmfivfd,vifv\nuhsndvmu idfdivhmdv,id dfm8vi,")
+#         #         self.object[i].setMinimumSize(300,40)
+#         #         self.fun1(i,self.myresult[i][5])
+#         #         self.object[i].setScaledContents(True)
+#         #         self.object[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult[i][6]}"))
+#         #         self.object[i].setMinimumSize(QtCore.QSize(350, 200))
+#         #         self.vbox.addWidget(self.object[i])
 
-        for i in range(2):
-                for y in range(0,len(self.myresult)):
-                        self.object[y] = QLabel_alterada(self.bottom_widget)
-                        self.object[y].setText(f"{self.myresult[y][4]}\n{self.myresult[y][7]}")
-                        self.object[y].setMinimumSize(300,40)
-                        self.object[y].setStyleSheet("color:white;")
-                        self.object[y].setScaledContents(True)
-                        self.vbox.addWidget(self.object[y],i,y)
-                        self.object[y].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                        if(i==0):
-                                self.object[y].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult[y][6]}"))
-                                self.object[y].setMinimumSize(QtCore.QSize(350, 200))
-                                self.fun1(y,self.myresult[y][5],self.myresult[y][4],self.myresult[y][7],self.myresult[y][0],self.myresult[y][8])
-        nm='human body'                  
-        self.sql1=f"SELECT * FROM video WHERE topic_name='{nm}'"
-        mycursor.execute(self.sql1)
-        self.myresult1 = mycursor.fetchall()
+#         for i in range(2):
+#                 for y in range(0,len(self.myresult)):
+#                         self.object[y] = QLabel_alterada(self.bottom_widget)
+#                         self.object[y].setText(f"{self.myresult[y][4]}\n{self.myresult[y][7]}")
+#                         self.object[y].setMinimumSize(300,40)
+#                         self.object[y].setStyleSheet("color:white;")
+#                         self.object[y].setScaledContents(True)
+#                         self.vbox.addWidget(self.object[y],i,y)
+#                         self.object[y].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#                         if(i==0):
+#                                 self.object[y].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult[y][6]}"))
+#                                 self.object[y].setMinimumSize(QtCore.QSize(350, 200))
+#                         self.fun1(y,self.myresult[y][5],self.myresult[y][4],self.myresult[y][7],self.myresult[y][0],self.myresult[y][8])
+#         nm='human body'                  
+#         self.sql1=f"SELECT * FROM video WHERE topic_name='{nm}'"
+#         mycursor.execute(self.sql1)
+#         self.myresult1 = mycursor.fetchall()
         
-        for i in range(0,len(self.myresult1)):
-                self.object1.append(QLabel_alterada(self.right_widget))    
-        # for i in range(0,len(self.myresult1)):
-        #         self.object1[i]=QLabel_alterada(self.right_widget)            
-        #         self.object1[i].setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
-        #         self.object1[i].setMinimumSize(350, 200)
-        #         self.object1[i].setScaledContents(True)
-        #         self.fun(i,self.myresult1[i][5])
-        #         self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult1[i][6]}"))
-        #         self.object1[i].show()
-        #         self.vbox1.addWidget(self.object1[i])  
-        for i in range(0,len(self.myresult1)):
-                for y in range(2):
-                        self.object1[i] = QLabel_alterada(self.right_widget)
-                        self.object1[i].setText(f"{self.myresult1[i][4]}\n{self.myresult1[i][7]}")
-                        self.object1[i].setMinimumSize(300,40)
-                        self.object1[i].setStyleSheet("color:white;")
-                        self.object1[i].setScaledContents(True)
-                        self.vbox1.addWidget(self.object1[i],i,y)
-                        # self.object1[i].clicked.connect(self.home1)
-                        self.object1[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                        if(y==0):
-                                self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult1[i][6]}"))
-                                self.object1[i].setMinimumSize(QtCore.QSize(350, 200))
-                                self.fun(i,self.myresult1[i][5],self.myresult1[i][4],self.myresult1[i][7],self.myresult1[i][0],self.myresult1[i][8])
+#         for i in range(0,len(self.myresult1)):
+#                 # self.favorite_btn.append(QtWidgets.QPushButton(self.model_widget))
+#                 self.object1.append(QLabel_alterada(self.right_widget))
+                    
+#         # for i in range(0,len(self.myresult1)):
+#         #         self.object1[i]=QLabel_alterada(self.right_widget)            
+#         #         self.object1[i].setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
+#         #         self.object1[i].setMinimumSize(350, 200)
+#         #         self.object1[i].setScaledContents(True)
+#         #         self.fun(i,self.myresult1[i][5])
+#         #         self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult1[i][6]}"))
+#         #         self.object1[i].show()
+#         #         self.vbox1.addWidget(self.object1[i])  
+#         for i in range(0,len(self.myresult1)):
+#                 for y in range(2):
+                        
+#                         self.object1[i] = QLabel_alterada(self.right_widget)
+#                         self.object1[i].setText(f"{self.myresult1[i][4]}\n{self.myresult1[i][7]}")
+#                         self.object1[i].setMinimumSize(300,40)
+#                         self.object1[i].setStyleSheet("color:white;")
+#                         self.object1[i].setScaledContents(True)
+#                         self.vbox1.addWidget(self.object1[i],i,y)
+#                         # self.object1[i].clicked.connect(self.home1)
+#                         self.object1[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#                         if(y==0):
+#                                 self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult1[i][6]}"))
+#                                 self.object1[i].setMinimumSize(QtCore.QSize(350, 200))
+#                         self.fun(i,self.myresult1[i][5],self.myresult1[i][4],self.myresult1[i][7],self.myresult1[i][0],self.myresult1[i][8])
+
+                              
 
 
-        mydb.commit()
+#         mydb.commit()
 
     def play(self):
         self.t1=threading.Thread(target=self.home)
         self.t1.start()
 
-    def home1(self):
-        self.web.load(QUrl("file:///C:/xampp/htdocs/v1/index.html"))    
-        self.web.setGeometry(QtCore.QRect(0, 0, 1050, 380))
-        self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
-        self.max_model.raise_()
-        self.max_model.show()
-        self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.max_model.setIcon(self.icon_model)
+#     def home1(self):
+#         self.web.load(QUrl("file:///C:/xampp/htdocs/v1/index.html"))    
+#         self.web.setGeometry(QtCore.QRect(0, 0, 1050, 380))
+#         self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+#         self.max_model.raise_()
+#         self.max_model.show()
+#         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#         self.max_model.setIcon(self.icon_model)
 
         
-    def size_model(self):
-        if(self.state_model==1):
-          self.model_widget.setMinimumSize(900,750)
-          self.max_model.setGeometry(QtCore.QRect(1630, 0, 30, 30))
-          self.web.setGeometry(QtCore.QRect(0, 0, 1660, 750))
-          self.right_widget.hide()
-          self.bottom_widget.hide()
-          self.icon_model.addPixmap(QtGui.QPixmap("icon/cross.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-          self.max_model.setIcon(self.icon_model)
-          self.scroll_right.hide()
-          self.cap.hide()
-          self.scroll.hide()
-          self.favorite_btn.hide()
-          self.state_model=0
-        elif(self.state_model==0):
-          self.model_widget.setMinimumSize(900,450)
-          self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-          self.max_model.setIcon(self.icon_model)
-          self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
-          self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
-          self.max_model.raise_()
-          self.max_model.show()
-          self.right_widget.show()
-          self.bottom_widget.show()
-          self.scroll.show()
-          self.cap.show()
-          self.favorite_btn.show()
-          self.cap.show()
-          self.scroll_right.show()
-          self.state_model=1
+#     def size_model(self):
+#         if(self.state_model==1):
+#           self.model_widget.setMinimumSize(900,750)
+#           self.max_model.setGeometry(QtCore.QRect(1630, 0, 30, 30))
+#           self.web.setGeometry(QtCore.QRect(0, 0, 1660, 750))
+#           self.right_widget.hide()
+#           self.bottom_widget.hide()
+#           self.icon_model.addPixmap(QtGui.QPixmap("icon/cross.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#           self.max_model.setIcon(self.icon_model)
+#           self.scroll_right.hide()
+#           self.cap.hide()
+#           self.scroll.hide()
+#           self.favorite_btn.hide()
+#           self.state_model=0
+#         elif(self.state_model==0):
+#           self.model_widget.setMinimumSize(900,450)
+#           self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#           self.max_model.setIcon(self.icon_model)
+#           self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
+#           self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+#           self.max_model.raise_()
+#           self.max_model.show()
+#           self.right_widget.show()
+#           self.bottom_widget.show()
+#           self.scroll.show()
+#           self.cap.show()
+#           self.favorite_btn.show()
+#           self.cap.show()
+#           self.scroll_right.show()
+#           self.state_model=1
 
-    def fun(self,num,num1,num2,num3,id,fav):
-        self.object1[num].clicked.connect(lambda:self.video_render(str(num1),num2,num3,id,fav))
+#     def fun(self,num,num1,num2,num3,id,fav):
+#         self.object1[num].clicked.connect(lambda:self.video_render(str(num1),num2,num3,id,fav))
    
-    def fun1(self,num,num1,num2,num3,id,fav):
-        self.object[num].clicked.connect(lambda:self.model_render(str(num1),num2,num3,id,fav))
+#     def fun1(self,num,num1,num2,num3,id,fav):
+#         self.object[num].clicked.connect(lambda:self.model_render(str(num1),num2,num3,id,fav))
 
-    def model_render(self,num,num2,num3,id,fav):
-        self.fav_count=0
-        print(f"fav={fav}")
-        if(fav==0):
-              self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-              self.favorite_btn.setIcon(self.icon_model1)  
-        #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
-        elif(fav==1):
-                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-                self.favorite_btn.setIcon(self.icon_model1) 
+#     def model_render(self,num,num2,num3,id,fav):
+#         self.fav_count=0
+#         print(f"fav={fav}")
+#         if(fav==0):
+#               self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#               self.favorite_btn.setIcon(self.icon_model1)  
+#         #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
+#         elif(fav==1):
+#                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#                 self.favorite_btn.setIcon(self.icon_model1) 
+              
+#         # self.favorite_btn.clicked.connect(lambda:favorite.fav_model(id,self.favorite_btn))
+#         self.url=f"http:/localhost/main_data/{str(num)}"
+#         self.web.load(QUrl(self.url))
+#         self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
+#         self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+#         self.max_model.raise_()
+#         self.max_model.show()
+#         self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
+#         self.favorite_btn.raise_()
+#         self.favorite_btn.show()
+#         # self.cap=QLabel_alterada(self.model_widget)
+#         self.cap.setText(f"{num2}  {num3}")
+#         self.cap.setStyleSheet("color:white;")
+#         self.cap.show()
+#         self.cap.setGeometry(QtCore.QRect(10, 390, 200, 40))
+#         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#         self.max_model.setIcon(self.icon_model)
+#         # self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#         # self.favorite_btn.setIcon(self.icon_model1)
+#     def video_render(self,num,num2,num3,id,fav):
+#         self.id=id
+#         self.favorite_btn.clicked.connect(lambda:self.fav(self.id))
+#         # self.favorite_btn.raise_()
+#         # self.favorite_btn.show()
+# #         # fav_btn.hide()
+# #         self.favorite_btn.setStyleSheet("QPushButton{\n"
+# # "background-color: rgb();\n"
+# # "color: rgb(255, 255, 255);\n"
+# # "border-style:outset;\n"
+# # "border-width:0px;\n"
+# # "border-radius:14px;\n"
+# # "border-color: rgb(62, 62, 62);\n"
+# # "padding:6px\n"
+# # "}\n""}")
+# #         self.favorite_btn.setIconSize(QtCore.QSize(80, 80))
+#         if(fav==0):
+#               self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#               self.favorite_btn.setIcon(self.icon_model1) 
+#         # #       self.favorite_btn.clicked.connect(lambda:self.fav(id))  
+#         #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
+#         elif(fav==1):
+#                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#                 self.favorite_btn.setIcon(self.icon_model1) 
                 
-        self.favorite_btn.clicked.connect(lambda:favorite.fav_model(id,self.favorite_btn))
-        self.url=f"http:/localhost/main_data/{str(num)}"
-        self.web.load(QUrl(self.url))
-        self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
-        self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
-        self.max_model.raise_()
-        self.max_model.show()
-        self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
-        self.favorite_btn.raise_()
-        self.favorite_btn.show()
-        # self.cap=QLabel_alterada(self.model_widget)
-        self.cap.setText(f"{num2}  {num3}")
-        self.cap.setStyleSheet("color:white;")
-        self.cap.show()
-        self.cap.setGeometry(QtCore.QRect(10, 390, 200, 40))
-        self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.max_model.setIcon(self.icon_model)
-        # self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        # self.favorite_btn.setIcon(self.icon_model1)
-    def video_render(self,num,num2,num3,id,fav):
+#         # self.favorite_btn.pressed(self.change_icon)
+#         # Context={"myval":num}
+#         f = open('c:/xampp/htdocs/main_data/index1.html','w')
+#         html_template =f"""<html>
+
+# <head>
+#      <link rel="stylesheet" type="text/css" href="demo.css">
+
+# </head>
+
+# <body>
+#     <video controls id="myvideo">
+#   <source src="{str(num)}" type="video/webm">
+#    <source src="small.ogg" type="video/ogg">
+
+# </video>
+
+
+# </body>
+
+# </html>"""
+#         f.write(html_template)
+#         f.close()
+#         self.fav_count=1
+#         self.url=f"http://localhost/main_data/index1.html"
+#         self.web.load(QUrl(self.url))
+#         self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
+#         self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+#         self.max_model.raise_()
+#         self.max_model.show()
+#         self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
+#         self.favorite_btn.raise_()
+#         self.favorite_btn.show()
+       
         
-        if(fav==0):
-              self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-              self.favorite_btn.setIcon(self.icon_model1)  
-        #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
-        elif(fav==1):
-                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-                self.favorite_btn.setIcon(self.icon_model1) 
-        self.favorite_btn.clicked.connect(lambda:self.fav(id)) 
-        # self.favorite_btn.pressed(self.change_icon)
-        # Context={"myval":num}
-        f = open('c:/xampp/htdocs/main_data/index1.html','w')
-        html_template =f"""<html>
-
-<head>
-     <link rel="stylesheet" type="text/css" href="demo.css">
-
-</head>
-
-<body>
-    <video controls id="myvideo">
-  <source src="{str(num)}" type="video/webm">
-   <source src="small.ogg" type="video/ogg">
-
-</video>
-
-
-</body>
-
-</html>"""
-        f.write(html_template)
-        f.close()
-        self.fav_count=1
-        self.url=f"http://localhost/main_data/index1.html"
-        self.web.load(QUrl(self.url))
-        self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
-        self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
-        self.max_model.raise_()
-        self.max_model.show()
-        self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
-        self.favorite_btn.raise_()
-        self.favorite_btn.show()
+#         # self.favorite_btn.click(lambda:favorite.fav(self.fav_count,id))               
+#         self.cap.setText(f"{num2}  {num3}")
+#         self.cap.setStyleSheet("color:white;")
+#         self.cap.show()
+#         self.cap.setGeometry(QtCore.QRect(10, 390, 200, 40))
+#         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#         self.max_model.setIcon(self.icon_model)
         
-        # self.favorite_btn.click(lambda:favorite.fav(self.fav_count,id))               
-        self.cap.setText(f"{num2}  {num3}")
-        self.cap.setStyleSheet("color:white;")
-        self.cap.show()
-        self.cap.setGeometry(QtCore.QRect(10, 390, 200, 40))
-        self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.max_model.setIcon(self.icon_model)
-        # return render_template('index.html',Context)
+#         # return render_template('index.html',Context)
 
-    def change_icon(self):
-        if(self.fav_icon==0):
-                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-                self.fav_icon=1
-        elif(self.fav_icon==1):
-                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-                self.fav_icon=0
+#     def change_icon(self):
+#         if(self.fav_icon==0):
+#                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#                 self.fav_icon=1
+#         elif(self.fav_icon==1):
+#                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#                 self.fav_icon=0
     
-    def fav(self,id):
-        sql1=f"SELECT favorite FROM video WHERE id={id}"
-        mycursor.execute(sql1)
-        myresult=mycursor.fetchall()
-        if(myresult[0][0]==0):
-            sql=f"UPDATE  video SET favorite={1} WHERE id={id}"
-            mycursor.execute(sql)
-            mydb.commit()
-            self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.favorite_btn.setIcon(self.icon_model1)
-        elif(myresult[0][0]==1):
-            sql=f"UPDATE  video SET favorite={0} WHERE id={id}"
-            mycursor.execute(sql)
-            mydb.commit()
-            # icon.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            # btn.setIcon(icon)
-            self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.favorite_btn.setIcon(self.icon_model1)
+#     def fav(self,id):  
+#         # favorite.fav(id,self.favorite_btn)
+#         print(id)
+#         sql1=f"SELECT favorite FROM video WHERE id={id}"
+#         mycursor.execute(sql1)
+#         myresult=mycursor.fetchone()
+#         mydb.commit()
+#         print(myresult)
+#         if(myresult[0]==0):
+#             sql=f"UPDATE  video SET favorite={True} WHERE id={id}"
+#             mycursor.execute(sql)
+#             mydb.commit()
+#             self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#             self.favorite_btn.setIcon(self.icon_model1)
+            
+#         elif(myresult[0]==1):
+#             sql=f"UPDATE  video SET favorite={False} WHERE id={id}"
+#             mycursor.execute(sql)
+#             mydb.commit()
+#             # icon.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#             # btn.setIcon(icon)
+#             self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+#             self.favorite_btn.setIcon(self.icon_model1)
+            
     def setupUi(self, Form):
         
         
@@ -455,7 +486,7 @@ class Ui_Form(object):
         self.home_btn.setCheckable(False)
         self.home_btn.setAutoDefault(False)
         self.home_btn.setObjectName("home_btn")
-        self.home_btn.clicked.connect(self.home)
+        # self.home_btn.clicked.connect(self.home)
         self.verticalLayout_2.addWidget(self.home_btn)
         spacerItem2 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout_2.addItem(spacerItem2)
@@ -672,7 +703,7 @@ class Ui_Form(object):
         self.arts_btn.setIcon(icon10)
         self.arts_btn.setIconSize(QtCore.QSize(35, 35))
         self.arts_btn.setObjectName("arts_btn")
-        self.arts_btn.clicked.connect(self.home1)
+        # self.arts_btn.clicked.connect(self.home1)
         self.verticalLayout_2.addWidget(self.arts_btn)
         spacerItem12 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout_2.addItem(spacerItem12)
@@ -703,80 +734,174 @@ class Ui_Form(object):
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
         self.main_2_horizontalLayout.addWidget(self.left_widget)
 #################################### main widget ######################################################################################
-#         self.main_widget = QtWidgets.QWidget(Form)
-#         self.main_widget.setStyleSheet("background-color:  rgb(11,11,11);")
-#         self.main_widget.setObjectName("main_widget")
-#         self.main_grid_Layout = QtWidgets.QGridLayout(self.main_widget)
-#         self.main_grid_Layout.setContentsMargins(9, 9, 9, 9)
-#         self.main_grid_Layout.setObjectName("main_grid_Layout")
-#         spacerItem2 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
-#         self.main_grid_Layout.addItem(spacerItem2, 0, 0, 1, 1)
-#         self.gridLayout_4 = QtWidgets.QGridLayout()
-#         self.gridLayout_4.setObjectName("gridLayout_4")
-#         spacerItem3 = QtWidgets.QSpacerItem(40, 5, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-#         self.gridLayout_4.addItem(spacerItem3, 1, 0, 1, 1)
-#         spacerItem4 = QtWidgets.QSpacerItem(5, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-#         self.gridLayout_4.addItem(spacerItem4, 0, 2, 1, 1)
-#         self.main_widget_2 = QtWidgets.QWidget(self.main_widget)
-#         self.main_widget_2.setStyleSheet("\n"
-# "background-color: rgb(11,11,11);")
-#         self.main_widget_2.setObjectName("main_widget_2")
-#         self.horizontalLayout = QtWidgets.QHBoxLayout(self.main_widget_2)
-#         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-#         self.horizontalLayout.setObjectName("horizontalLayout")
-#         self.widget = QtWidgets.QWidget(self.main_widget_2)
-#         self.widget.setStyleSheet("background-color: rgb(255, 255, 127);")
-#         self.widget.setObjectName("widget")
-#         self.horizontalLayout.addWidget(self.widget)
-#         self.widget_2 = QtWidgets.QWidget(self.main_widget_2)
-#         self.widget_2.setStyleSheet("background-color: rgb(0, 255, 127);")
-#         self.widget_2.setObjectName("widget_2")
-#         self.horizontalLayout.addWidget(self.widget_2)
-#         self.gridLayout_4.addWidget(self.main_widget_2, 0, 0, 1, 1)
-#         self.mange_widget = QtWidgets.QWidget(self.main_widget)
-#         self.mange_widget.setStyleSheet("background-color: rgb(11,11,11);")
-#         self.mange_widget.setObjectName("mange_widget")
-#         self.gridLayout_4.addWidget(self.mange_widget, 1, 2, 1, 1)
-#         self.main_grid_Layout.addLayout(self.gridLayout_4, 1, 0, 1, 1)
-#         self.main_2_horizontalLayout.addWidget(self.main_widget)
-#         self.verticalLayout.addLayout(self.main_2_horizontalLayout)
         self.main_widget = QtWidgets.QWidget(Form)
-        self.main_widget.setStyleSheet("background-color:  rgb(11,11,11);")
+        self.main_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
         self.main_widget.setObjectName("main_widget")
         self.main_grid_Layout = QtWidgets.QGridLayout(self.main_widget)
         self.main_grid_Layout.setContentsMargins(9, 9, 9, 9)
         self.main_grid_Layout.setObjectName("main_grid_Layout")
-        spacerItem2 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
-        self.main_grid_Layout.addItem(spacerItem2, 0, 0, 1, 1)
+        self.widget_2 = QtWidgets.QWidget(self.main_widget)
+        self.widget_2.setObjectName("widget_2")
+        self.main_grid_Layout.addWidget(self.widget_2, 4, 0, 1, 1)
         self.gridLayout_4 = QtWidgets.QGridLayout()
         self.gridLayout_4.setObjectName("gridLayout_4")
-        spacerItem3 = QtWidgets.QSpacerItem(40, 5, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_4.addItem(spacerItem3, 1, 0, 1, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(5, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_4.addItem(spacerItem4, 0, 2, 1, 1)
-        self.main_widget_2 = QtWidgets.QWidget(self.main_widget)
-        self.main_widget_2.setStyleSheet("\n"
-"background-color: rgb(11,11,11);")
-        self.main_widget_2.setObjectName("main_widget_2")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.main_widget_2)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.mange_widget = QtWidgets.QWidget(self.main_widget)
+        self.mange_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
+        self.mange_widget.setObjectName("mange_widget")
+        self.gridLayout_4.addWidget(self.mange_widget, 1, 1, 1, 1)
+        spacerItem15 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_4.addItem(spacerItem15, 1, 0, 1, 1)
+        spacerItem16 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_4.addItem(spacerItem16, 0, 1, 1, 1)
+
+
+        self.model_all_widget = QtWidgets.QWidget(self.main_widget)
+        self.model_all_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
+        self.model_all_widget.setObjectName("model_all_widget")
+        self.all_grid_Layout = QtWidgets.QGridLayout(self.model_all_widget)
+        self.all_grid_Layout.setContentsMargins(0, 0, 0, 0)
+        self.all_grid_Layout.setObjectName("all_grid_Layout")
+        self.model_widget = QtWidgets.QWidget(self.model_all_widget)
+        self.model_widget.setStyleSheet("\n"
+"\n"
+"background-color:  rgb(11,11,11);")
+        self.model_widget.setObjectName("model_widget")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.model_widget)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.widget = QtWidgets.QWidget(self.main_widget_2)
-        self.widget.setStyleSheet("background-color: rgb(255, 255, 127);")
-        self.widget.setObjectName("widget")
-        self.horizontalLayout.addWidget(self.widget)
-        self.widget_2 = QtWidgets.QWidget(self.main_widget_2)
-        self.widget_2.setStyleSheet("background-color: rgb(0, 255, 127);")
-        self.widget_2.setObjectName("widget_2")
-        self.horizontalLayout.addWidget(self.widget_2)
-        self.gridLayout_4.addWidget(self.main_widget_2, 0, 0, 1, 1)
-        self.mange_widget1 = QtWidgets.QWidget(self.main_widget)
-        self.mange_widget1.setStyleSheet("background-color: rgb(11,11,11);")
-        self.mange_widget1.setObjectName("mange_widget1")
-        self.gridLayout_4.addWidget(self.mange_widget1, 1, 2, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(5, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem3)
+        self.label = QtWidgets.QLabel(self.model_widget)
+        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";\n"
+"color: rgb(255, 255, 255);\n"
+"border-bottom: 3px solid  rgb(72, 72, 72);")
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.verticalLayout_2.addItem(spacerItem4)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.label_2 = QtWidgets.QLabel(self.model_widget)
+        self.label_2.setStyleSheet("font: 75 12pt \"MS Shell Dlg 2\";\n"
+"color: rgb(255, 255, 255);\n"
+"")
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_3.addWidget(self.label_2)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+        self.gridLayout = QtWidgets.QGridLayout()
+        self.gridLayout.setObjectName("gridLayout")
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem5, 0, 4, 1, 1)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 500, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem6, 2, 2, 1, 1)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem7, 0, 0, 1, 1)
+        self.cd_btn = QtWidgets.QPushButton(self.model_widget)
+        self.cd_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.cd_btn.setStyleSheet("QPushButton{\n"
+"\n"
+"background-color:  rgb(11,11,11);\n"
+"color: rgb(255, 255, 255);\n"
+"border-style:outset;\n"
+"border-width:4.5px;\n"
+"border-radius:12px;\n"
+"border-color: rgb(182, 182, 182);\n"
+"padding:6px\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(106, 106, 106);\n"
+"}\n"
+"\n"
+"")
+        self.cd_btn.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("icon/cd.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.cd_btn.setIcon(icon)
+        self.cd_btn.setIconSize(QtCore.QSize(150, 150))
+        self.cd_btn.setObjectName("cd_btn")
+        self.gridLayout.addWidget(self.cd_btn, 0, 3, 1, 1)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 250, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem8, 0, 2, 1, 1)
+        self.internet_btn = QtWidgets.QPushButton(self.model_widget)
+        self.internet_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.internet_btn.setStyleSheet("\n"
+"\n"
+"QPushButton{\n"
+"\n"
+"background-color:  rgb(11,11,11);\n"
+"color: rgb(255, 255, 255);\n"
+"border-style:outset;\n"
+"border-width:4.5px;\n"
+"border-radius:12px;\n"
+"border-color: rgb(182, 182, 182);\n"
+"padding:6px\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(106, 106, 106);\n"
+"}\n"
+"\n"
+"\n"
+"/*\n"
+"QPushButton{\n"
+"background-color:rgb(11, 11, 11);\n"
+"color: rgb(255, 255, 255);\n"
+"border-style:solid ;\n"
+"border-width:5px;\n"
+"border-radius:0px;\n"
+"border-color:rgb(11, 11, 11);\n"
+"\n"
+"}\n"
+"QpushButton:focus{\n"
+"\n"
+"    border-color: rgb(106, 106, 106);\n"
+"}\n"
+"*/")
+        self.internet_btn.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("icon/internet.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.internet_btn.setIcon(icon1)
+        self.internet_btn.setIconSize(QtCore.QSize(150, 150))
+        self.internet_btn.setObjectName("internet_btn")
+        self.gridLayout.addWidget(self.internet_btn, 0, 1, 1, 1)
+        self.label_3 = QtWidgets.QLabel(self.model_widget)
+        self.label_3.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";\n"
+"color: rgb(255, 255, 255);\n"
+"")
+        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout.addWidget(self.label_3, 1, 1, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.model_widget)
+        self.label_4.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";\n"
+"color: rgb(255, 255, 255);\n"
+"")
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout.addWidget(self.label_4, 1, 3, 1, 1)
+        self.verticalLayout_2.addLayout(self.gridLayout)
+        self.all_grid_Layout.addWidget(self.model_widget, 0, 0, 1, 1)
+        self.gridLayout_4.addWidget(self.model_all_widget, 0, 0, 1, 1)
         self.main_grid_Layout.addLayout(self.gridLayout_4, 1, 0, 1, 1)
         self.main_2_horizontalLayout.addWidget(self.main_widget)
         self.verticalLayout.addLayout(self.main_2_horizontalLayout)
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.label.setText(_translate("Form", "Import new Models / Videos..."))
+        self.label_2.setText(_translate("Form", "How would you like to import new Models?"))
+        self.label_3.setText(_translate("Form", "Internet"))
+        self.label_4.setText(_translate("Form", "CD / USB"))
 ################################ all widget ####################################################################################
 
         self.all_widget = QtWidgets.QWidget(self.main_widget)
@@ -785,6 +910,7 @@ class Ui_Form(object):
         self.all_grid_Layout = QtWidgets.QGridLayout(self.all_widget)
         self.all_grid_Layout.setContentsMargins(0, 0, 0, 0)
         self.all_grid_Layout.setObjectName("all_grid_Layout")
+        self.all_widget.hide()
 ############################# right widget ####################################################################
 
 #         self.right_widget = QtWidgets.QWidget(self.all_widget)
@@ -859,151 +985,151 @@ class Ui_Form(object):
 
 
 ########################################## subject widget #######################################################################
-        self.subject_widget = QtWidgets.QWidget(self.main_widget)
-        self.subject_widget.setMinimumSize(QtCore.QSize(100, 50))
-        self.subject_widget.setStyleSheet("color: rgb(255, 255, 255);")
-        self.subject_widget.setObjectName("subject_widget")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.subject_widget)
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.subject_horizontal_Layout = QtWidgets.QHBoxLayout()
-        self.subject_horizontal_Layout.setObjectName("subject_horizontal_Layout")
-        self.language_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.language_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.language_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"    font: 10pt \"MS Shell Dlg 2\";\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"border-radius:12px;\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.language_btn_2.setObjectName("language_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.language_btn_2)
-        self.biology_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.biology_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.biology_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"    font: 10pt \"MS Shell Dlg 2\";\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"border-radius:12px;\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.biology_btn_2.setObjectName("biology_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.biology_btn_2)
-        self.evs_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.evs_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.evs_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"border-style:outset;\n"
-"    font: 10pt \"MS Shell Dlg 2\";\n"
-"border-width:0px;\n"
-"border-radius:12px;\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.evs_btn_2.setObjectName("evs_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.evs_btn_2)
-        self.physics_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.physics_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.physics_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"    font: 10pt \"MS Shell Dlg 2\";\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"border-radius:12px;\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.physics_btn_2.setObjectName("physics_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.physics_btn_2)
-        self.history_sub2_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.history_sub2_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.history_sub2_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"    font: 10pt \"MS Shell Dlg 2\";\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"border-radius:12px;\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.history_sub2_btn_2.setObjectName("history_sub2_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.history_sub2_btn_2)
-        self.maths_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.maths_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.maths_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"    font: 10pt \"MS Shell Dlg 2\";\n"
-"color: rgb(255, 255, 255);\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"border-radius:12px;\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.maths_btn_2.setObjectName("maths_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.maths_btn_2)
-        self.horizontalLayout_4.addLayout(self.subject_horizontal_Layout)
-        self.main_grid_Layout.addWidget(self.subject_widget, 2, 1, 1, 2)
-        self.explore_by_subject = QtWidgets.QLabel(self.main_widget)
-        self.explore_by_subject.setStyleSheet("color: rgb(255, 255, 255);\n"
-"font: 12pt \"MS Shell Dlg 2\";")
-        self.explore_by_subject.setObjectName("explore_by_subject")
-        self.main_grid_Layout.addWidget(self.explore_by_subject, 0, 1, 1, 1)
-        spacerItem18 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
-        self.main_grid_Layout.addItem(spacerItem18, 1, 1, 1, 1)
-        self.main_2_horizontalLayout.addWidget(self.main_widget)
-        self.verticalLayout.addLayout(self.main_2_horizontalLayout)
+#         self.subject_widget = QtWidgets.QWidget(self.main_widget)
+#         self.subject_widget.setMinimumSize(QtCore.QSize(100, 50))
+#         self.subject_widget.setStyleSheet("color: rgb(255, 255, 255);")
+#         self.subject_widget.setObjectName("subject_widget")
+#         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.subject_widget)
+#         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+#         self.subject_horizontal_Layout = QtWidgets.QHBoxLayout()
+#         self.subject_horizontal_Layout.setObjectName("subject_horizontal_Layout")
+#         self.language_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.language_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.language_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "    font: 10pt \"MS Shell Dlg 2\";\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "border-radius:12px;\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.language_btn_2.setObjectName("language_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.language_btn_2)
+#         self.biology_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.biology_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.biology_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "    font: 10pt \"MS Shell Dlg 2\";\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "border-radius:12px;\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.biology_btn_2.setObjectName("biology_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.biology_btn_2)
+#         self.evs_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.evs_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.evs_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "border-style:outset;\n"
+# "    font: 10pt \"MS Shell Dlg 2\";\n"
+# "border-width:0px;\n"
+# "border-radius:12px;\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.evs_btn_2.setObjectName("evs_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.evs_btn_2)
+#         self.physics_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.physics_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.physics_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "    font: 10pt \"MS Shell Dlg 2\";\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "border-radius:12px;\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.physics_btn_2.setObjectName("physics_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.physics_btn_2)
+#         self.history_sub2_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.history_sub2_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.history_sub2_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "    font: 10pt \"MS Shell Dlg 2\";\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "border-radius:12px;\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.history_sub2_btn_2.setObjectName("history_sub2_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.history_sub2_btn_2)
+#         self.maths_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.maths_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.maths_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "    font: 10pt \"MS Shell Dlg 2\";\n"
+# "color: rgb(255, 255, 255);\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "border-radius:12px;\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.maths_btn_2.setObjectName("maths_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.maths_btn_2)
+#         self.horizontalLayout_4.addLayout(self.subject_horizontal_Layout)
+#         self.main_grid_Layout.addWidget(self.subject_widget, 2, 1, 1, 2)
+#         self.explore_by_subject = QtWidgets.QLabel(self.main_widget)
+#         self.explore_by_subject.setStyleSheet("color: rgb(255, 255, 255);\n"
+# "font: 12pt \"MS Shell Dlg 2\";")
+#         self.explore_by_subject.setObjectName("explore_by_subject")
+#         self.main_grid_Layout.addWidget(self.explore_by_subject, 0, 1, 1, 1)
+#         spacerItem18 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+#         self.main_grid_Layout.addItem(spacerItem18, 1, 1, 1, 1)
+#         self.main_2_horizontalLayout.addWidget(self.main_widget)
+#         self.verticalLayout.addLayout(self.main_2_horizontalLayout)
 ############################################### all declration ####################################################################
         self.max_model = QtWidgets.QPushButton(self.model_widget)
         self.max_model.hide()
