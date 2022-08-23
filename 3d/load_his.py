@@ -72,16 +72,16 @@ class Ui_Form(object):
         gridLayout_4.addWidget(self.history_widget, 0, 0, 1, 1)
         gridLayout_4.addWidget(self.his_disp_widget,0,0,1,1)
         main_grid_Layout.addLayout(gridLayout_4, 2, 0, 1, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
-        main_grid_Layout.addItem(spacerItem4, 1, 0, 1, 1)
-        self.history_label = QtWidgets.QLabel(main_widget)
-        self.history_label.setStyleSheet("color: rgb(255, 255, 255);\n"
-"\n"
-"font: 57 12pt \"Poppins Medium\";\n"
-"\n"
-"")
-        self.history_label.setObjectName("history_label")
-        main_grid_Layout.addWidget(self.history_label, 0, 0, 1, 1)
+        # spacerItem4 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        # main_grid_Layout.addItem(spacerItem4, 1, 0, 1, 1)
+#         self.history_label = QtWidgets.QLabel(main_widget)
+#         self.history_label.setStyleSheet("color: rgb(255, 255, 255);\n"
+# "\n"
+# "font: 57 12pt \"Poppins Medium\";\n"
+# "\n"
+# "")
+#         self.history_label.setObjectName("history_label")
+#         main_grid_Layout.addWidget(self.history_label, 0, 0, 1, 1)
         main_2_horizontalLayout.addWidget(main_widget)
         verticalLayout.addLayout(main_2_horizontalLayout)
         self.close_btn = QtWidgets.QPushButton(self.his_disp_widget)
@@ -114,7 +114,7 @@ class Ui_Form(object):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         # Form.setWindowTitle(_translate("Form", "Form"))
-        self.history_label.setText(_translate("Form", "History"))
+        # self.history_label.setText(_translate("Form", "History"))
     def close_web(self):
         self.his_disp_widget.hide()
         # self.scroll_his_model.show()

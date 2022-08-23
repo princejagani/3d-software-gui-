@@ -31,6 +31,9 @@ import favorite
 import history_basic
 import load_his
 import favarite_page
+import setting_page
+import import_model
+import search_page
 
     
 class QLabel_alterada(QLabel):
@@ -62,6 +65,9 @@ class Ui_Form(object):
        
         self.load=load_his.Ui_Form(self.main_widget)
         self.load_fav=favarite_page.Ui_Form(self.main_widget)
+        self.load_set=setting_page.Ui_Form(self.main_widget)
+        self.load_imp=import_model.Ui_Form(self.main_widget)
+        self.load_sea=search_page.Ui_Form(self.main_widget)
         self.cat_obj=[]
         self.std_obj=[]
         # self.load.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
@@ -93,7 +99,8 @@ class Ui_Form(object):
                 self.std_obj[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
                 self.std_obj[i].clicked.connect(lambda:self.home(myres[i][0]))
                 self.standards_vertical_Layout.addWidget(self.std_obj[i])
-                self.std(i,myres[i][0])               
+                self.std(i,myres[i][0])
+                               
                 
 
 
@@ -104,14 +111,46 @@ class Ui_Form(object):
     def std(self,i,std_id):
         sub_id=0
         self.std_obj[i].clicked.connect(lambda:self.home(sub_id,std_id))
+    def load_search(self):
+        # search_text=
+        self.load_fav.favorite_widget.hide()
+        self.explore_by_subject.hide()
+        self.subject_widget.hide()
+        self.all_widget.hide()
+        self.load.history_widget.hide()
+        self.load_sea.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
+    def load_import(self):
+        self.load_sea.search_widget.hide()
+        self.load_fav.favorite_widget.hide()
+        self.explore_by_subject.hide()
+        self.subject_widget.hide()
+        self.all_widget.hide()
+        self.load.history_widget.hide()
+        self.load_imp.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
+    def load_setting(self):
+        self.load_sea.search_widget.hide()
+        self.load_imp.model_all_widget.hide()
+        self.load_fav.favorite_widget.hide()
+        self.explore_by_subject.hide()
+        self.subject_widget.hide()
+        self.all_widget.hide()
+        self.load.history_widget.hide()
+        self.load_set.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
     def load_favorite(self):
+        self.load_sea.search_widget.hide()
+        self.load_imp.model_all_widget.hide()
+        self.load_set.settind_all_widget.hide()
         self.explore_by_subject.hide()
         self.subject_widget.hide()
         self.all_widget.hide()
         self.load.history_widget.hide()
         self.load_fav.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
     def load_his(self):
+        self.load_sea.search_widget.hide()
+        self.load_imp.model_all_widget.hide()
+        self.load_set.settind_all_widget.hide()
         self.load_fav.favorite_widget.hide()
+        self.explore_by_subject.hide()
         self.subject_widget.hide()
         self.all_widget.hide()
         self.load.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
@@ -123,13 +162,14 @@ class Ui_Form(object):
                  self.vbox.itemAt(i).widget().setParent(None)
         for i in reversed(range(self.vbox1.count())):     
                  self.vbox1.itemAt(i).widget().setParent(None)   
-        print("sub=",sub_id)
-        print("std=",std_id)
         # self.myresult=''
         # self.myresult1=''
         
         # self.sql=''
         # self.sql1=''
+        self.load_sea.search_widget.hide()
+        self.load_imp.model_all_widget.hide()
+        self.load_set.settind_all_widget.hide()
         self.load_fav.favorite_widget.hide()
         self.explore_by_subject.show()
         self.load.history_widget.hide()
@@ -142,17 +182,14 @@ class Ui_Form(object):
                 self.sql=f"SELECT * FROM model_file"
                 mycursor.execute(self.sql)
                 self.myresult = mycursor.fetchall()
-                print(self.myresult)
         elif(sub_id!=False):
                 self.sql=f"SELECT * FROM model_file WHERE sub_id={sub_id}"
                 mycursor.execute(self.sql)
                 self.myresult = mycursor.fetchall()
-                print(self.myresult)
         elif(std_id!=0):
                 self.sql=f"SELECT * FROM model_file WHERE std_id={std_id}"
                 mycursor.execute(self.sql)
                 self.myresult = mycursor.fetchall()
-                print(self.myresult)
         self.object1=[]
         self.object=[]
         
@@ -190,17 +227,14 @@ class Ui_Form(object):
                 self.sql1=f"SELECT * FROM video"
                 mycursor.execute(self.sql1)
                 self.myresult1 = mycursor.fetchall()
-                print(self.myresult1)
         elif(sub_id!=False):
                 self.sql1=f"SELECT * FROM video WHERE sub_id={sub_id}"
                 mycursor.execute(self.sql1)
                 self.myresult1 = mycursor.fetchall()
-                print(self.myresult1)
         elif(std_id!=0):
                 self.sql1=f"SELECT * FROM video WHERE std_id={std_id}"
                 mycursor.execute(self.sql1)
                 self.myresult1 = mycursor.fetchall()
-                print(self.myresult1)
         
         
         
@@ -233,7 +267,6 @@ class Ui_Form(object):
                                 self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult1[i][6]}"))
                                 self.object1[i].setMinimumSize(QtCore.QSize(350, 200))
                         self.fun(i,self.myresult1[i][5],self.myresult1[i][4],self.myresult1[i][7],self.myresult1[i][0],self.myresult1[i][8])
-        print(len(self.object1))
     def play(self):
         self.t1=threading.Thread(target=self.home)
         self.t1.start()
@@ -252,7 +285,7 @@ class Ui_Form(object):
         if(self.state_model==1):
           self.model_widget.setMinimumSize(900,750)
           self.max_model.setGeometry(QtCore.QRect(1570, 0, 30, 30))
-          self.web.setGeometry(QtCore.QRect(0, 0, 1620, 750))
+          self.web.setGeometry(QtCore.QRect(0, 0, 1600, 750))
           self.right_widget.hide()
           self.bottom_widget.hide()
           self.icon_model.addPixmap(QtGui.QPixmap("icon/cross.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -267,7 +300,7 @@ class Ui_Form(object):
           self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
           self.max_model.setIcon(self.icon_model)
           self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
-          self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+          self.max_model.setGeometry(QtCore.QRect(980, 400, 40, 40))
           self.max_model.raise_()
           self.max_model.show()
           self.right_widget.show()
@@ -293,17 +326,17 @@ class Ui_Form(object):
               self.favorite_btn.setIcon(self.icon_model1)  
         #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
         elif(fav==1):
-                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.icon_model1.addPixmap(QtGui.QPixmap("icon/fav.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
                 self.favorite_btn.setIcon(self.icon_model1) 
               
         # self.favorite_btn.clicked.connect(lambda:favorite.fav_model(id,self.favorite_btn))
         self.url=f"http:/localhost/main_data/{str(num)}"
         self.web.load(QUrl(self.url))
         self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
-        self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+        self.max_model.setGeometry(QtCore.QRect(980, 400, 40, 40))
         self.max_model.raise_()
         self.max_model.show()
-        self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
+        self.favorite_btn.setGeometry(QtCore.QRect(920, 400, 40, 40))
         self.favorite_btn.raise_()
         self.favorite_btn.show()
         # self.cap=QLabel_alterada(self.model_widget)
@@ -338,29 +371,22 @@ class Ui_Form(object):
         # #       self.favorite_btn.clicked.connect(lambda:self.fav(id))  
         #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
         elif(fav==1):
-                self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.icon_model1.addPixmap(QtGui.QPixmap("icon/fav.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
                 self.favorite_btn.setIcon(self.icon_model1) 
                 
         # self.favorite_btn.pressed(self.change_icon)
         # Context={"myval":num}
         f = open('c:/xampp/htdocs/main_data/index1.html','w')
         html_template =f"""<html>
-
 <head>
      <link rel="stylesheet" type="text/css" href="demo.css">
-
 </head>
-
 <body>
     <video controls id="myvideo">
   <source src="{str(num)}" type="video/webm">
    <source src="small.ogg" type="video/ogg">
-
 </video>
-
-
 </body>
-
 </html>"""
         f.write(html_template)
         f.close()
@@ -368,11 +394,11 @@ class Ui_Form(object):
         self.url=f"http://localhost/main_data/index1.html"
         self.web.load(QUrl(self.url))
         self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
-        self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
+        self.max_model.setGeometry(QtCore.QRect(980, 400, 40, 40))
         self.max_model.raise_()
         self.max_model.show()
-        self.favorite_btn.setGeometry(QtCore.QRect(950, 400, 40, 40))
-        self.favorite_btn.raise_()
+        self.favorite_btn.setGeometry(QtCore.QRect(920, 400, 40, 40))
+        # self.favorite_btn.raise_()
         self.favorite_btn.show()
        
         
@@ -505,6 +531,7 @@ class Ui_Form(object):
         self.search_btn.setIcon(icon)
         self.search_btn.setObjectName("search_btn")
         self.search_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.search_btn.clicked.connect(self.load_search)
         self.horizontalLayout.addWidget(self.search_btn)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
@@ -514,8 +541,8 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.import_btn.sizePolicy().hasHeightForWidth())
         self.import_btn.setSizePolicy(sizePolicy)
-        self.import_btn.setMinimumSize(QtCore.QSize(0, 0))
-        # self.import_btn.clicked.connect(self.imports)
+        self.import_btn.setMinimumSize(QtCore.QSize(200, 0))
+        self.import_btn.clicked.connect(self.load_import)
         self.import_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.import_btn.setStyleSheet("\n"
 "\n"
@@ -553,6 +580,7 @@ class Ui_Form(object):
         self.setting_btn.setIcon(icon1)
         self.setting_btn.setIconSize(QtCore.QSize(50, 50))
         self.setting_btn.setObjectName("setting_btn")
+        self.setting_btn.clicked.connect(self.load_setting)
         self.setting_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.horizontalLayout.addWidget(self.setting_btn)
         self.horizontalLayout_2.addLayout(self.horizontalLayout)
@@ -869,7 +897,6 @@ class Ui_Form(object):
         self.verticalLayout_2.addItem(spacerItem13)
 ############################################### std widget ############################################################################
         self.scroll_std=QScrollArea(self.left_widget)
-      
         self.standards_widget.setStyleSheet("background-color: rgb(36, 36, 36);")
         self.standards_widget.setObjectName("standards_widget")
         # self.standards_vertical_Layout = QtWidgets.QVBoxLayout()
@@ -909,7 +936,7 @@ class Ui_Form(object):
         # # self.widget_2.setObjectName("widget_2")
         # self.main_grid_Layout.addWidget(self.widget_2, 4, 0, 1, 1)
         # self.gridLayout_4 = QtWidgets.QGridLayout()
-        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.gridLayout_4.setObjectName("gridLayout_4") 
         self.mange_widget = QtWidgets.QWidget(self.main_widget)
         self.mange_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
         self.mange_widget.setObjectName("mange_widget")
@@ -1205,7 +1232,7 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Education 3D", "Education 3D"))
         self.label.setText(_translate("Form", "Education 3D"))
         self.lineEdit.setPlaceholderText(_translate("Form", "Search"))
-        self.import_btn.setText(_translate("Form", "     Import Models     "))
+        self.import_btn.setText(_translate("Form", "Import Models"))
         self.home_btn.setText(_translate("Form", " Home"))
         self.popular_btn.setText(_translate("Form", " Popular"))
         self.history_btn_2.setText(_translate("Form", " Recent"))
@@ -1224,7 +1251,7 @@ class Ui_Form(object):
         self.history_sub2_btn_2.setText(_translate("Form", "HISTORY"))
         self.maths_btn_2.setText(_translate("Form", "MATHS"))
         self.explore_by_subject.setText(_translate("Form", "Explore by Subjects"))
-
+        self.home()
 
 if __name__ == "__main__":
     import sys

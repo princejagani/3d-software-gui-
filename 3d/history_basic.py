@@ -3,7 +3,6 @@ from db_module import *
 
 def count_history(id,type):
     date_time= datetime.now()
-    print(date_time)
     sql=f"INSERT INTO history(m_v_id,type,date_time) VALUES({id},'{type}','{date_time}');"
     mycursor.execute(sql)
     try:

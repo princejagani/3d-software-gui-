@@ -50,7 +50,7 @@ history_table='''CREATE TABLE IF NOT EXISTS history
  type CHAR(50) NOT NULL,
  date_time TEXT NOT NULL)'''
 del_tab='''DROP TABLE history'''
-update=f'''UPDATE video set favorite={True} WHERE id=1'''
+update=f'''UPDATE model_file set favorite={True} WHERE id=1'''
 insert=f'''INSERT INTO std(std_name) VALUES('1st')'''
 # mycursor.execute(std_table)
 mycursor.execute(sub_table)
@@ -59,7 +59,7 @@ mycursor.execute(model_table)
 mycursor.execute(video_table)
 # mycursor.execute(del_tab)
 mycursor.execute(history_table)
-# mycursor.execute(update)
-# mydb.commit()
+mycursor.execute(update)
+mydb.commit()
 # mycursor.execute(insert)
 # mydb.commit()

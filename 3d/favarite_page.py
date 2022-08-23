@@ -37,17 +37,21 @@ class Ui_Form(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.fav_model_widget = QtWidgets.QWidget(self.favorite_widget)
-        self.fav_model_widget.setStyleSheet("background-color: rgb(85, 255, 255);")
+        self.fav_model_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
         self.fav_model_widget.setObjectName("fav_model_widget")
         self.horizontalLayout.addWidget(self.scroll_fav_model)
         self.fav_video_widget = QtWidgets.QWidget(self.favorite_widget)
-        self.fav_video_widget.setStyleSheet("background-color: rgb(85, 255, 127);")
+        self.fav_video_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
         self.fav_video_widget.setObjectName("fav_video_widget")
         self.horizontalLayout.addWidget(self.scroll_fav_video)
         gridLayout_4.addWidget(self.favorite_widget, 0, 0, 1, 1)
-        main_grid_Layout.addLayout(gridLayout_4, 2, 0, 1, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
-        main_grid_Layout.addItem(spacerItem4, 1, 0, 1, 1)
+        main_grid_Layout.addLayout(gridLayout_4, 3, 1, 1, 1)
+        # self.mange_widget = QtWidgets.QWidget(main_widget)
+        # self.mange_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
+        # self.mange_widget.setObjectName("mange_widget")
+        # gridLayout_4.addWidget(self.mange_widget, 1, 1, 1, 1)
+        # spacerItem4 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        # main_grid_Layout.addItem(spacerItem4, 1, 0, 1, 1)
         self.favarite_label = QtWidgets.QLabel(main_widget)
         self.fav_video_widget.setLayout(self.vbox)
         self.fav_model_widget.setLayout(self.vbox1)
@@ -66,11 +70,11 @@ class Ui_Form(object):
         # self.horizontalLayout.addWidget(self.his_disp_widget)
         self.fav_disp_widget.setObjectName("his_disp_widget")
         gridLayout_4.addWidget(self.fav_disp_widget,0,0,1,1)
-        self.favarite_label.setStyleSheet("color: rgb(255, 255, 255);\n"
-"\n"
-"font: 57 12pt \"Poppins Medium\";")
-        self.favarite_label.setObjectName("favarite_label")
-        main_grid_Layout.addWidget(self.favarite_label, 0, 0, 1, 1)
+#         self.favarite_label.setStyleSheet("color: rgb(255, 255, 255);\n"
+# "\n"
+# "font: 57 12pt \"Poppins Medium\";")
+#         self.favarite_label.setObjectName("favarite_label")
+#         main_grid_Layout.addWidget(self.favarite_label, 0, 0, 1, 1)
         main_2_horizontalLayout.addWidget(main_widget)
         verticalLayout.addLayout(main_2_horizontalLayout)
         self.close_btn = QtWidgets.QPushButton(self.fav_disp_widget)
@@ -103,7 +107,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.favarite_label.setText(_translate("Form", "Favarite"))
+        # self.favarite_label.setText(_translate("Form", "Favarite"))
 
     def close_web(self):
         self.fav_disp_widget.hide()
