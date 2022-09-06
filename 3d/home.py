@@ -10,6 +10,7 @@
 from ast import Del
 from pickle import TRUE
 import sys
+from turtle import width
 from PyQt5 import QtCore, QtGui, QtWidgets
 from click import open_file
 from  db_module import *
@@ -34,8 +35,9 @@ import favarite_page
 import setting_page
 import import_model
 import search_page
-
-    
+import popular_data
+import popular_page
+import e_d 
 class QLabel_alterada(QLabel):
     clicked=pyqtSignal()
 
@@ -43,14 +45,31 @@ class QLabel_alterada(QLabel):
         self.clicked.emit()
 
 class Ui_Form(object):
+        
     def __init__(self):
+        # file_list=os.listdir(f"C:/xampp/htdocs/main_data/")
+        # print(file_list)
+        # for i in file_list:
+        #         if('.zip' in i):
+        #                 e_d.dec_var(i)
+        # print("done")
+        # self.subject_horizontal_Layout = QtWidgets.QHBoxLayout()
         self.standards_vertical_Layout = QtWidgets.QVBoxLayout()
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.left_widget = QtWidgets.QWidget(Form)
         self.cat_widget = QtWidgets.QWidget(self.left_widget)
         self.standards_widget = QtWidgets.QWidget(self.left_widget)
         self.main_widget = QtWidgets.QWidget(Form)
-        self.main_grid_Layout = QtWidgets.QGridLayout(self.main_widget)
+        self.left_widget = QtWidgets.QWidget(Form)
+        self.mange_widget = QtWidgets.QWidget(self.main_widget)
+        self.top_frame = QtWidgets.QFrame(Form)
+        # self.subject_widget = QtWidgets.QWidget(self.main_widget)
+        # self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.subject_widget)
+        # self.horizontalLayout_4.addLayout(self.subject_horizontal_Layout)
+        # self.main_grid_Layout = QtWidgets.QGridLayout(self.main_widget)
+        # self.main_grid_Layout.addWidget(self.subject_widget, 2, 1, 1, 2)
+        
+        # self.main_grid_Layout.addWidget(self.subject_widget, 2, 1, 1, 2)
         self.gridLayout_4 = QtWidgets.QGridLayout()
         self.main_2_horizontalLayout = QtWidgets.QHBoxLayout()
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
@@ -59,17 +78,24 @@ class Ui_Form(object):
         self.icon_model1=QtGui.QIcon()
         self.icon_model2=QtGui.QIcon()
         # self.favorite_btn=0
-        self.fav_count=0
+        
+
         self.id=0
         self.id1=0
-       
-        self.load=load_his.Ui_Form(self.main_widget)
-        self.load_fav=favarite_page.Ui_Form(self.main_widget)
+        self.list_widget=[]
+        self.list_widget.append(self.top_frame)
+        self.list_widget.append(self.mange_widget)
+        self.list_widget.append(self.left_widget)
+        self.load=load_his.Ui_Form(self.main_widget,Form,self.list_widget,self.verticalLayout)
+        self.load_fav=favarite_page.Ui_Form(self.main_widget,Form,self.list_widget,self.verticalLayout)
         self.load_set=setting_page.Ui_Form(self.main_widget)
         self.load_imp=import_model.Ui_Form(self.main_widget)
-        self.load_sea=search_page.Ui_Form(self.main_widget)
+        self.load_sea=search_page.Ui_Form(self.main_widget,Form,self.list_widget,self.verticalLayout)
+        self.load_popular=popular_page.Ui_Form(self.main_widget,Form,self.list_widget,self.verticalLayout)
         self.cat_obj=[]
         self.std_obj=[]
+        self.cat_obj_2=[]
+        
         # self.load.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
         # self.load.history_widget.hide()
         sql=f'SELECT * FROM sub'
@@ -80,93 +106,244 @@ class Ui_Form(object):
         #          self.cat_obj.append(QLabel_alterada(self.cat_widget))
         for i in range(0,len(myre)):
                 self.cat_obj.append(QLabel_alterada(self.cat_widget))
+               
                 self.cat_obj[i]= QLabel_alterada()
-                self.cat_obj[i].setText(f"{myre[i][1]}")
-                self.cat_obj[i].setStyleSheet("color:white; font: 25 12pt \"Poppins\";")
+                self.cat_obj[i].setText(f"{str(myre[i][1]).capitalize()}")
+                self.cat_obj[i].setStyleSheet("\n"
+"\n"
+"QLabel{\n"
+"background-color: rgb(36, 36, 36);\n"
+"color: rgb(255, 255, 255);\n"
+
+
+"border-radius:0px;\n"
+"text-align:left;\n"
+"padding-left:14%;\n"
+  
+
+
+"border-color: rgb(62, 62, 62);\n"
+"\n"
+"    font: 12pt \"Poppins\";\n"
+"}\n"
+
+"QLabel:hover{\n"
+"background-color: rgb(106, 106, 106);\n"
+"}\n"
+"")
                 self.cat_obj[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                self.sub(i,myre[i][0])
+                
                 self.verticalLayout_5.addWidget(self.cat_obj[i])
+                
         sql=f'SELECT * FROM std ORDER BY std_name ASC'
         mycursor.execute(sql)
         myres=mycursor.fetchall()
-        # for i in range(0,len(myres)):
-        #          self.std_obj.append(QLabel_alterada(self.standards_widget))
+
         for i in range(0,len(myres)):
                 self.std_obj.append(QLabel_alterada(self.standards_widget))
                 self.std_obj[i]= QLabel_alterada()
                 self.std_obj[i].setText(f"{myres[i][1]} STANDARD")
-                self.std_obj[i].setStyleSheet("color:white; font: 25 12pt \"Poppins\";")
+                self.std_obj[i].setStyleSheet("\n"
+"\n"
+"QLabel{\n"
+"background-color: rgb(36, 36, 36);\n"
+"color: rgb(255, 255, 255);\n"
+
+
+"border-radius:0px;\n"
+"text-align:left;\n"
+"padding-left:14%;\n"
+  
+
+
+"border-color: rgb(62, 62, 62);\n"
+"\n"
+"    font: 12pt \"Poppins\";\n"
+"}\n"
+
+"QLabel:hover{\n"
+"background-color: rgb(106, 106, 106);\n"
+"}\n"
+"")
                 self.std_obj[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
                 self.std_obj[i].clicked.connect(lambda:self.home(myres[i][0]))
                 self.standards_vertical_Layout.addWidget(self.std_obj[i])
                 self.std(i,myres[i][0])
-                               
-                
-
-
+    def closeEvent(self):
+        pass
+        # file_list=os.listdir(f"C:/xampp/htdocs/main_data/")
+        # print(file_list)
+        # for i in file_list:
+        #         e_d.enc_var(i)
+        # print('Close button pressed')
+        # import sys
+        # sys.exit(0)
 ############################################ all function ####################################################################
     def sub(self,i,sub_id):
         std_id=0
         self.cat_obj[i].clicked.connect(lambda:self.home(sub_id,std_id))
+        self.cat_obj_2[i].clicked.connect(lambda:self.home(sub_id,std_id))
     def std(self,i,std_id):
         sub_id=0
         self.std_obj[i].clicked.connect(lambda:self.home(sub_id,std_id))
+########################################################### serach load function ##################################################################################################
+    def load_pop(self):
+        self.load_fav.error_widget.hide()
+        self.load_sea.search_widget.hide()
+        self.load_sea.error_widget.hide()
+        self.load_sea.search_disp.hide()
+        self.load.history_main_title_widget.hide()
+        self.load_fav.favorite_widget.hide()
+        self.load_fav.fav_disp_widget.hide()
+        self.explore_by_subject.hide()
+        self.scroll_subject.hide()
+        self.all_widget.hide()
+        self.load.history_widget.hide()
+        self.load.his_disp_widget.hide()
+        self.load_popular.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout,self.big_model_widget,self.web1,self.min_model)
     def load_search(self):
-        # search_text=
+        self.load_popular.pop_disp_widget.hide()
+        self.load_popular.error_widget.hide()
+        self.load_popular.popular_widget.hide()
+        self.load.history_main_title_widget.hide()
+        search_text=self.lineEdit.text()
         self.load_fav.favorite_widget.hide()
+        self.load_fav.fav_disp_widget.hide()
         self.explore_by_subject.hide()
-        self.subject_widget.hide()
+        self.scroll_subject.hide()
         self.all_widget.hide()
         self.load.history_widget.hide()
-        self.load_sea.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
-    def load_import(self):
-        self.load_sea.search_widget.hide()
-        self.load_fav.favorite_widget.hide()
-        self.explore_by_subject.hide()
-        self.subject_widget.hide()
-        self.all_widget.hide()
-        self.load.history_widget.hide()
-        self.load_imp.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
-    def load_setting(self):
-        self.load_sea.search_widget.hide()
-        self.load_imp.model_all_widget.hide()
-        self.load_fav.favorite_widget.hide()
-        self.explore_by_subject.hide()
-        self.subject_widget.hide()
-        self.all_widget.hide()
-        self.load.history_widget.hide()
-        self.load_set.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
-    def load_favorite(self):
-        self.load_sea.search_widget.hide()
-        self.load_imp.model_all_widget.hide()
-        self.load_set.settind_all_widget.hide()
-        self.explore_by_subject.hide()
-        self.subject_widget.hide()
-        self.all_widget.hide()
-        self.load.history_widget.hide()
-        self.load_fav.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
-    def load_his(self):
-        self.load_sea.search_widget.hide()
-        self.load_imp.model_all_widget.hide()
-        self.load_set.settind_all_widget.hide()
-        self.load_fav.favorite_widget.hide()
-        self.explore_by_subject.hide()
-        self.subject_widget.hide()
-        self.all_widget.hide()
-        self.load.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
-    def imports(self):
-        f=open()
+        self.load.his_disp_widget.hide()
+        self.load_sea.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout,search_text,self.big_model_widget,self.web1,self.min_model)
+########################################################### import data load function ##################################################################################################
 
+    def load_import(self):
+        self.load_fav.error_widget.hide()
+        self.load_sea.error_widget.hide()
+        self.load_popular.pop_disp_widget.hide()
+        self.load_popular.error_widget.hide()
+        self.load_popular.popular_widget.hide()
+        self.load_sea.search_disp.hide()
+        self.load.history_main_title_widget.hide()
+        self.load_sea.search_widget.hide()
+        self.load_fav.favorite_widget.hide()
+        self.explore_by_subject.hide()
+        self.load_fav.fav_disp_widget.hide()
+        self.scroll_subject.hide()
+        self.all_widget.hide()
+        self.load.history_widget.hide()
+        self.load.his_disp_widget.hide()
+        self.load_imp.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
+########################################################### setting load function ##################################################################################################
+    def load_setting(self):
+        self.load_fav.error_widget.hide()
+        self.load_sea.error_widget.hide()
+        self.load_popular.pop_disp_widget.hide()
+        self.load_popular.error_widget.hide()
+        self.load_popular.popular_widget.hide()
+        self.load_sea.search_disp.hide()
+        self.load.history_main_title_widget.hide()
+        self.load_sea.search_widget.hide()
+        self.load_imp.model_all_widget.hide()
+        self.load_fav.favorite_widget.hide()
+        self.load_fav.fav_disp_widget.hide()
+        self.explore_by_subject.hide()
+        self.scroll_subject.hide()
+        self.all_widget.hide()
+        self.load.history_widget.hide()
+        self.load.his_disp_widget.hide()
+        self.load_set.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
+########################################################### favorite load function ##################################################################################################
+
+    def load_favorite(self):
+        self.load_sea.error_widget.hide()
+        self.load_popular.pop_disp_widget.hide()
+        self.load_popular.error_widget.hide()
+        self.load_popular.popular_widget.hide()
+        self.load_sea.search_disp.hide()
+        self.load.history_main_title_widget.hide()
+        self.load_sea.search_widget.hide()
+        self.load_imp.model_all_widget.hide()
+        self.load_set.settind_all_widget.hide()
+        self.explore_by_subject.hide()
+        self.scroll_subject.hide()
+        self.all_widget.hide()
+        self.load.history_widget.hide()
+        self.load.his_disp_widget.hide()
+        self.load_fav.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout,self.big_model_widget,self.web1,self.min_model)
+########################################################### history load function ##################################################################################################
+
+    def load_his(self):
+        self.load_fav.error_widget.hide()
+        self.load_sea.error_widget.hide()
+        self.load_popular.pop_disp_widget.hide()
+        self.load_popular.error_widget.hide()
+        self.load_popular.popular_widget.hide()
+        self.load_sea.search_disp.hide()
+        self.load_sea.search_widget.hide()
+        self.load_imp.model_all_widget.hide()
+        self.load_set.settind_all_widget.hide()
+        self.load_fav.favorite_widget.hide()
+        self.load_fav.fav_disp_widget.hide()
+        self.explore_by_subject.hide()
+        self.scroll_subject.hide()
+        self.all_widget.hide()
+        self.load.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout,self.big_model_widget,self.web1,self.min_model)
+########################################################### home page function ##################################################################################################
+    def subject_load(self):
+        self.cat_obj_2=[]
+        # self.load.setupUi(self.main_widget,self.gridLayout_4,self.main_grid_Layout,self.main_2_horizontalLayout,self.verticalLayout)
+        # self.load.history_widget.hide()
+        sql=f'SELECT * FROM sub'
+        mycursor.execute(sql)
+        myre=mycursor.fetchall()
+        for i in range(0,len(myre)):
+                self.cat_obj_2.append(QtWidgets.QPushButton(self.subject_widget))
+                self.cat_obj_2[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                self.cat_obj_2[i].setText(f"{str(myre[i][1]).capitalize()}")
+                self.cat_obj_2[i].setMinimumSize(QtCore.QSize(300, 0))
+                self.cat_obj_2[i].setStyleSheet("\n"
+        "\n"
+        "\n"
+        "QPushButton{\n"
+        "background-color:  rgb(62, 62, 62);\n"
+        "color: rgb(255, 255, 255);\n"
+        "font: 63 8pt  \"Poppins SemiBold\";\n"
+        "border-radius:15px;\n"
+        "border-style:outset;\n"
+        "border-width:0px;\n"
+        "border-width:0px;\n"
+        "\n"
+        "border-color: rgb(62, 62, 62);\n"
+        "padding:6px\n"
+        "}\n"
+        "QPushButton:hover{\n"
+        "background-color: rgb(106, 106, 106);\n"
+        "}\n"
+        "")
+                self.cat_obj_2[i].setObjectName("cat_obj_2")
+                        # self.cat_obj_2[i].show()
+                self.hbox_subject.addWidget(self.cat_obj_2[i])
+                        
+                self.sub(i,myre[i][0])
     def home(self,sub_id=0,std_id=0):
         for i in reversed(range(self.vbox.count())):     
                  self.vbox.itemAt(i).widget().setParent(None)
         for i in reversed(range(self.vbox1.count())):     
-                 self.vbox1.itemAt(i).widget().setParent(None)   
-        # self.myresult=''
-        # self.myresult1=''
+                 self.vbox1.itemAt(i).widget().setParent(None)  
+        for i in reversed(range(self.hbox_subject.count())):     
+                 self.hbox_subject.itemAt(i).widget().setParent(None)
         
-        # self.sql=''
-        # self.sql1=''
+        self.load_popular.pop_disp_widget.hide()
+        self.load_popular.popular_widget.hide()
+        self.right_widget.destroy()    
+        self.bottom_widget.destroy()
+        self.subject_load()
+        self.big_model_widget.hide()
+        self.load_sea.error_widget.hide()
+        self.load_fav.fav_disp_widget.hide()
+        self.load.his_disp_widget.hide()
+        self.load.history_main_title_widget.hide()
         self.load_sea.search_widget.hide()
         self.load_imp.model_all_widget.hide()
         self.load_set.settind_all_widget.hide()
@@ -174,10 +351,27 @@ class Ui_Form(object):
         self.explore_by_subject.show()
         self.load.history_widget.hide()
         self.all_widget.show()
-        self.subject_widget.show()
+        self.load_popular.error_widget.hide()
+        self.scroll_subject.show()
         self.val=''
         self.home_btn.setChecked(True)
         self.home_btn.setCheckable(True)
+        self.model_widget.setMinimumSize(900,450)
+        self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.max_model.setIcon(self.icon_model)
+        self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
+        self.max_model.setGeometry(QtCore.QRect(980, 400, 40, 40))
+        self.right_widget.show()
+        self.bottom_widget.show()
+        self.scroll.show()
+        self.cap.show()
+        self.favorite_btn.show()
+        self.cap.show()
+        self.scroll_right.show()
+        self.load_fav.error_widget.hide()
+        self.myresult=[]
+        self.myresult1=[]
+
         if(sub_id==False and std_id==0):
                 self.sql=f"SELECT * FROM model_file"
                 mycursor.execute(self.sql)
@@ -192,37 +386,66 @@ class Ui_Form(object):
                 self.myresult = mycursor.fetchall()
         self.object1=[]
         self.object=[]
+###################################### re declare of bottom widget  ######################################
+        self.bottom_widget = QtWidgets.QWidget(self.scroll)
+        self.vbox = QtWidgets.QGridLayout()
+        self.scroll.setWidget(self.bottom_widget)
+        self.bottom_widget.setLayout(self.vbox)
+###################################### re declare of right widget  ######################################
+        self.right_widget=QtWidgets.QWidget(self.scroll_right)
+        self.vbox1 = QtWidgets.QGridLayout()
+        self.scroll_right.setWidget(self.right_widget)
+        self.right_widget.setLayout(self.vbox1)
         
-        
-        
-        
-        for i in range(0,len(self.myresult)):
-                self.object.append(QLabel_alterada(self.right_widget))
-        # for i in range(0,len(self.myresult)):
-        #         self.object[i] = QLabel_alterada(self.bottom_widget)
-        #         self.object[i].setText("label agbdjmfivfd,vifv\nuhsndvmu idfdivhmdv,id dfm8vi,")
-        #         self.object[i].setMinimumSize(300,40)
-        #         self.fun1(i,self.myresult[i][5])
-        #         self.object[i].setScaledContents(True)
-        #         self.object[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult[i][6]}"))
-        #         self.object[i].setMinimumSize(QtCore.QSize(350, 200))
-        #         self.vbox.addWidget(self.object[i])
+        if(self.myresult!=[]):
+                for i in range(0,len(self.myresult)):
+                        self.object.append(QLabel_alterada(self.bottom_widget))
+                # for i in range(0,len(self.myresult)):
+                #         self.object[i] = QLabel_alterada(self.bottom_widget)
+                #         self.object[i].setText("label agbdjmfivfd,vifv\nuhsndvmu idfdivhmdv,id dfm8vi,")
+                #         self.object[i].setMinimumSize(300,40)
+                #         self.fun1(i,self.myresult[i][5])
+                #         self.object[i].setScaledContents(True)
+                #         self.object[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult[i][6]}"))
+                #         self.object[i].setMinimumSize(QtCore.QSize(350, 200))
+                #         self.vbox.addWidget(self.object[i])
 
-        for i in range(2):
-                for y in range(0,len(self.myresult)):
-                        self.object[y] = QLabel_alterada(self.bottom_widget)
-                        self.object[y].setText(f"{self.myresult[y][4]}\n{self.myresult[y][7]}")
-                        self.object[y].setMinimumSize(300,40)
-                        self.object[y].setStyleSheet("color:white; font: 25 9pt \"Poppins Medium\";")
-                        self.object[y].setScaledContents(True)
-                        self.vbox.addWidget(self.object[y],i,y)
-                        self.object[y].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                        
-                        if(i==0):
-                                self.object[y].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult[y][6]}"))
-                                self.object[y].setMinimumSize(QtCore.QSize(350, 200))
-                        self.fun1(y,self.myresult[y][5],self.myresult[y][4],self.myresult[y][7],self.myresult[y][0],self.myresult[y][8])      
-        
+                for i in range(2):
+                        for y in range(0,len(self.myresult)):
+                                self.object[y] = QLabel_alterada(self.bottom_widget)
+                                self.object[y].setText(f"{self.myresult[y][4]}\n{self.myresult[y][7]}")
+                                self.object[y].setMinimumSize(300,40)
+                                self.object[y].setStyleSheet("color:white; font: 25 9pt \"Poppins Medium\";")
+                                self.object[y].setScaledContents(True)
+                                if(len(self.myresult)<=2):
+                                        self.object[y].show()
+                                        
+                                        if(i==1):
+                                                if(len(self.myresult)==2):
+                                                        self.object[y].setGeometry(QtCore.QRect(350, 205, 300, 40))
+                                                else:        
+                                                        self.object[y].setGeometry(QtCore.QRect(0, 205, 300, 40))
+                                else:
+                                        self.vbox.addWidget(self.object[y],i,y)
+                                self.object[y].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                                
+                                if(i==0):
+                                        if(len(self.myresult)<=2):
+                                                self.object[y].show()
+                                                if(len(self.myresult)==2):
+                                                        self.object[y].setGeometry(QtCore.QRect(350, 0, 300, 40))
+                                        self.object[y].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult[y][6]}"))
+                                        self.object[y].setMinimumSize(QtCore.QSize(350, 200))
+                                        self.object[y].setMaximumSize(QtCore.QSize(350, 200))
+                                self.fun1(y,self.myresult[y][5],self.myresult[y][4],self.myresult[y][7],self.myresult[y][0],self.myresult[y][8])      
+        else:
+                
+                
+                self.norc_text.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignCenter)
+                self.norc_text.setText("No model founded !")
+                self.norc_text.setStyleSheet("color:white;font: 81 15pt \"Poppins ExtraBold\";")
+                self.norc_text.show()
+                self.vbox.addWidget(self.norc_text)
         if(sub_id==False and std_id==0):
                 self.sql1=f"SELECT * FROM video"
                 mycursor.execute(self.sql1)
@@ -238,41 +461,66 @@ class Ui_Form(object):
         
         
         
-        
-        for i in range(0,len(self.myresult1)):
-                # self.favorite_btn.append(QtWidgets.QPushButton(self.model_widget))
-                self.object1.append(QLabel_alterada(self.right_widget))
-                    
-        # for i in range(0,len(self.myresult1)):
-        #         self.object1[i]=QLabel_alterada(self.right_widget)            
-        #         self.object1[i].setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
-        #         self.object1[i].setMinimumSize(350, 200)
-        #         self.object1[i].setScaledContents(True)
-        #         self.fun(i,self.myresult1[i][5])
-        #         self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult1[i][6]}"))
-        #         self.object1[i].show()
-        #         self.vbox1.addWidget(self.object1[i])  
-        for i in range(0,len(self.myresult1)):
-                for y in range(2):
-                        self.object1[i] = QLabel_alterada(self.right_widget)
-                        self.object1[i].setText(f"{self.myresult1[i][4]}\n{self.myresult1[i][7]}")
-                        self.object1[i].setMinimumSize(300,40)
-                        self.object1[i].setStyleSheet("color:white;font: 25 9pt \"Poppins Medium\";")
-                        self.object1[i].setScaledContents(True)
-                        self.object1[i].setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-                        self.vbox1.addWidget(self.object1[i],i,y)
-                        # self.object1[i].clicked.connect(self.home1)
-                        self.object1[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                        if(y==0):
-                                self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult1[i][6]}"))
-                                self.object1[i].setMinimumSize(QtCore.QSize(350, 200))
-                        self.fun(i,self.myresult1[i][5],self.myresult1[i][4],self.myresult1[i][7],self.myresult1[i][0],self.myresult1[i][8])
+        yc=10
+        ya=10
+        if(self.myresult1!=[]):
+                for i in range(0,len(self.myresult1)):
+                        # self.favorite_btn.append(QtWidgets.QPushButton(self.model_widget))
+                        self.object1.append(QLabel_alterada(self.right_widget))
+                        
+                # for i in range(0,len(self.myresult1)):
+                #         self.object1[i]=QLabel_alterada(self.right_widget)            
+                #         self.object1[i].setText("label agbdjmfivfd,vifv\nuhsdvnmu idfdivhmdv,id dfm8vi,")
+                #         self.object1[i].setMinimumSize(350, 200)
+                #         self.object1[i].setScaledContents(True)
+                #         self.fun(i,self.myresult1[i][5])
+                #         self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/{self.myresult1[i][6]}"))
+                #         self.object1[i].show()
+                #         self.vbox1.addWidget(self.object1[i])  
+                for i in range(0,len(self.myresult1)):
+                        for y in range(2):
+                                self.object1[i] = QLabel_alterada(self.right_widget)
+                                self.object1[i].setText(f"{self.myresult1[i][4]}\n{self.myresult1[i][7]}")
+                                self.object1[i].setMinimumSize(300,40)
+                                self.object1[i].setStyleSheet("color:white;font: 25 9pt \"Poppins Medium\";")
+                                self.object1[i].setScaledContents(True)
+                                self.object1[i].setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+                                if(len(self.myresult1)<4):
+                                        self.object1[i].show()
+                                        if(y==1):
+                                # self.object[j].move(450,0)
+                                                self.object1[i].setGeometry(360,ya,300,200)
+                                                ya=ya+205
+                                else:
+                                        self.vbox1.addWidget(self.object1[i],i,y)
+                                # self.vbox1.addWidget(self.object1[i],i,y)
+                                # self.object1[i].clicked.connect(self.home1)
+                                self.object1[i].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                                if(y==0):
+                                        if(len(self.myresult1)<4):
+                                                self.object1[i].setMinimumSize(QtCore.QSize(350, 200)) 
+                                                self.object1[i].setGeometry(0,yc,350,200)
+                                                print(yc)
+                                                yc=yc+205
+                                                
+                                        self.object1[i].setPixmap(QtGui.QPixmap(f"C:/xampp/htdocs/main_data/{self.myresult1[i][6]}"))
+                                        self.object1[i].setMinimumSize(QtCore.QSize(350, 200))
+                                self.fun(i,self.myresult1[i][5],self.myresult1[i][4],self.myresult1[i][7],self.myresult1[i][0],self.myresult1[i][8])
+        else:
+                
+                self.norc1_text.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignCenter)
+                self.norc1_text.setText("No video founded !")
+                self.norc1_text.setStyleSheet("color:white;font: 81 15pt \"Poppins ExtraBold\";")
+                self.norc1_text.show()
+                self.vbox1.addWidget(self.norc1_text)
+        ya=0
+        yc=0 
     def play(self):
         self.t1=threading.Thread(target=self.home)
         self.t1.start()
 
     def home1(self):
-        self.web.load(QUrl("file:///C:/xampp/htdocs/v1/index.html"))    
+        self.web.load(QUrl("index.html"))    
         self.web.setGeometry(QtCore.QRect(0, 0, 1050, 380))
         self.max_model.setGeometry(QtCore.QRect(1010, 400, 40, 40))
         self.max_model.raise_()
@@ -280,22 +528,50 @@ class Ui_Form(object):
         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.max_model.setIcon(self.icon_model)
 
-        
+########################################################### size of model function ##################################################################################################
+    def  max_size(self,url):
+        Form.showFullScreen()
+        self.big_model_widget.show()
+        # self.big_model_widget.resize(982, 660)
+        self.web1.load(QUrl(url))
+        self.icon_model.addPixmap(QtGui.QPixmap("icon/min.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.min_model.setIcon(self.icon_model)
+        self.min_model.clicked.connect(self.min_size)
+        self.min_model.setGeometry(QtCore.QRect(1875, 1030, 40, 40))
+        self.min_model.raise_()
+        self.min_model.show()
+        self.left_widget.hide()
+        self.main_widget.hide()
+        self.mange_widget.hide()
+        self.top_frame.hide()
+    def min_size(self):
+        self.min_model.hide()
+        Form.showMaximized()
+        # Form.resize(1300,1100)
+        # Form.show()
+        self.left_widget.show()
+        self.main_widget.show()
+        self.mange_widget.show()
+        self.top_frame.show()
+        self.big_model_widget.hide()
     def size_model(self):
         if(self.state_model==1):
-          self.model_widget.setMinimumSize(900,750)
-          self.max_model.setGeometry(QtCore.QRect(1570, 0, 30, 30))
-          self.web.setGeometry(QtCore.QRect(0, 0, 1600, 750))
-          self.right_widget.hide()
-          self.bottom_widget.hide()
-          self.icon_model.addPixmap(QtGui.QPixmap("icon/cross.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-          self.max_model.setIcon(self.icon_model)
-          self.scroll_right.hide()
-          self.cap.hide()
-          self.scroll.hide()
-          self.favorite_btn.hide()
+          
+        #   self.model_widget.setMinimumSize(900,750)
+        #   self.max_model.setGeometry(QtCore.QRect(1570, 0, 30, 30))
+        #   self.web1.setGeometry(QtCore.QRect(300, 0, 1600, 750))
+        #   Form.showFullScreen() 
+        #   self.right_widget.hide()
+        #   self.bottom_widget.hide()
+        #   self.icon_model.addPixmap(QtGui.QPixmap("icon/cross.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        #   self.max_model.setIcon(self.icon_model)
+        #   self.scroll_right.hide()
+        #   self.cap.hide()
+        #   self.scroll.hide()
+        #   self.favorite_btn.hide()
           self.state_model=0
         elif(self.state_model==0):
+         
           self.model_widget.setMinimumSize(900,450)
           self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
           self.max_model.setIcon(self.icon_model)
@@ -311,26 +587,36 @@ class Ui_Form(object):
           self.cap.show()
           self.scroll_right.show()
           self.state_model=1
+########################################################### for proper loding function ##################################################################################################
 
     def fun(self,num,num1,num2,num3,id,fav):
         self.object1[num].clicked.connect(lambda:self.video_render(str(num1),num2,num3,id,fav))
    
     def fun1(self,num,num1,num2,num3,id,fav):
         self.object[num].clicked.connect(lambda:self.model_render(str(num1),num2,num3,id,fav))
+########################################################### model load function ##################################################################################################
 
     def model_render(self,num,num2,num3,id,fav):
-        self.fav_count=0
-        print(f"fav={fav}")
-        if(fav==0):
+        global fav_c
+        fav_c=0
+        global fav_count
+        sql1=f"SELECT favorite FROM model_file WHERE id={id}"
+        mycursor.execute(sql1)
+        myresult=mycursor.fetchone()
+        mydb.commit()
+        fav_count=id
+        if(myresult[0]==0):
               self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
               self.favorite_btn.setIcon(self.icon_model1)  
         #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
-        elif(fav==1):
+        elif(myresult[0]==1):
                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/fav.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
                 self.favorite_btn.setIcon(self.icon_model1) 
               
         # self.favorite_btn.clicked.connect(lambda:favorite.fav_model(id,self.favorite_btn))
-        self.url=f"http:/localhost/main_data/{str(num)}"
+        self.url=f"file:///C:/xampp/htdocs/main_data/{num}/index.html"
+        print(num)
+        self.max_model.clicked.connect(lambda:self.max_size(self.url))
         self.web.load(QUrl(self.url))
         self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
         self.max_model.setGeometry(QtCore.QRect(980, 400, 40, 40))
@@ -343,47 +629,45 @@ class Ui_Form(object):
         self.cap.setText(f"{num2}  {num3}")
         self.cap.setStyleSheet("color:white;font: 25 11pt \"Poppins Medium\";")
         self.cap.show()
-        self.cap.setGeometry(QtCore.QRect(10, 390, 300, 40))
+        self.cap.setGeometry(QtCore.QRect(10, 390, 340, 40))
         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.max_model.setIcon(self.icon_model)
         # self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         # self.favorite_btn.setIcon(self.icon_model1)
         history_basic.count_history(id,'model')
+        popular_data.popular(id,"model")
+########################################################### video load function ##################################################################################################
+
     def video_render(self,num,num2,num3,id,fav):
+        global fav_c
+        fav_c=1
+        global fav_count
+        sql1=f"SELECT favorite FROM video WHERE id={id}"
+        mycursor.execute(sql1)
+        myresult=mycursor.fetchone()
+        mydb.commit()
         self.id=id
-        self.favorite_btn.clicked.connect(lambda:self.fav(self.id))
-        # self.favorite_btn.raise_()
-        # self.favorite_btn.show()
-#         # fav_btn.hide()
-#         self.favorite_btn.setStyleSheet("QPushButton{\n"
-# "background-color: rgb();\n"
-# "color: rgb(255, 255, 255);\n"
-# "border-style:outset;\n"
-# "border-width:0px;\n"
-# "border-radius:14px;\n"
-# "border-color: rgb(62, 62, 62);\n"
-# "padding:6px\n"
-# "}\n""}")
-#         self.favorite_btn.setIconSize(QtCore.QSize(80, 80))
-        if(fav==0):
+        fav_count=id
+        # self.favorite_btn.clicked.connect(lambda:self.fav(fav_count))
+        if(myresult[0]==0):
               self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
               self.favorite_btn.setIcon(self.icon_model1) 
-        # #       self.favorite_btn.clicked.connect(lambda:self.fav(id))  
+        #       self.favorite_btn.clicked.connect(lambda:self.fav(id))  
         #       self.favorite_btn.clicked.connect(lambda:favorite.fav(self.fav_count,id,fav,self.favorite_btn))
-        elif(fav==1):
+        elif(myresult[0]==1):
                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/fav.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-                self.favorite_btn.setIcon(self.icon_model1) 
-                
-        # self.favorite_btn.pressed(self.change_icon)
+                self.favorite_btn.setIcon(self.icon_model1)
+                # self.set_fav() 
+        # self.favorite_btn.clicked.connect(lambda:self.fav(id))  
         # Context={"myval":num}
-        f = open('c:/xampp/htdocs/main_data/index1.html','w')
+        f = open('index1.html','w')
         html_template =f"""<html>
 <head>
      <link rel="stylesheet" type="text/css" href="demo.css">
 </head>
 <body>
     <video controls id="myvideo">
-  <source src="{str(num)}" type="video/webm">
+  <source src="C:/xampp/htdocs/main_data/{str(num)}" type="video/webm">
    <source src="small.ogg" type="video/ogg">
 </video>
 </body>
@@ -391,7 +675,7 @@ class Ui_Form(object):
         f.write(html_template)
         f.close()
         self.fav_count=1
-        self.url=f"http://localhost/main_data/index1.html"
+        self.url=f"file:///D:/python%20infinite/gltf/3d/index1.html"
         self.web.load(QUrl(self.url))
         self.web.setGeometry(QtCore.QRect(0, 0, 1055, 380))
         self.max_model.setGeometry(QtCore.QRect(980, 400, 40, 40))
@@ -399,19 +683,22 @@ class Ui_Form(object):
         self.max_model.show()
         self.favorite_btn.setGeometry(QtCore.QRect(920, 400, 40, 40))
         # self.favorite_btn.raise_()
+        
         self.favorite_btn.show()
-       
+        
         
         # self.favorite_btn.click(lambda:favorite.fav(self.fav_count,id))               
         self.cap.setText(f"{num2}  {num3}")
         self.cap.setStyleSheet("color:white;font: 25 11pt \"Poppins Medium\";")
         self.cap.show()
-        self.cap.setGeometry(QtCore.QRect(10, 390, 300, 40))
+        self.cap.setGeometry(QtCore.QRect(10, 390, 340, 40))
         self.icon_model.addPixmap(QtGui.QPixmap("icon/max.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.max_model.setIcon(self.icon_model)
         history_basic.count_history(id,'video')
+        popular_data.popular(self.id,"video")
         # return render_template('index.html',Context)
-
+    def set_fav(self):
+         self.favorite_btn.clicked.connect(lambda:self.fav(fav_count))  
     def change_icon(self):
         if(self.fav_icon==0):
                 self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -422,38 +709,71 @@ class Ui_Form(object):
     
     def fav(self,id):  
         # favorite.fav(id,self.favorite_btn)
-        print(id)
-        sql1=f"SELECT favorite FROM video WHERE id={id}"
-        mycursor.execute(sql1)
-        myresult=mycursor.fetchone()
-        mydb.commit()
-        print(myresult)
-        if(myresult[0]==0):
-            sql=f"UPDATE  video SET favorite={True} WHERE id={id}"
-            mycursor.execute(sql)
-            mydb.commit()
-            self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorites.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.favorite_btn.setIcon(self.icon_model1)
-            
-        elif(myresult[0]==1):
-            sql=f"UPDATE  video SET favorite={False} WHERE id={id}"
-            mycursor.execute(sql)
-            mydb.commit()
-            # icon.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            # btn.setIcon(icon)
-            self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.favorite_btn.setIcon(self.icon_model1)
+        if(fav_c==0):
+                print(id)
+                sql1=f"SELECT favorite FROM model_file WHERE id={id}"
+                mycursor.execute(sql1)
+                myresult=mycursor.fetchone()
+                mydb.commit()
+                print(myresult)
+                if(myresult[0]==0):
+                        sql=f"UPDATE  model_file SET favorite={True} WHERE id={id}"
+                        mycursor.execute(sql)
+                        mydb.commit()
+                        self.icon_model1.addPixmap(QtGui.QPixmap("icon/fav.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                        self.favorite_btn.setIcon(self.icon_model1)
+                
+                elif(myresult[0]==1):
+                        sql=f"UPDATE  model_file SET favorite={False} WHERE id={id}"
+                        mycursor.execute(sql)
+                        mydb.commit()
+                        # icon.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                        # btn.setIcon(icon)
+                        self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                        self.favorite_btn.setIcon(self.icon_model1)
+        elif(fav_c==1):
+                print(id)
+                sql1=f"SELECT favorite FROM video WHERE id={id}"
+                mycursor.execute(sql1)
+                myresult=mycursor.fetchone()
+                mydb.commit()
+                print(myresult)
+                if(myresult[0]==0):
+                        sql=f"UPDATE  video SET favorite={True} WHERE id={id}"
+                        mycursor.execute(sql)
+                        mydb.commit()
+                        self.icon_model1.addPixmap(QtGui.QPixmap("icon/fav.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                        self.favorite_btn.setIcon(self.icon_model1)
+                
+                elif(myresult[0]==1):
+                        sql=f"UPDATE  video SET favorite={False} WHERE id={id}"
+                        mycursor.execute(sql)
+                        mydb.commit()
+                        # icon.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                        # btn.setIcon(icon)
+                        self.icon_model1.addPixmap(QtGui.QPixmap("icon/favorite1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                        self.favorite_btn.setIcon(self.icon_model1)
             
     def setupUi(self, Form):
         
         
 ########################################### all declrations #####################################################
-        
+        # app.aboutToQuit.connect(self.closeEvent)
 ################################## main form ########################################################################
         Form.setObjectName("Form")
-        
-        Form.resize(982, 660)
+        # Form.setWindowFlag(Qt.FramelessWindowHint)
+        # Form.showMaximized()
+        # Form.resize(982, 660)
         # self.verticalLayout = QtWidgets.QVBoxLayout(Form)
+        self.big_model_widget=QtWidgets.QWidget(Form)
+        self.web_layout=QHBoxLayout()
+        self.web_layout.setContentsMargins(0, 0, 0, 0)
+        self.big_model_widget.setLayout(self.web_layout)
+        self.big_model_widget.setObjectName("big_model_widget")
+        self.big_model_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
+        self.web1=QWebView(self.big_model_widget)
+        self.web_layout.addWidget(self.web1)
+        self.verticalLayout.addWidget(self.big_model_widget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -462,7 +782,7 @@ class Ui_Form(object):
 ###################################### top frame ############################################################################
         
 
-        self.top_frame = QtWidgets.QFrame(Form)
+        # self.top_frame = QtWidgets.QFrame(Form)
         self.top_frame.setStyleSheet("background-color: rgb(36, 36, 36);\n"
 "\n"
 "\n"
@@ -541,7 +861,9 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.import_btn.sizePolicy().hasHeightForWidth())
         self.import_btn.setSizePolicy(sizePolicy)
-        self.import_btn.setMinimumSize(QtCore.QSize(200, 0))
+        # self.import_btn.setMinimumSize(QtCore.QSize(250, 0))
+        width=200
+        self.import_btn.setFixedWidth(width)
         self.import_btn.clicked.connect(self.load_import)
         self.import_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.import_btn.setStyleSheet("\n"
@@ -550,11 +872,11 @@ class Ui_Form(object):
 "QPushButton{\n"
 "background-color:  rgb(62, 62, 62);\n"
 "color: rgb(255, 255, 255);\n"
-"font: 63 9pt \"Poppins SemiBold\";\n"
+"font: 63 10pt \"Poppins SemiBold\";\n"
 "\n"
 "border-style:outset;\n"
 "border-width:1.5px;\n"
-"border-radius:19px;\n"
+"border-radius:16px;\n"
 "border-color: rgb(248,180,100);\n"
 "padding:6px\n"
 "}\n"
@@ -571,7 +893,7 @@ class Ui_Form(object):
 "color: rgb(255, 255, 255);\n"
 "border-style:outset;\n"
 "border-width:0px;\n"
-"border-radius:15px;\n"
+"border-radius:17px;\n"
 "border-color: rgb(62, 62, 62);\n"
 "padding:6px")
         self.setting_btn.setText("")
@@ -590,7 +912,7 @@ class Ui_Form(object):
         self.main_2_horizontalLayout.setSpacing(0)
         self.main_2_horizontalLayout.setObjectName("main_2_horizontalLayout")
 ######################################## left widgets #####################################################################################
-        self.left_widget = QtWidgets.QWidget(Form)
+        # self.left_widget = QtWidgets.QWidget(Form)
         self.left_widget.setStyleSheet("background-color: rgb(36, 36, 36);")
         self.left_widget.setObjectName("left_widget")
         self.left_widget.setMaximumSize(QtCore.QSize(250, 16777215))
@@ -636,6 +958,7 @@ class Ui_Form(object):
         spacerItem2 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout_2.addItem(spacerItem2)
         self.popular_btn = QtWidgets.QPushButton(self.left_widget)
+        self.popular_btn.clicked.connect(self.load_pop)
         self.popular_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.popular_btn.setStyleSheet("\n"
 "\n"
@@ -929,6 +1252,7 @@ class Ui_Form(object):
         # self.main_widget = QtWidgets.QWidget(Form)
         self.main_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
         self.main_widget.setObjectName("main_widget")
+        self.main_grid_Layout = QtWidgets.QGridLayout(self.main_widget)
         # self.main_grid_Layout = QtWidgets.QGridLayout(self.main_widget)
         self.main_grid_Layout.setContentsMargins(9, 9, 9, 9)
         self.main_grid_Layout.setObjectName("main_grid_Layout")
@@ -937,7 +1261,7 @@ class Ui_Form(object):
         # self.main_grid_Layout.addWidget(self.widget_2, 4, 0, 1, 1)
         # self.gridLayout_4 = QtWidgets.QGridLayout()
         self.gridLayout_4.setObjectName("gridLayout_4") 
-        self.mange_widget = QtWidgets.QWidget(self.main_widget)
+        # self.mange_widget = QtWidgets.QWidget(self.main_widget)
         self.mange_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
         self.mange_widget.setObjectName("mange_widget")
         self.gridLayout_4.addWidget(self.mange_widget, 1, 1, 1, 1)
@@ -979,6 +1303,9 @@ class Ui_Form(object):
 #         self.scroll_right.setWidgetResizable(True)
 #         self.scroll_right.setWidget(self.right_widget)
 #         self.all_grid_Layout.addWidget(self.scroll_right, 0, 1, 2, 1)
+       
+        
+        
         
         self.scroll_right=QScrollArea(self.all_widget)
         self.vbox1 = QtWidgets.QGridLayout()
@@ -988,6 +1315,7 @@ class Ui_Form(object):
         self.scroll_right.setMaximumSize(QtCore.QSize(550, 16777215))
         self.scroll_right.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll_right.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_right.horizontalScrollBar().setEnabled(False)
         self.scroll_right.setWidgetResizable(True)
         self.scroll_right.setStyleSheet("background-color: rgb(11, 11, 11);border:0px")
         self.scroll_right.setWidget(self.right_widget)
@@ -1012,7 +1340,8 @@ class Ui_Form(object):
 ######################################## bottom widget ########################################################################
         self.bottom_widget = QtWidgets.QWidget(self.all_widget)
         self.scroll = QScrollArea() 
-        self.vbox = QtWidgets.QGridLayout() 
+        self.vbox = QtWidgets.QGridLayout()
+        self.scroll_layout=QtWidgets.QVBoxLayout() 
         self.bottom_widget.setStyleSheet("background-color: rgb(11, 11, 11);")
         self.bottom_widget.setObjectName("bottom_widget")
         # self.all_grid_Layout.addWidget(self.bottom_widget, 1, 0, 1, 1)
@@ -1031,148 +1360,161 @@ class Ui_Form(object):
         # self.all_grid_Layout.addWidget(self.scroll, 2, 0, 1, 1)
 
 ########################################## subject widget #######################################################################
+        self.scroll_subject=QScrollArea()
         self.subject_widget = QtWidgets.QWidget(self.main_widget)
-        self.subject_widget.setMinimumSize(QtCore.QSize(100, 50))
+        # self.subject_widget.setMinimumSize(QtCore.QSize(100, 50))
         self.subject_widget.setStyleSheet("color: rgb(255, 255, 255);")
         self.subject_widget.setObjectName("subject_widget")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.subject_widget)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.scroll_subject)
+        
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.subject_horizontal_Layout = QtWidgets.QHBoxLayout()
         self.subject_horizontal_Layout.setObjectName("subject_horizontal_Layout")
-        self.language_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.language_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.language_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Poppins SemiBold\";\n"
-"border-radius:15px;\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"border-width:0px;\n"
-"\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.language_btn_2.setObjectName("language_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.language_btn_2)
-        self.biology_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.biology_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.biology_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Poppins SemiBold\";\n"
-"border-radius:15px;\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.biology_btn_2.setObjectName("biology_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.biology_btn_2)
-        self.evs_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.evs_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.evs_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"border-style:outset;\n"
-"font: 63 8pt \"Poppins SemiBold\";\n"
-"border-radius:15px;\n"
-"border-width:0px;\n"
-"\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.evs_btn_2.setObjectName("evs_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.evs_btn_2)
-        self.physics_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.physics_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.physics_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Poppins SemiBold\";\n"
-"border-radius:15px;\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.physics_btn_2.setObjectName("physics_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.physics_btn_2)
-        self.history_sub2_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.history_sub2_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.history_sub2_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 63 8pt \"Poppins SemiBold\";\n"
-"border-radius:15px;\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.history_sub2_btn_2.setObjectName("history_sub2_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.history_sub2_btn_2)
-        self.maths_btn_2 = QtWidgets.QPushButton(self.subject_widget)
-        self.maths_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.maths_btn_2.setStyleSheet("\n"
-"\n"
-"\n"
-"QPushButton{\n"
-"background-color:  rgb(62, 62, 62);\n"
-"font: 63 8pt \"Poppins SemiBold\";\n"
-"border-radius:15px;\n"
-"color: rgb(255, 255, 255);\n"
-"border-style:outset;\n"
-"border-width:0px;\n"
-"\n"
-"border-color: rgb(62, 62, 62);\n"
-"padding:6px\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(106, 106, 106);\n"
-"}\n"
-"")
-        self.maths_btn_2.setObjectName("maths_btn_2")
-        self.subject_horizontal_Layout.addWidget(self.maths_btn_2)
+        self.hbox_subject=QtWidgets.QHBoxLayout()
+        self.scroll_subject.setWidget(self.subject_widget)
+        self.scroll_subject.setMinimumSize(QtCore.QSize(1400, 0))
+        self.scroll_subject.setMaximumSize(QtCore.QSize(14000, 50))
+        self.scroll_subject.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_subject.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_subject.verticalScrollBar().setEnabled(False)
+        self.scroll_subject.setWidgetResizable(True)
+        self.scroll_subject.setStyleSheet("background-color: rgb(11, 11, 11);border:0px")
+        self.subject_widget.setLayout(self.hbox_subject)
+#         self.language_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.language_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.language_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "font: 63 8pt \"Poppins SemiBold\";\n"
+# "border-radius:15px;\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "border-width:0px;\n"
+# "\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.language_btn_2.setObjectName("language_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.language_btn_2)
+#         self.biology_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.biology_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.biology_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "font: 63 8pt \"Poppins SemiBold\";\n"
+# "border-radius:15px;\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.biology_btn_2.setObjectName("biology_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.biology_btn_2)
+#         self.evs_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.evs_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.evs_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "border-style:outset;\n"
+# "font: 63 8pt \"Poppins SemiBold\";\n"
+# "border-radius:15px;\n"
+# "border-width:0px;\n"
+# "\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.evs_btn_2.setObjectName("evs_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.evs_btn_2)
+#         self.physics_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.physics_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.physics_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "font: 63 8pt \"Poppins SemiBold\";\n"
+# "border-radius:15px;\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.physics_btn_2.setObjectName("physics_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.physics_btn_2)
+#         self.history_sub2_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.history_sub2_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.history_sub2_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "color: rgb(255, 255, 255);\n"
+# "font: 63 8pt \"Poppins SemiBold\";\n"
+# "border-radius:15px;\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.history_sub2_btn_2.setObjectName("history_sub2_btn_2")
+#         self.subject_horizontal_Layout.addWidget(self.history_sub2_btn_2)
+#         self.maths_btn_2 = QtWidgets.QPushButton(self.subject_widget)
+#         self.maths_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+#         self.maths_btn_2.setStyleSheet("\n"
+# "\n"
+# "\n"
+# "QPushButton{\n"
+# "background-color:  rgb(62, 62, 62);\n"
+# "font: 63 8pt \"Poppins SemiBold\";\n"
+# "border-radius:15px;\n"
+# "color: rgb(255, 255, 255);\n"
+# "border-style:outset;\n"
+# "border-width:0px;\n"
+# "\n"
+# "border-color: rgb(62, 62, 62);\n"
+# "padding:6px\n"
+# "}\n"
+# "QPushButton:hover{\n"
+# "background-color: rgb(106, 106, 106);\n"
+# "}\n"
+# "")
+#         self.maths_btn_2.setObjectName("maths_btn_2")
+        # self.subject_horizontal_Layout.addWidget(self.maths_btn_2)
+       
         self.horizontalLayout_4.addLayout(self.subject_horizontal_Layout)
-        self.main_grid_Layout.addWidget(self.subject_widget, 2, 1, 1, 2)
+        self.main_grid_Layout.addWidget(self.scroll_subject, 2, 1, 1, 2)
         self.explore_by_subject = QtWidgets.QLabel(self.main_widget)
         self.explore_by_subject.setStyleSheet("color: rgb(255, 255, 255);\n"
 "font: 63 10pt \"Poppins SemiBold\";\n"
@@ -1200,13 +1542,36 @@ class Ui_Form(object):
 "background-color: rgb(11, 11, 11);\n"
 "}")
         self.max_model.setText("")
-        self.max_model.clicked.connect(self.size_model)
-        self.max_model.setIconSize(QtCore.QSize(80, 80))
+        
+        self.max_model.setIconSize(QtCore.QSize(60, 60))
         self.max_model.setObjectName("max_model")
         self.max_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         
+
+
+        self.min_model = QtWidgets.QPushButton(self.web1)
+        self.min_model.hide()
+        self.min_model.setStyleSheet("QPushButton{\n"
+"background-color: rgb(11, 11, 11);\n"
+"color: rgb(255, 255, 255);\n"
+"border-style:outset;\n"
+"border-width:0px;\n"
+"border-radius:14px;\n"
+"border-color: rgb(62, 62, 62);\n"
+"padding:6px\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(11, 11, 11);\n"
+"}")
+        self.min_model.setText("")
+        
+        self.min_model.setIconSize(QtCore.QSize(60,60))
+        self.min_model.setObjectName("min_model")
+        self.min_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+
         self.favorite_btn = QtWidgets.QPushButton(self.model_widget)
         self.favorite_btn.hide()
+        self.favorite_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.favorite_btn.setStyleSheet("QPushButton{\n"
 "background-color: rgb();\n"
 "color: rgb(255, 255, 255);\n"
@@ -1222,10 +1587,13 @@ class Ui_Form(object):
         self.favorite_btn.setIconSize(QtCore.QSize(80, 80))
         self.max_model.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.favorite_btn.setObjectName("favorite_btn")
-
+        self.favorite_btn.clicked.connect(lambda:self.fav(fav_count))  
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+
+        # self.norc_text=QtWidgets.QLabel(self.bottom_widget)
+        # self.norc1_text=QtWidgets.QLabel(self.right_widget)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -1244,20 +1612,22 @@ class Ui_Form(object):
         # self.science_btn.setText(_translate("Form", "Science "))
         # self.arts_btn.setText(_translate("Form", "Arts "))
         self.label_4.setText(_translate("Form", "STANDARDS"))
-        self.language_btn_2.setText(_translate("Form", "LANGUAGE"))
-        self.biology_btn_2.setText(_translate("Form", "BIOLOGY"))
-        self.evs_btn_2.setText(_translate("Form", "EVS"))
-        self.physics_btn_2.setText(_translate("Form", "PHYSICS"))
-        self.history_sub2_btn_2.setText(_translate("Form", "HISTORY"))
-        self.maths_btn_2.setText(_translate("Form", "MATHS"))
+        # self.language_btn_2.setText(_translate("Form", "LANGUAGE"))
+        # self.biology_btn_2.setText(_translate("Form", "BIOLOGY"))
+        # self.evs_btn_2.setText(_translate("Form", "EVS"))
+        # self.physics_btn_2.setText(_translate("Form", "PHYSICS"))
+        # self.history_sub2_btn_2.setText(_translate("Form", "HISTORY"))
+        # self.maths_btn_2.setText(_translate("Form", "MATHS"))
         self.explore_by_subject.setText(_translate("Form", "Explore by Subjects"))
         self.home()
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    
     Form = QtWidgets.QWidget()
     ui = Ui_Form()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())
+    

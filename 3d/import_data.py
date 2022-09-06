@@ -262,6 +262,7 @@
 #     sys.exit(app.exec_())
 # app.py
 
+from fileinput import filename
 from pyexpat import model
 from turtle import mode
 from zipfile import ZipFile
@@ -270,207 +271,224 @@ from db_module import *
 import os
 import shutil
 import e_d
-# filename='D:\\python infinite\\gltf\\3d\\api_data\\demo.zip'
-# with ZipFile(filename, 'r') as zipObj:
-#    zipObj.extractall()
-#    os.remove(filename)
-
-filename='api_data/demo1.zip'
-shutil.unpack_archive(filename,extract_dir="api_data/")
-os.remove(filename)
-with open("api_data/demo1/readme.json") as jsonFile:
-        data = json.load(jsonFile)
-        std=data['standard']
-        sub=data['subject']
-        ch=data['chapter']
-        to=data['topic']
-        v_folder=data['video_f_name']
-        m_folder=data['model_f_name']
-        m_th=data['m_thumbnail']
-        v_th=data['v_thumbnail']
-
-############################################### variable decleration #################################################################
-sql1=''
-sql2=''
-sql3=''
-myresult1=None
-myresult2=None
-myresult3=None
-fav=False
-################################################ sql query ###################################################################
-sql1=f"SELECT std_id FROM std WHERE std_name='{std}'"
-sql2=f"SELECT sub_id FROM sub WHERE sub_name='{sub}'"
-sql3=f"SELECT ch_id FROM chapter WHERE ch_name='{ch}'"
-mycursor.execute(sql1)
-myresult1 = mycursor.fetchone()
-print(myresult1)
-mycursor.execute(sql2)  
-myresult2 = mycursor.fetchone()
-print(myresult2)
-mycursor.execute(sql3)
-myresult3 = mycursor.fetchone()
-print(myresult3)
-result=0
-result1=0
-model_name=[]
-model_thumbnail=[]
-video_name=[]
-video_thumbnail=[]
-file_list=''
-dest=''
-if(myresult1!=None and myresult2!=None and myresult3!=None):
-        file_list=os.listdir(f"api_data/demo1/{m_folder}")
-        for i in range(0,len(file_list)):
-                model_name.append(file_list[i])
-        file_list=os.listdir(f"api_data/demo1/{m_th}")
-        for i in range(0,len(file_list)):
-                model_thumbnail.append(file_list[i])
-
-        for  i in range(0,len(model_name)):
-                if(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png' in model_thumbnail):
-                        
-                        f=model_thumbnail.index(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png')
-                        sql_model=f"INSERT INTO model_file (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc,favorite) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo1/{m_folder}/{model_name[i]}','demo1/{m_th}/{model_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
-                        print(sql_model)
-                        # sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}','demo/{v_th}','video')"
-                        try:
-
-                                mycursor.execute(sql_model)
-                                # mycursor.execute(sql_video)
-                                mydb.commit()
-                                print("files added")
-                                result=True
-                        except:
-                                result=False
-                                print("eorr1")
-
-        file_list=os.listdir(f"api_data/demo1/{v_folder}")
-        for i in range(0,len(file_list)):
-                video_name.append(file_list[i])
-        file_list=os.listdir(f"api_data/demo1/{v_th}")
-        for i in range(0,len(file_list)):
-                video_thumbnail.append(file_list[i])
-        for  i in range(0,len(video_name)):
-                nm,ex=video_name[i].split('.')
-                if(f"{nm}"+'.jpg'or'.jpeg'or'.png' in video_thumbnail):
-                        f=video_thumbnail.index(f"{nm}"+'.jpg'or'.jpeg'or'.png')
-                        # sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','model')"
-                        sql_video=f"INSERT INTO video (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,video_desc,favorite) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo1/{v_folder}/{video_name[i]}','demo1/{v_th}/{video_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
-                        try:
-
-                                # mycursor.execute(sql_model)
-                                mycursor.execute(sql_video)
-                                mydb.commit()
-                                print("files added")
-                                result1=True
-                                break 
-                        except:
-                                result1=False
-                                print("eorr1")
-        if(result==True and result1==True):
-                e_d.enc_var("api_data/demo1")
-                import shutil
-                source = "api_data/demo1"+'.zip'
-                destination = "C:/xampp/htdocs/main_data/demo1.zip"
-                dest = shutil.move(source, destination)
-                print("folder moved")
+import requests
+from PyQt5.QtWidgets import *
 
 
+def data_imp():
+        name=''
+        # folder_name=name
+        global mymsg
+        print(name)
+        mymsg=QMessageBox()
+        if(name!=''):
+                filename,a=name.split('.')
+                # mymsg=QMessageBox()
+                with ZipFile(f'api_data/{name}', 'r') as zipObj:
+                        zipObj.extractall("api_data/")
+                os.remove(f'api_data/{name}')
+                with open(f"api_data/{filename}/readme.json") as jsonFile:
+                        data = json.load(jsonFile)
+                        std=data['standard']
+                        sub=data['subject']
+                        ch=data['chapter']
+                        to=data['topic']
+                        v_folder=data['video_f_name']
+                        m_folder=data['model_f_name']
+                        m_th=data['m_thumbnail']
+                        v_th=data['v_thumbnail']
 
- 
+                ############################################### variable decleration #################################################################
+                sql1=''
+                sql2=''
+                sql3=''
+                myresult1=None
+                myresult2=None
+                myresult3=None
+                fav=False
+                popular=0
+                ################################################ sql query ###################################################################
+                sql1=f"SELECT std_id FROM std WHERE std_name='{std}'"
+                sql2=f"SELECT sub_id FROM sub WHERE sub_name='{sub}'"
+                sql3=f"SELECT ch_id FROM chapter WHERE ch_name='{ch}'"
+                mycursor.execute(sql1)
+                myresult1 = mycursor.fetchone()
+                print(myresult1)
+                mycursor.execute(sql2)  
+                myresult2 = mycursor.fetchone()
+                print(myresult2)
+                mycursor.execute(sql3)
+                myresult3 = mycursor.fetchone()
+                print(myresult3)
+                result=0
+                result1=0
+                model_name=[]
+                model_thumbnail=[]
+                video_name=[]
+                video_thumbnail=[]
+                file_list=''
+                dest=''
+                if(myresult1!=None and myresult2!=None and myresult3!=None):
+                        file_list=os.listdir(f"api_data/{filename}/{m_folder}")
+                        for i in range(0,len(file_list)):
+                                model_name.append(file_list[i])
+                        file_list=os.listdir(f"api_data/{filename}/{m_th}")
+                        for i in range(0,len(file_list)):
+                                model_thumbnail.append(file_list[i])
 
-else:
-        if(myresult1==None):
-                sql4=f"INSERT INTO std(std_name) VALUES('{std}')"
-                try:
-                        mycursor.execute(sql4)
-                        mydb.commit()
-                        print('done')
-                except:
-                        print("error")
-        if(myresult2==None):
-                sql5=f"INSERT INTO sub(sub_name) VALUES('{sub}')"
-                try:
-                        mycursor.execute(sql5)
-                        mydb.commit()
-                        print('done')
-                except:
-                        print("error")
-        if(myresult3==None):
-                sql6=f"INSERT INTO chapter(ch_name) VALUES('{ch}')"
-                try:
-                        mycursor.execute(sql6)
-                        mydb.commit()
-                        print('done')
-                except:
-                        print("error")
-        sql1=f"SELECT std_id FROM std WHERE std_name='{std}'"
-        sql2=f"SELECT sub_id FROM sub WHERE sub_name='{sub}'"
-        sql3=f"SELECT ch_id FROM chapter WHERE ch_name='{ch}'"
-        mycursor.execute(sql1)
-        myresult1 = mycursor.fetchone()
-        print(myresult1)
-        mycursor.execute(sql2)  
-        myresult2 = mycursor.fetchone()
-        print(myresult2)
-        mycursor.execute(sql3)
-        myresult3 = mycursor.fetchone()
-        print(myresult3)
-        if(myresult1!=None and myresult2!=None and myresult3!=None):
-                file_list=os.listdir(f"api_data/demo1/{m_folder}")
-                for i in range(0,len(file_list)):
-                        model_name.append(file_list[i])
-                file_list=os.listdir(f"api_data/demo1/{m_th}")
-                for i in range(0,len(file_list)):
-                        model_thumbnail.append(file_list[i])
+                        for  i in range(0,len(model_name)):
+                                if(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png' in model_thumbnail):
+                                        
+                                        f=model_thumbnail.index(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png')
+                                        sql_model=f"INSERT INTO model_file (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc,favorite,popular) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','{filename}/{m_folder}/{model_name[i]}','{filename}/{m_th}/{model_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav},{popular})"
+                                        print(sql_model)
+                                        # sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}','demo/{v_th}','video')"
+                                        try:
 
-                for  i in range(0,len(model_name)):
-                        if(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png' in model_thumbnail):
-                                
-                                f=model_thumbnail.index(f"{model_name[i]}"+'.jpg' or '.jpeg' or '.png')
-                                sql_model=f"INSERT INTO model_file (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc,favorite) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo1/{m_folder}/{model_name[i]}','demo1/{m_th}/{model_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
-                                # sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}','demo/{v_th}','video')"
+                                                mycursor.execute(sql_model)
+                                                # mycursor.execute(sql_video)
+                                                mydb.commit()
+                                                print("files added")
+                                                result=True
+                                        except:
+                                                result=False
+                                                print("eorr1")
+
+                        file_list=os.listdir(f"api_data/{filename}/{v_folder}")
+                        for i in range(0,len(file_list)):
+                                video_name.append(file_list[i])
+                        file_list=os.listdir(f"api_data/{filename}/{v_th}")
+                        for i in range(0,len(file_list)):
+                                video_thumbnail.append(file_list[i])
+                        for  i in range(0,len(video_name)):
+                                nm,ex=video_name[i].split('.')
+                                if(f"{nm}"+'.jpg'or'.jpeg'or'.png' in video_thumbnail):
+                                        f=video_thumbnail.index(f"{nm}"+'.jpg'or'.jpeg'or'.png')
+                                        # sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','model')"
+                                        sql_video=f"INSERT INTO video (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,video_desc,favorite,popular) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','{filename}/{v_folder}/{video_name[i]}','{filename}/{v_th}/{video_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav},{popular})"
+                                        try:
+
+                                                # mycursor.execute(sql_model)
+                                                mycursor.execute(sql_video)
+                                                mydb.commit()
+                                                print("files added")
+                                                result1=True 
+                                        except:
+                                                result1=False
+                                                print("eorr1")
+                        if(result==True and result1==True):
+                                e_d.enc_var(f"api_data/{filename}")
+                                import shutil
+                                source = f"api_data/{filename}"+'.zip'
+                                print(filename)
+                                destination = f"C:/xampp/htdocs/main_data/{filename}.zip"
+                                dest = shutil.move(source, destination)
+                                print("folder moved")
+
+
+
+                
+
+                else:
+                        if(myresult1==None):
+                                sql4=f"INSERT INTO std(std_name) VALUES('{std}')"
                                 try:
-
-                                        mycursor.execute(sql_model)
-                                        # mycursor.execute(sql_video)
+                                        mycursor.execute(sql4)
                                         mydb.commit()
-                                        print("files added")
-                                        result=True
-                                        break
+                                        print('done')
                                 except:
-                                        result=False
-                                        print("eorr1")
-
-                file_list=os.listdir(f"api_data/demo1/{v_folder}")
-                for i in range(0,len(file_list)):
-                        video_name.append(file_list[i])
-                file_list=os.listdir(f"api_data/demo1/{v_th}")
-                for i in range(0,len(file_list)):
-                        video_thumbnail.append(file_list[i])
-                for  i in range(0,len(video_name)):
-                        nm,ex=video_name[i].split('.')
-                        if(f"{nm}"+'.jpg'or'.jpeg'or'.png' in video_thumbnail):
-                                f=video_thumbnail.index(f"{nm}"+'.jpg'or'.jpeg'or'.png')
-                                # sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','model')"
-                                sql_video=f"INSERT INTO video (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,video_desc,favorite) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo1/{v_folder}/{video_name[i]}','demo1/{v_th}/{video_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav})"
+                                        print("error")
+                        if(myresult2==None):
+                                sql5=f"INSERT INTO sub(sub_name) VALUES('{sub}')"
                                 try:
-
-                                        # mycursor.execute(sql_model)
-                                        mycursor.execute(sql_video)
+                                        mycursor.execute(sql5)
                                         mydb.commit()
-                                        print("files added")
-                                        result1=True
+                                        print('done')
                                 except:
-                                        result1=False
-                                        print("eorr1")
-                if(result==True and result1==True):
-                        e_d.enc_var("api_data/demo1")
-                        import shutil
-                        source = "api_data/demo1"+'.zip'
-                        destination = "C:/xampp/htdocs/main_data/demo1.zip"
-                        dest = shutil.move(source, destination)
-                        print("folder moved")
-                        
+                                        print("error")
+                        if(myresult3==None):
+                                sql6=f"INSERT INTO chapter(ch_name) VALUES('{ch}')"
+                                try:
+                                        mycursor.execute(sql6)
+                                        mydb.commit()
+                                        print('done')
+                                except:
+                                        print("error")
+                        sql1=f"SELECT std_id FROM std WHERE std_name='{std}'"
+                        sql2=f"SELECT sub_id FROM sub WHERE sub_name='{sub}'"
+                        sql3=f"SELECT ch_id FROM chapter WHERE ch_name='{ch}'"
+                        mycursor.execute(sql1)
+                        myresult1 = mycursor.fetchone()
+                        print(myresult1)
+                        mycursor.execute(sql2)  
+                        myresult2 = mycursor.fetchone()
+                        print(myresult2)
+                        mycursor.execute(sql3)
+                        myresult3 = mycursor.fetchone()
+                        print(myresult3)
+                        if(myresult1!=None and myresult2!=None and myresult3!=None):
+                                file_list=os.listdir(f"api_data/{filename}/{m_folder}")
+                                for i in range(0,len(file_list)):
+                                        model_name.append(file_list[i])
+                                file_list=os.listdir(f"api_data/{filename}/{m_th}")
+                                for i in range(0,len(file_list)):
+                                        model_thumbnail.append(file_list[i])
+
+                                for  i in range(0,len(model_name)):
+                                        if(f"{model_name[i]}"+'.jpg'or'.jpeg'or'.png' in model_thumbnail):
+                                                
+                                                f=model_thumbnail.index(f"{model_name[i]}"+'.jpg' or '.jpeg' or '.png')
+                                                sql_model=f"INSERT INTO model_file (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc,favorite,popular) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','{filename}/{m_folder}/{model_name[i]}','{filename}/{m_th}/{model_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav},{popular})"
+                                                # sql_video=f"INSERT INTO `video` (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,v_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{v_folder}','demo/{v_th}','video')"
+                                                try:
+
+                                                        mycursor.execute(sql_model)
+                                                        # mycursor.execute(sql_video)
+                                                        mydb.commit()
+                                                        print("files added")
+                                                        result=True
+                                                        break
+                                                except:
+                                                        result=False
+                                                        print("eorr1")
+
+                                file_list=os.listdir(f"api_data/{filename}/{v_folder}")
+                                for i in range(0,len(file_list)):
+                                        video_name.append(file_list[i])
+                                file_list=os.listdir(f"api_data/{filename}/{v_th}")
+                                for i in range(0,len(file_list)):
+                                        video_thumbnail.append(file_list[i])
+                                for  i in range(0,len(video_name)):
+                                        nm,ex=video_name[i].split('.')
+                                        if(f"{nm}"+'.jpg'or'.jpeg'or'.png' in video_thumbnail):
+                                                f=video_thumbnail.index(f"{nm}"+'.jpg'or'.jpeg'or'.png')
+                                                # sql_model=f"INSERT INTO `model_file` (std_id,sub_id,ch_id,topic_name,filename,thumbnail_name,model_desc) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','demo/{m_folder}/{model_name[i]}','demo/{m_th}/{model_thumbnail[f]}','model')"
+                                                sql_video=f"INSERT INTO video (std_id,sub_id,ch_id,topic_name,v_name,thumbnail_name,video_desc,favorite,popular) VALUES('{myresult1[0]}','{myresult2[0]}','{myresult3[0]}','{to}','{filename}/{v_folder}/{video_name[i]}','{filename}/{v_th}/{video_thumbnail[f]}','{sub}|ch {ch}|std {std}',{fav},{popular})"
+                                                try:
+
+                                                        # mycursor.execute(sql_model)
+                                                        mycursor.execute(sql_video)
+                                                        mydb.commit()
+                                                        print("files added")
+                                                        result1=True
+                                                except:
+                                                        result1=False
+                                                        print("eorr1")
+                                if(result==True and result1==True):
+                                        e_d.enc_var(f"api_data/{filename}")
+                                        import shutil
+                                        source = f"api_data/{filename}"+'.zip'
+                                        destination = f"C:/xampp/htdocs/main_data/{filename}.zip"
+                                        dest = shutil.move(source, destination)
+                                        print("folder moved")
+        else:
+                print('no zip file found')
+                
+                mymsg.setIcon(QMessageBox.Information)
+                mymsg.setText('No data available')
+                mymsg.setStandardButtons(QMessageBox.Ok)
+                # mymsg.resize(400,200)
+                mymsg.show()                        
 
 
+# data_imp()

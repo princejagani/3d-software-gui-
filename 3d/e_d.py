@@ -12,7 +12,7 @@ mac=gma()
 
 # ***********************   ***********************
 def enc_var(foldername):
-    folderName = foldername
+    folderName = f"C:/xampp/htdocs/main_data/{foldername}"
     fileName = folderName+'.zip'
 
 # *********************** zip & delete folder ***********************
@@ -40,7 +40,7 @@ def enc_var(foldername):
 def dec_var(filename):
 
     key="DoWI-Hx4wP0QmO3Ze7kQhJXN7yeq2YFUOTr0G7iRKco="+mac
-    fileName=filename
+    fileName=f"C:/xampp/htdocs/main_data/{filename}"
     folderName,a=filename.split('.')
 # # *********************** decrypted folder ***********************
 
@@ -57,4 +57,4 @@ def dec_var(filename):
 # # # *********************** unzip & remove ***********************
 
     shutil.unpack_archive(fileName, folderName)
-    os.remove(fileName)
+    # os.remove(fileName)

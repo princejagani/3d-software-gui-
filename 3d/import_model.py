@@ -9,12 +9,33 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import usb
+import import_data
 
 
 class Ui_Form(object):
     def __init__(self,main_widget):
         self.model_all_widget = QtWidgets.QWidget(main_widget)
+        self.usb_d=usb.usb_drive()
 
+    def get_usb(self):
+        self.internet_btn.hide()
+        self.cd_btn.hide()
+        self.cd_label.hide()
+        self.Internet_label.hide()
+        self.ok_btn.hide()
+        self.sub_title_label.hide()
+        self.usb_d.detect_usb(self.model_widget,self.gridLayout,self.ok_btn,self.success_label,self.internet_btn,self.cd_btn,self.sub_title_label)
+
+    def ok_btn_click(self):
+        self.sub_title_label.show()
+        self.internet_btn.show()
+        self.cd_btn.show()
+        self.cd_label.show()
+        self.Internet_label.show()
+        self.ok_btn.hide()
+        self.success_label.hide()
+        self.usb_d.btn_click()
     def setupUi(self,main_widget,gridLayout_4,main_grid_Layout,main_2_horizontalLayout,verticalLayout):
        
         self.model_all_widget = QtWidgets.QWidget(main_widget)
@@ -35,8 +56,8 @@ class Ui_Form(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem3 = QtWidgets.QSpacerItem(5, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem3)
+        # spacerItem3 = QtWidgets.QSpacerItem(5, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        # self.horizontalLayout.addItem(spacerItem3)
         self.main_title_label = QtWidgets.QLabel(self.model_widget)
         self.main_title_label.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.main_title_label.setStyleSheet("\n"
@@ -70,6 +91,7 @@ class Ui_Form(object):
         self.gridLayout.addItem(spacerItem6, 0, 4, 1, 1)
         self.internet_btn = QtWidgets.QPushButton(self.model_widget)
         self.internet_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.internet_btn.clicked.connect(import_data.data_imp)
         self.internet_btn.setStyleSheet("\n"
 "\n"
 "QPushButton{\n"
@@ -105,6 +127,15 @@ class Ui_Form(object):
         self.internet_btn.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icon/internet.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.success_label = QtWidgets.QLabel(self.model_widget)
+        self.success_label.setStyleSheet("\n"
+"font: 25 12pt \"Poppins Light\";\n"
+"color: rgb(255, 255, 255);\n"
+"")
+        self.success_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.success_label.setObjectName("success_label")
+        self.success_label.hide()
+        self.horizontalLayout_3.addWidget(self.success_label)
         self.internet_btn.setIcon(icon)
         self.internet_btn.setIconSize(QtCore.QSize(150, 150))
         self.internet_btn.setObjectName("internet_btn")
@@ -119,6 +150,7 @@ class Ui_Form(object):
         self.gridLayout.addWidget(self.Internet_label, 1, 1, 1, 1)
         self.cd_btn = QtWidgets.QPushButton(self.model_widget)
         self.cd_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.cd_btn.clicked.connect(self.get_usb)
         self.cd_btn.setStyleSheet("QPushButton{\n"
 "\n"
 "background-color:  rgb(11,11,11);\n"
@@ -141,6 +173,29 @@ class Ui_Form(object):
         self.cd_btn.setIconSize(QtCore.QSize(150, 150))
         self.cd_btn.setObjectName("cd_btn")
         self.gridLayout.addWidget(self.cd_btn, 0, 3, 1, 1)
+        self.ok_btn = QtWidgets.QPushButton(self.model_widget)
+        self.ok_btn.setMinimumSize(QtCore.QSize(100, 40))
+        self.ok_btn.setMaximumSize(QtCore.QSize(100, 40))
+        self.ok_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.ok_btn.setGeometry(680, 400, 30, 30)
+        self.ok_btn.clicked.connect(self.ok_btn_click)
+        self.ok_btn.hide()
+        self.ok_btn.setText("OK")
+        self.gridLayout.addWidget(self.ok_btn,1,2,1,1)
+        self.ok_btn.setStyleSheet("\n"
+"\n"
+"\n"
+"QPushButton{\n"
+"background-color:  rgb(248,180,100);\n"
+"color: rgb(0,0,0);\n"
+"font: 63 10pt \"Poppins SemiBold\";\n"
+"\n"
+"border-style:outset;\n"
+"border-width:0px;\n"
+"border-radius:17px;\n"
+"padding:6px\n"
+"}\n"
+"")
         self.cd_label = QtWidgets.QLabel(self.model_widget)
         self.cd_label.setStyleSheet("font: 75 12pt \"Poppins\";\n"
 "color: rgb(255, 255, 255);\n"
@@ -168,5 +223,6 @@ class Ui_Form(object):
         self.sub_title_label.setText(_translate("Form", "How would you like to import new Models?"))
         self.Internet_label.setText(_translate("Form", "Internet"))
         self.cd_label.setText(_translate("Form", "CD / USB"))
+        self.success_label.setText(_translate("Form", "Import finished succesfully !"))
 
 

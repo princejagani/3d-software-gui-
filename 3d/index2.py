@@ -14,9 +14,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(839, 565)
+        Form.resize(1037, 565)
         Form.setMinimumSize(QtCore.QSize(839, 565))
-        Form.setMaximumSize(QtCore.QSize(839, 565))
+        Form.setMaximumSize(QtCore.QSize(1665, 925))
         Form.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -44,7 +44,7 @@ class Ui_Form(object):
         self.bottom_gridLayout.addItem(spacerItem, 10, 5, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.bottom_gridLayout.addItem(spacerItem1, 0, 2, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(200, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.bottom_gridLayout.addItem(spacerItem2, 0, 0, 1, 1)
         self.label = QtWidgets.QLabel(Form)
         self.label.setStyleSheet("color: rgb(166, 166, 166);\n"

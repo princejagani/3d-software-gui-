@@ -26,6 +26,7 @@ model_table='''CREATE TABLE IF NOT EXISTS model_file
  thumbnail_name CHAR(50) NOT NULL,
  model_desc CHAR(50) NOT NULL,
  favorite BOOLEAN NOT NULL,
+ popular INTEGER NOT NULL,
  FOREIGN KEY(std_id) REFERENCES std(std_id),
  FOREIGN KEY(sub_id) REFERENCES sub(sub_id),
  FOREIGN KEY(ch_id) REFERENCES chapter(ch_id));'''
@@ -40,6 +41,7 @@ video_table='''CREATE TABLE IF NOT EXISTS video
  thumbnail_name CHAR(50) NOT NULL,
  video_desc CHAR(50) NOT NULL,
  favorite BOOLEAN NOT NULL,
+ popular INTEGER NOT NULL,
  FOREIGN KEY(std_id) REFERENCES std(std_id),
  FOREIGN KEY(sub_id) REFERENCES sub(sub_id),
  FOREIGN KEY(ch_id) REFERENCES chapter(ch_id));'''
@@ -50,16 +52,17 @@ history_table='''CREATE TABLE IF NOT EXISTS history
  type CHAR(50) NOT NULL,
  date_time TEXT NOT NULL)'''
 del_tab='''DROP TABLE history'''
-update=f'''UPDATE model_file set favorite={True} WHERE id=1'''
-insert=f'''INSERT INTO std(std_name) VALUES('1st')'''
+update=f'''UPDATE model_file set model_desc='bio | ch 4 | std 10th' WHERE id=1'''
+insert=f'''INSERT INTO sub(sub_name) VALUES('Evs')'''
+de="DELETE FROM sub WHERE sub_id=13"
 # mycursor.execute(std_table)
 mycursor.execute(sub_table)
 mycursor.execute(ch_table)
 mycursor.execute(model_table)
 mycursor.execute(video_table)
-# mycursor.execute(del_tab)
+# mycursor.execute(de)
 mycursor.execute(history_table)
-mycursor.execute(update)
-mydb.commit()
+# mycursor.execute(update)
+# mydb.commit()
 # mycursor.execute(insert)
 # mydb.commit()

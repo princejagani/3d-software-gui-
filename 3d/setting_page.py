@@ -14,8 +14,8 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView,QWebEnginePage as QWebPage
 import history_basic
-
-
+import json
+import install_details.fetch_api_data
 
 class Ui_Form(object):
     def __init__(self,main_widget):
@@ -346,28 +346,47 @@ class Ui_Form(object):
         # QtCore.QMetaObject.connectSlotsByName()
 
     def retranslateUi(self):
+        s=open('setting.json')
+        data = json.load(s)
+        s1=open('setting1.json')
+        data1=json.load(s1)
+        s2=open('key.json')
+        data2=json.load(s2)
+
+        self.name=data['customer_name']
+        self.add=data['address1']
+        print("cmp",install_details.fetch_api_data.company_name)
+        self.company_name=data['company_name']
+        self.phone=data['mobile']
+        self.emial=data['email']
+        self.license='Volume licenses'
+        self.qty="100"
+        self.reg_date=data1['Startdate']
+        self.expire=data1['Enddate']
+        self.system=data2['active_user_license']['mac_address']
         _translate = QtCore.QCoreApplication.translate
         self.title_label.setText(_translate("Form", "Settings"))
         self.user_groupBox.setTitle(_translate("Form", "User Details"))
-        self.demo_address_label.setText(_translate("Form", "TextLabel"))
-        self.demo_phone_number_label.setText(_translate("Form", "TextLabel"))
-        self.demo_company_name_label_2.setText(_translate("Form", "TextLabel"))
+        self.demo_address_label.setText(_translate("Form", self.add))
+        self.demo_phone_number_label.setText(_translate("Form", self.phone))
+        self.demo_company_name_label_2.setText(_translate("Form", self.company_name))
         self.name_label.setText(_translate("Form", "Name :"))
-        self.demo_mail_label.setText(_translate("Form", "TextLabel"))
+        self.demo_mail_label.setText(_translate("Form", self.emial))
         self.address_label.setText(_translate("Form", "Address :"))
         self.phone_number_label.setText(_translate("Form", "Phone Number :"))
         self.mail_label.setText(_translate("Form", "Email Address :"))
         self.company_name_label.setText(_translate("Form", "Company Name :"))
-        self.demo_name_label.setText(_translate("Form", "TextLabel"))
+        self.demo_name_label.setText(_translate("Form", self.name))
         self.license_groupBox.setTitle(_translate("Form", "License Details"))
-        self.demo_mac_label.setText(_translate("Form", "TextLabel"))
-        self.demo_expiry_date_label.setText(_translate("Form", "TextLabel"))
-        self.demo_license_label.setText(_translate("Form", "TextLabel"))
-        self.demo_registration_data_label.setText(_translate("Form", "TextLabel"))
-        self.demo_qty_label.setText(_translate("Form", "TextLabel"))
+        self.demo_mac_label.setText(_translate("Form", self.system))
+        self.demo_expiry_date_label.setText(_translate("Form", self.expire))
+        self.demo_license_label.setText(_translate("Form", self.license))
+        self.demo_registration_data_label.setText(_translate("Form", self.reg_date))
+        self.demo_qty_label.setText(_translate("Form", self.qty))
         self.mac_label.setText(_translate("Form", "System MAC :"))
         self.qty_label.setText(_translate("Form", "Qty :"))
         self.expiry_date_label.setText(_translate("Form", "Expiry Date :"))
         self.license_label.setText(_translate("Form", "License Type :"))
         self.registration_date_label.setText(_translate("Form", "Registration Date :"))
+
 
